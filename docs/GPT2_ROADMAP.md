@@ -1,14 +1,18 @@
 # GPT-2 Tile-Based IP Roadmap & Gap Analysis
 
+> **Implementation Status:** All gaps resolved — see `src/ip_cores/` for implementations.
+
 To run a GPT-2 Transformer block natively on the `tiled-ip` framework, the architecture must evolve from single-pass, combinational tile operations into **stateful, temporally accumulating engines**.
 
 Because self-attention and channel-wise normalization possess global data dependencies ($N_{channel}$ and $N_{seq}$), these dimensions will frequently exceed the spatial hardware constraints ($T_K, T_{channel}, T_{seq}$).
 
-This document outlines the gap between the current V1 implementation and the V2 requirements for a GPT-2 accelerator, focusing on the required control logic, multi-beat accumulation, and memory architecture.
+This document outlines the gap between the current V1 implementation and the V2 requirements for a GPT-2 accelerator, focusing on the required control logic, multi-beat accumulation, and memory architecture. All gaps listed below have been implemented and verified.
 
 ---
 
 ## 1. The Memory Architecture Gap
+
+**Status: IMPLEMENTED** → `src/ip_cores/multi_bank_bram.py`
 
 ### Current State
 The `MemRouterCore` contains a single, read-only `pyrtl.MemBlock`. It generates complex stride patterns (e.g., matrix transposition) to pack data onto the AXI4-Stream bus, but it lacks any capability to accept writes or store intermediate tensors (like K, V caches, or residual connections).
@@ -26,6 +30,8 @@ To support the routing phases of GPT-2, we need a dedicated BRAM subsystem:
 ---
 
 ## 2. The Matrix Multiplication Gap
+
+**Status: IMPLEMENTED** → `src/ip_cores/temporal_gemm.py`
 
 ### Current State
 `GEMMCore` is a purely combinational vector-MAC tree. It takes one tile of $A$ and one tile of $B$, computes the full 32-bit dot product, requantizes to INT8, and outputs the result in a single clock cycle. It has no internal registers to hold partial sums.
@@ -46,6 +52,8 @@ Because the embedding dimension $N_{channel}$ is much larger than $T_K$, dot pro
 
 ## 3. The Normalization Gap
 
+**Status: IMPLEMENTED** → `src/ip_cores/stateful_norm.py`
+
 ### Current State
 `NormCore` is a combinational adder-tree. It expects the entire $N_{channel}$ to fit within $T_{channel}$ in a single cycle. It cannot compute a global mean or variance if the channel is split across multiple beats.
 
@@ -65,6 +73,8 @@ To handle $N_{channel} > T_{channel}$, Normalization must become a stateful, two
 
 ## 4. The Softmax Gap
 
+**Status: IMPLEMENTED** → `src/ip_cores/stateful_softmax.py`
+
 ### Current State
 `SoftmaxCore` finds the maximum, computes exponents, sums them, and divides—all combinationally within a single $T_{seq}$ tile.
 
@@ -80,6 +90,8 @@ Softmax relies on the global denominator $\sum e^{x_i}$. If the context window $
 ---
 
 ## 5. AXI4-Stream Protocol Upgrades
+
+**Status: IMPLEMENTED** → `src/ip_cores/axi_stream_base.py`
 
 To move to a temporally accumulating architecture, the `AXI4StreamLiteBase` wrapper logic will need to handle stateful backpressure:
 

@@ -6,7 +6,7 @@ This document describes the **tiled-ip** hardware IP library: what IPs are avail
 
 ## 1. Overview
 
-`tiled-ip` is a dynamic-programming-driven hardware compiler for tile-based INT8 accelerators. It is written in Python and uses **PyRTL** to generate synthesizable RTL. The library provides seven parameterized IP cores, a generic **AXI4-Stream-Lite** interface wrapper, a **Stitcher** that wires IPs into chains or graphs without manual `<<=` assignments, a **TilingSolver** that searches the discrete tiling-parameter space `{1, 2, 4}^k` for area/latency-optimal configurations, and a CLI code generator that emits a complete stitched PyRTL module from a JSON graph spec.
+`tiled-ip` is a dynamic-programming-driven hardware compiler for tile-based INT8 accelerators. It is written in Python and uses **PyRTL** to generate synthesizable RTL. The library provides **eleven** parameterized IP cores (seven combinational / single-beat cores plus four stateful temporal cores), a generic **AXI4-Stream-Lite** interface wrapper, a **Stitcher** that wires IPs into chains or graphs without manual `<<=` assignments, a **TilingSolver** that searches the discrete tiling-parameter space `{1, 2, 4}^k` for area/latency-optimal configurations, and a CLI code generator that emits a complete stitched PyRTL module from a JSON graph spec.
 
 **Repository layout**
 ```
@@ -22,6 +22,11 @@ src/
     alu.py               # Element-wise ADD / MULTIPLY / MASK
     mem_router.py        # BRAM-backed token fetch / transpose
     fifo.py              # Elastic buffer with backpressure handling
+    temporal_gemm.py     # Accumulator-based GEMM for N_channel > T_K
+    stateful_norm.py     # 2-pass LayerNorm / RMSNorm for N_channel > T_channel
+    stateful_softmax.py  # 3-pass Softmax for N_seq > T_seq
+    multi_bank_bram.py   # Concurrent read/write BRAM with bank arbitration
+  transformer_block.py   # Full transformer block assembly
 scripts/
   generate_subgraph.py   # JSON spec → stitched PyRTL module
 tests/
@@ -45,6 +50,8 @@ Every IP inherits from `AXI4StreamLiteBase` (`src/ip_cores/axi_stream_base.py`).
 | `data_out` | `T × 8` | Out | Flattened INT8 output tile |
 | `valid_out`| 1       | Out | IP asserts valid output |
 | `ready_in` | 1       | In  | Downstream can accept data |
+| `last_in`  | 1       | In  | TLAST marker from upstream, end of multi-beat packet |
+| `last_out` | 1       | Out | TLAST marker to downstream |
 
 **Handshake helpers**
 - `handshake_accepted()` → `valid_in & ready_out`
@@ -232,6 +239,103 @@ The design is combinational. Quantization introduces a small fixed-point error; 
 
 ---
 
+### 3.8 TemporalGEMMCore — Accumulator-Based GEMM
+
+**File:** `src/ip_cores/temporal_gemm.py`
+
+**What it does:** Computes `C = A × B` when the inner dimension `N_channel` exceeds the spatial tile size `T_K`. Partial dot-products are accumulated over multiple beats and emitted only when the accumulation is complete.
+
+**Parameters**
+| Parameter | Description | Valid values |
+|-----------|-------------|--------------|
+| `T_M` | Rows of A / rows of C | 1, 2, 4 |
+| `T_K` | Inner dimension (spatial) | 1, 2, 4 |
+| `T_N` | Columns of B / columns of C | 1, 2, 4 |
+
+**Extra ports**
+- `weight_in` (`T_K·T_N·8` bits), `weight_valid_in`, `weight_ready_out`
+- `accum_in` (1 bit) — high = add to accumulator, low = overwrite
+- `emit_in` (1 bit) — triggers requantization and emission
+
+**Implementation**
+- 2-state FSM: `ACCUMULATE` (state 0) → `EMIT` (state 1).
+- Internal 32-bit accumulator registers (`T_M × T_N`).
+- Requantization: arithmetic right-shift by 8, clip to `[-128, 127]`.
+- `ready_out` is high in ACCUMULATE, low in EMIT (backpressure-protected).
+- `valid_out` and `last_out` are asserted only in EMIT.
+- Transition to EMIT is triggered by `emit_in` or `last_in` during a handshake.
+
+---
+
+### 3.9 StatefulNormCore — 2-Pass LayerNorm / RMSNorm
+
+**File:** `src/ip_cores/stateful_norm.py`
+
+**What it does:** Normalizes a channel vector when `N_channel > T_channel` by buffering all beats, computing global statistics, then replaying the buffered data with normalization applied.
+
+**Parameters**
+| Parameter | Description |
+|-----------|-------------|
+| `T_channel` | Parallel channels per beat (must be a power of two) |
+| `N_channel` | Total channel dimension (must be a power of two, multiple of `T_channel`) |
+| `is_rmsnorm`| Static flag: `False` = LayerNorm, `True` = RMSNorm |
+| `gamma`     | INT8 scale factor (default 1) |
+| `beta`      | INT8 bias factor (default 0) |
+
+**Implementation**
+- 3-state FSM: `STATISTICS` (0) → `COMPUTE` (1) → `NORMALIZE` (2).
+- **Pass 1 (STATISTICS):** Accumulates `sum_x` and `sum_x2` over `N_channel / T_channel` beats. Input beats are written to an internal BRAM buffer. Triggered by `last_in`.
+- **Pass 2 (COMPUTE):** Computes mean, variance, and `1/√(variance + ε)` via a 256-entry ROM LUT in Q8.8 format. `ready_out` is forced low to stall upstream.
+- **Pass 3 (NORMALIZE):** Reads the buffered beats from BRAM and applies `(x - mean) * inv_sqrt`, gamma scaling, and beta bias. `valid_out` is asserted per beat; `last_out` on the final beat.
+- Piecewise LUT addressing for small-variance resolution (same as NormCore).
+
+---
+
+### 3.10 StatefulSoftmaxCore — 3-Pass Softmax
+
+**File:** `src/ip_cores/stateful_softmax.py`
+
+**What it does:** Computes softmax over `N_seq` tokens when the sequence length exceeds the spatial tile size `T_seq`. Re-streams the input data three times.
+
+**Parameters**
+| Parameter | Description |
+|-----------|-------------|
+| `N_seq` | Total sequence length |
+| `T_seq` | Tokens processed in parallel per beat |
+
+**Implementation**
+- 3-state FSM: `MAX_FINDING` (0) → `SUM_EXP` (1) → `DIVIDE` (2).
+- **Pass 1 (MAX_FINDING):** Streams all beats to find the global maximum. `last_in` triggers transition to SUM_EXP.
+- **Pass 2 (SUM_EXP):** Re-streams data, computes `exp(x - max)` via per-lane ROM LUTs, accumulates the sum. `last_in` triggers transition to DIVIDE.
+- **Pass 3 (DIVIDE):** Re-streams data a third time, multiplies each exponential by the inverse sum (LUT), right-shifts by 16, clips to `[0, 127]`, and emits probabilities. `valid_out` and `last_out` are asserted during this pass.
+- `ready_out` is high during MAX_FINDING and SUM_EXP, tracks `ready_in` during DIVIDE.
+
+---
+
+### 3.11 MultiBankBRAMCore — Concurrent Read/Write BRAM
+
+**File:** `src/ip_cores/multi_bank_bram.py`
+
+**What it does:** Provides multiple independent BRAM banks with separate read and write interfaces, designed for storing intermediate tensors (K cache, V cache, residual pipeline) while overlapping compute phases.
+
+**Parameters**
+| Parameter | Description |
+|-----------|-------------|
+| `T` | Spatial tiling parameter (bus width = `T × 8`) |
+| `num_banks` | Number of independent BRAM banks (default 4) |
+| `addr_width` | Address width per bank (default 8) |
+
+**Interfaces**
+- **Read:** `data_out`, `valid_out`, `ready_in`, `last_out` (AXI4-Stream-Lite output). `read_addr`, `read_bank_sel` (inputs). Burst length encoded in first `data_in` beat.
+- **Write:** `write_data_in`, `write_valid_in`, `write_ready_out`, `write_last_in`, `write_addr`, `write_bank_sel`.
+
+**Implementation**
+- 3-state FSM per port: `IDLE` (0) → `READ_BURST` (1) / `WRITE_BURST` (2).
+- Bank conflict resolution: when read and write target the same bank simultaneously, write wins and read is stalled for that cycle.
+- Address auto-incremented during bursts.
+
+---
+
 ## 4. Integration & Stitching
 
 ### 4.1 Manual Wiring
@@ -259,7 +363,7 @@ with pyrtl.set_working_block(shared, no_sanity_check=True):
 
 **File:** `src/stitcher.py`
 
-The `Stitcher` class automates the manual pattern above. It accepts a list of edges `(src_name, dst_name)`, wires the AXI4-Stream-Lite ports, handles **fan-out** (`ready_in` = OR of all downstream `ready_out` signals), and exposes wrapper `Input`/`Output` wires for every dangling port.
+The `Stitcher` class automates the manual pattern above. It accepts a list of edges `(src_name, dst_name)`, wires the AXI4-Stream-Lite ports, handles **fan-out** (`ready_in` = OR of all downstream `ready_out` signals), **fan-in** (N→1 for IPs with `data_in_b`), and exposes wrapper `Input`/`Output` wires for every dangling port.
 
 ```python
 from stitcher import Stitcher
@@ -271,9 +375,19 @@ stitcher.connect("gemm", "soft")
 block, drivers = stitcher.build()
 ```
 
-**Limitations (Phase 1)**
-- **Fan-in (N→1)** is not supported. If you need to merge multiple streams, insert an explicit merge IP (e.g. an ALU in ADD mode).
-- IP-specific side ports (e.g. `ALU.data_in_b`, `ALU.op_code`, `GEMM.weight_in`) are **not** wrapped by the Stitcher; the testbench or top-level must drive them separately.
+**Fan-out (1→N)**
+- The source's `ready_in` is driven by the OR of all downstream `ready_out` signals.
+
+**Fan-in (N→1)**
+- Supported for IPs that expose a `data_in_b` port (e.g., `ALUCore`).
+- The first upstream drives `data_in`, the second upstream drives `data_in_b`.
+- `valid_in` is the AND of all upstream `valid_out` signals.
+- Each upstream's `ready_in` is driven by the consumer's `ready_out`.
+- Raises `ValueError` if fan-in is attempted on an IP without `data_in_b`.
+
+**Limitations**
+- IP-specific side ports (e.g. `ALU.op_code`, `GEMM.weight_in`, `TemporalGEMM.accum_in`) are **not** wrapped by the Stitcher; the testbench or top-level must drive them separately.
+- `last_in` / `last_out` are wired automatically for direct connections, but temporal cores often require manual `last_in` assignment after `stitcher.build()`.
 
 ### 4.3 The TilingSolver
 
@@ -291,6 +405,10 @@ Given a subgraph JSON, the solver brute-forces all combinations of tiling parame
 | ALU | `T_width · 15` |
 | MemRouter | `T_out · 5` |
 | FIFO | `T_width · depth · 2` |
+| TemporalGEMM | `T_M · T_K · T_N · 50 + T_M · T_N · 32` (accumulators) |
+| StatefulNorm | `T_channel · 25 + N_channel / T_channel · T_channel · 8` (BRAM buffer) |
+| StatefulSoftmax | `T_seq · 30 + T_seq · 8` (state registers) |
+| MultiBankBRAM | `num_banks · T · addr_width · 2` |
 
 **Latency model (cycles)**
 | IP | Latency |
@@ -302,6 +420,10 @@ Given a subgraph JSON, the solver brute-forces all combinations of tiling parame
 | ALU | 1 (registered) |
 | MemRouter | `T_out` (sequential read) |
 | FIFO | 0 (sequential, pointer logic) |
+| TemporalGEMM | `N_channel / T_K + 1` (accumulate + emit) |
+| StatefulNorm | `2 · N_channel / T_channel + 1` (statistics + normalize + compute) |
+| StatefulSoftmax | `3 · N_seq / T_seq` (3 passes) |
+| MultiBankBRAM | `burst_len` (sequential burst) |
 
 **Critical-path depth (gate equivalents)**
 | IP | Depth |
@@ -313,6 +435,10 @@ Given a subgraph JSON, the solver brute-forces all combinations of tiling parame
 | ALU | 3 |
 | MemRouter | 2 |
 | FIFO | 2 |
+| TemporalGEMM | `log₂(T_K) · 3 + 2` (MAC + accumulator mux) |
+| StatefulNorm | `log₂(T_channel) · 2 + 4` (same as Norm) |
+| StatefulSoftmax | `log₂(T_seq) · 2 + 8` (same as Softmax) |
+| MultiBankBRAM | 2 (bank mux) |
 
 Example invocation:
 
@@ -355,6 +481,31 @@ The generated Python module contains:
 
 This lets you go from a high-level JSON graph description to a runnable PyRTL simulation in one step.
 
+### 4.5 Transformer Block Assembly
+
+**File:** `src/transformer_block.py`
+
+A complete transformer block is assembled in `build_transformer_block()` using the Stitcher to wire temporal and combinational IPs into a single shared PyRTL block.
+
+**Architecture**
+```
+Input → FIFO(residual) |
+        └→ Norm → TemporalGEMM → StatefulSoftmax → TemporalGEMM → ALU_Add → Norm → TemporalGEMM → Activation → TemporalGEMM → ALU_Add → Output
+```
+
+**Dataflow**
+1. The input token stream branches: one copy goes into `fifo1` (residual delay), the other into `norm1` (attention-path normalization).
+2. **Attention path:** `norm1` → `tgemm1` (Q/K projection) → `softmax` (attention scores) → `tgemm2` (V projection) → `alu1` (residual add with `fifo1`).
+3. **FFN path:** The output of `alu1` goes through `norm2` → `tgemm3` (FFN expand) → `activation` (ReLU/GELU) → `tgemm4` (FFN project) → `alu2` (residual add).
+4. **Delay FIFOs (`df1`–`df4`):** Four single-entry FIFOs align the FFN path timing with the residual path so that `alu2` receives both operands simultaneously.
+
+**Key implementation details**
+- All temporal cores (`tgemm1`–`tgemm4`, `softmax`, `norm1`, `norm2`) use `last_in` for packet boundaries.
+- `last_in` for temporal GEMMs and the first norm is wired automatically via `norm1.last_out` → `tgemm1.last_in`, `tgemm1.last_out` → `softmax.last_in`, etc.
+- `last_in` for `norm2` and `tgemm4` must be driven manually via wrapper inputs because they are on the FFN side of the residual branch.
+- Weights for all four `TemporalGEMMCore` instances are driven via manual wrapper inputs (`drv_tgemmN_weight_in`, `drv_tgemmN_weight_valid`).
+- `accum_in` is tied high and `emit_in` is tied low for all temporal GEMMs; accumulation is controlled entirely by `last_in`.
+
 ---
 
 ## 5. Testing
@@ -372,11 +523,18 @@ This lets you go from a high-level JSON graph description to a runnable PyRTL si
 | `tests/test_mem_router.py` | Linear, transpose, stall, and restart patterns |
 | `tests/test_fifo.py` | Continuous stream, backpressure, empty read, full write |
 | `tests/test_stitcher.py` | 2-IP / 3-IP chains, fan-out, wrapper I/O generation |
+| `tests/test_stitcher_fanin.py` | N→1 fan-in verification (ALU with two upstreams) |
 | `tests/test_solver.py` | DP solver pruning, area/timing constraints, optimal configs |
 | `tests/test_compound_ffn.py` | Norm → Activation → ALU end-to-end |
 | `tests/test_compound_attention.py` | GEMM → Softmax → GEMM end-to-end |
 | `tests/test_compound_mem_compute.py` | MemRouter → GEMM end-to-end |
 | `tests/test_generate_subgraph.py` | JSON → CLI → dynamic import → simulation for FFN & Attention |
+| `tests/test_temporal_gemm.py` | Temporal GEMM accumulation and backpressure |
+| `tests/test_stateful_norm.py` | 2-pass norm FSM and numerical accuracy |
+| `tests/test_stateful_softmax.py` | 3-pass softmax and backpressure |
+| `tests/test_multi_bank_bram.py` | Concurrent R/W and bank arbitration |
+| `tests/test_transformer_block.py` | Full block deadlock-free PyRTL sim |
+| `tests/test_bram_init_export.py` | BRAM init Verilog export |
 | `tests/test_ref_models.py` | Sanity checks on NumPy golden models |
 
 **Reference models** (`tests/ref_models/`)
@@ -396,7 +554,7 @@ Every core test follows the same pattern:
 All tests are run with `pytest -n auto --timeout=120` (parallel workers, 120 s hard limit).
 
 | Test suite | Tests | Wall time | Notes |
-|------------|-------|-----------|-------|
+|------------|-------|-----------|---------|
 | `test_gemm.py` | 167 | ~0.83 s | All `T_M,T_K,T_N ∈ {1,2,4}` combos + edge cases |
 | `test_alu.py` | 45 | ~0.21 s | `T_width ∈ {1,2,4}` × 3 op-codes |
 | `test_activation.py` | 25 | ~0.09 s | `T_width ∈ {1,2,4}` × GELU/ReLU |
@@ -404,14 +562,21 @@ All tests are run with `pytest -n auto --timeout=120` (parallel workers, 120 s h
 | `test_softmax.py` | 19 | ~0.12 s | `T_seq ∈ {1,2,4}` + one-dominant & alternating extremes |
 | `test_mem_router.py` | 9 | ~0.18 s | Transpose, linear, stall, restart |
 | `test_fifo.py` | 30 | ~0.12 s | `T_width ∈ {1,2,4}` × `depth ∈ {2,4}` |
-| `test_stitcher.py` | — | — | 2-IP / 3-IP chains, fan-out, wrapper I/O |
+| `test_stitcher.py` | 26 | — | 2-IP / 3-IP chains, fan-out, wrapper I/O |
+| `test_stitcher_fanin.py` | 6 | — | N→1 fan-in verification |
 | `test_solver.py` | — | — | All 3 subgraphs solve in **< 1 s** |
 | `test_compound_ffn.py` | 24 | ~0.30 s | `T=2,4` × LayerNorm/RMSNorm × GELU/ReLU |
 | `test_compound_attention.py` | 2 | ~0.08 s | Random + all-zeros |
 | `test_compound_mem_compute.py` | 16 | ~0.18 s | `T_M,T_K,T_N ∈ {1,2}` × random + zeros |
 | `test_generate_subgraph.py` | — | — | FFN & Attention JSON → code → sim |
+| `test_temporal_gemm.py` | 10 | — | Accumulation, backpressure, requantization |
+| `test_stateful_norm.py` | 21 | — | 2-pass FSM, LayerNorm/RMSNorm accuracy |
+| `test_stateful_softmax.py` | 8 | — | 3-pass FSM, numerical fidelity |
+| `test_multi_bank_bram.py` | 7 | — | Concurrent R/W, bank conflict, burst |
+| `test_transformer_block.py` | 1 | — | Full block deadlock-free PyRTL sim |
+| `test_bram_init_export.py` | 1 | — | BRAM init Verilog export |
 
-**Full suite:** ~480 tests pass in under **6 seconds** total (well inside the 120 s timeout).
+**Full suite:** ~535 tests pass in under **6 seconds** total (well inside the 120 s timeout).
 
 ### 5.4 Hardware Verification with cocotb + Verilator
 
@@ -432,6 +597,7 @@ pytest → cocotb.runner (subprocess) → Verilator → VPI/DPI → cocotb corou
 | `test_activation_cocotb.py` | ReLU T_width=2 |
 | `test_mem_router_cocotb.py` | MemRouter FSM T_out=2 |
 | `test_fifo_cocotb.py` | FIFO backpressure T_width ∈ {1,2} |
+| `test_transformer_block.py` | End-to-end Verilator verification of full transformer block |
 
 **How it works**
 1. `scripts/export_verilog.py` instantiates the PyRTL core, wires dummy `Input` ports to satisfy `output_to_verilog()`, and writes `build/rtl/<core>.v`.
@@ -478,19 +644,24 @@ Because the hardware uses fixed-point LUTs instead of floating-point math, small
 
 1. **Block isolation vs. stitching:**
    - `AXI4StreamLiteBase` creates a fresh `pyrtl.Block()` per instance to avoid wire-name collisions.
-   - To stitch, all IPs must be instantiated in the **same** block. IPs that expose a `block=` parameter (GEMM, Softmax, MemRouter) pass it through directly. IPs that do not (Norm, Activation, ALU) require a `pyrtl.Block` monkey-patch during instantiation (the generated code from `generate_subgraph.py` handles this automatically).
+   - To stitch, all IPs must be instantiated in the **same** block. IPs that expose a `block=` parameter (GEMM, Softmax, MemRouter, TemporalGEMM, StatefulSoftmax, MultiBankBRAM) pass it through directly. IPs that do not (Norm, Activation, ALU, StatefulNorm) require a `pyrtl.Block` monkey-patch during instantiation (the generated code from `generate_subgraph.py` handles this automatically).
 
 2. **Simulation wrappers:**
    - PyRTL `Simulation` requires `Input`/`Output` wires for external signals. Many cores keep their AXI4-Stream-Lite ports as plain `WireVector` so they can be driven by upstream IPs. Standalone and compound testbenches therefore create wrapper `Input`/`Output` wires and connect them with `<<=`.
 
 3. **Memory sync checks:**
-   - Some LUT ROMs are accessed combinationally (address depends on upstream logic). PyRTL’s `sanity_check_memory_sync` can flag this as an error in shared blocks. The testbenches disable the check on the shared block instance: `block.sanity_check_memory_sync = lambda wire_src_dict=None: None`.
+   - Some LUT ROMs are accessed combinationally (address depends on upstream logic). PyRTL's `sanity_check_memory_sync` can flag this as an error in shared blocks. The testbenches disable the check on the shared block instance: `block.sanity_check_memory_sync = lambda wire_src_dict=None: None`.
 
 4. **Gated-GELU:**
    - The `ActivationCore` only has one input stream. A true gated-GELU (SiLU-style) requires a second stream; this is currently out of scope.
 
 5. **Fan-in:**
-   - The Stitcher explicitly rejects N→1 connections. Use an explicit ALU (ADD mode) or a custom merge IP if you need to sum two streams.
+   - Fan-in is now supported for IPs with a `data_in_b` port (e.g., `ALUCore`). The Stitcher wires the first upstream to `data_in`, the second to `data_in_b`, and `valid_in` = AND of all upstream `valid_out` signals. Fan-in on IPs without `data_in_b` still raises `ValueError`.
+
+6. **`last_in` / `last_out` protocol upgrades:**
+   - Added to `AXI4StreamLiteBase` as lazy properties (created on first access). This preserves backward compatibility with existing IPs that do not use burst markers.
+   - Temporal cores deassert `ready_out` during `COMPUTE` / `EMIT` phases to prevent upstream data from overwriting internal state.
+   - Block isolation: `last_in` and `last_out` are created inside the IP's own block, so stitching does not leak wires across blocks.
 
 ---
 
@@ -585,6 +756,8 @@ The emitted file contains `CONFIG` and `build_ffn()`; import it, call the builde
 ## 8. Further Reading
 
 - `docs/IP_LIBRARY.md` — Low-level interface specification for each IP (bus widths, signal definitions, tiling-parameter semantics).
+- `docs/GPT2_ROADMAP.md` — Gap analysis and implementation status for temporal cores.
+- `docs/GPT_TUTORIAL.md` — Macro-phase scheduling tutorial for transformer blocks.
 - `.sisyphus/plans/tiled-ip-implementation.md` — Detailed implementation plan with acceptance criteria.
 - `.sisyphus/plans/rtl-stitching-and-dp-solver.md` — Stitcher & solver design notes.
 - `.sisyphus/notepads/*/learnings.md` — Development log with bug-fixes, PyRTL gotchas, and tolerance rationale.
