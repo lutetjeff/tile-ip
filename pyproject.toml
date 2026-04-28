@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tiled-ip"
+version = "0.1.0"
+description = "Dynamic programming driven hardware compiler for tile-based IPs"
+requires-python = ">=3.10"
+dependencies = [
+    "pyrtl>=0.12",
+    "numpy>=1.26",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-xdist>=3.5",
+    "pytest-timeout>=2.3",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+timeout = 120

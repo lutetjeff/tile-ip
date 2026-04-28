@@ -13,6 +13,7 @@ import pytest
 from ip_cores.alu import ALUCore
 from ip_cores.activation import ActivationCore
 from ip_cores.axi_stream_base import AXI4StreamLiteBase
+from ip_cores.fifo import FIFOCore
 from ref_models.alu_ref import alu_ref, OP_ADD, OP_MULTIPLY
 from ref_models.activation_ref import relu_ref
 from stitcher import Stitcher
@@ -111,16 +112,16 @@ class TestStitcherErrors:
             return (
                 ALUCore(T_width=2, name="alu1"),
                 ALUCore(T_width=2, name="alu2"),
-                ALUCore(T_width=2, name="alu3"),
+                FIFOCore(T_width=2, depth=4, name="fifo3"),
             )
 
-        alu1, alu2, alu3 = _instantiate_ips_with_block(block, _factory)
+        alu1, alu2, fifo3 = _instantiate_ips_with_block(block, _factory)
         stitcher = Stitcher(block=block)
         stitcher.add_ip(alu1)
         stitcher.add_ip(alu2)
-        stitcher.add_ip(alu3)
-        stitcher.connect("alu1", "alu3")
-        stitcher.connect("alu2", "alu3")
+        stitcher.add_ip(fifo3)
+        stitcher.connect("alu1", "fifo3")
+        stitcher.connect("alu2", "fifo3")
         with pytest.raises(ValueError, match="Fan-in is not supported"):
             stitcher.build()
 

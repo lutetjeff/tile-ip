@@ -26,6 +26,7 @@ from ip_cores.norm import NormCore
 from ip_cores.softmax import SoftmaxCore
 from ip_cores.activation import ActivationCore
 from ip_cores.mem_router import MemRouterCore
+from stitcher import Stitcher
 
 
 def _verilate(vfile: Path) -> tuple[bool, str]:
@@ -37,7 +38,63 @@ def _verilate(vfile: Path) -> tuple[bool, str]:
     return ok, output
 
 
-def export_alu(outdir: Path, T_width: int = 2) -> Path:
+def _write_hex_file(
+    memblock: pyrtl.MemBlock,
+    mem_map: dict[int, int],
+    outdir: Path,
+) -> Path:
+    hex_file = outdir / f"{memblock.name}.hex"
+    depth = 1 << memblock.addrwidth
+    hex_digits = (memblock.bitwidth + 3) // 4
+
+    lines = []
+    for addr in range(depth):
+        val = mem_map.get(addr, 0)
+        lines.append(f"{val:0{hex_digits}x}")
+
+    hex_file.write_text("\n".join(lines) + "\n")
+    return hex_file
+
+
+def _inject_readmemh(
+    vfile: Path,
+    memblock_to_hexfile: dict[pyrtl.MemBlock, Path],
+) -> None:
+    if not memblock_to_hexfile:
+        return
+
+    content = vfile.read_text()
+
+    init_blocks = ["\n    // BRAM initialization"]
+    for memblock, hex_file in memblock_to_hexfile.items():
+        hex_basename = hex_file.name
+        init_blocks.append(f"    initial begin")
+        init_blocks.append(f"        $readmemh(\"{hex_basename}\", {memblock.name});")
+        init_blocks.append(f"    end")
+
+    init_text = "\n".join(init_blocks) + "\n"
+    content = content.replace("\nendmodule", init_text + "endmodule")
+    vfile.write_text(content)
+
+
+def _apply_memory_init(
+    vfile: Path,
+    outdir: Path,
+    memory_value_map: dict[pyrtl.MemBlock, dict[int, int]] | None,
+) -> None:
+    if not memory_value_map:
+        return
+    hex_files = {}
+    for memblock, mem_map in memory_value_map.items():
+        hex_files[memblock] = _write_hex_file(memblock, mem_map, outdir)
+    _inject_readmemh(vfile, hex_files)
+
+
+def export_alu(
+    outdir: Path,
+    T_width: int = 2,
+    memory_value_map: dict[pyrtl.MemBlock, dict[int, int]] | None = None,
+) -> Path:
     AXI4StreamLiteBase.reset()
     core = ALUCore(T_width=T_width, name="alu")
 
@@ -62,12 +119,18 @@ def export_alu(outdir: Path, T_width: int = 2) -> Path:
 
     # Fix Verilator width expansion bug in multiply: add explicit 16-bit wires
     _fix_alu_multiply_width(vfile)
+    _apply_memory_init(vfile, outdir, memory_value_map)
 
     print(f"Exported ALUCore (T_width={T_width}) -> {vfile}")
     return vfile
 
 
-def export_fifo(outdir: Path, T_width: int = 2, depth: int = 4) -> Path:
+def export_fifo(
+    outdir: Path,
+    T_width: int = 2,
+    depth: int = 4,
+    memory_value_map: dict[pyrtl.MemBlock, dict[int, int]] | None = None,
+) -> Path:
     AXI4StreamLiteBase.reset()
     core = FIFOCore(T_width=T_width, depth=depth, name="fifo")
 
@@ -85,6 +148,8 @@ def export_fifo(outdir: Path, T_width: int = 2, depth: int = 4) -> Path:
 
     with open(vfile, "w") as f:
         pyrtl.output_to_verilog(f, block=core.block, add_reset=True)
+
+    _apply_memory_init(vfile, outdir, memory_value_map)
 
     print(f"Exported FIFOCore (T_width={T_width}, depth={depth}) -> {vfile}")
     return vfile
@@ -140,7 +205,11 @@ def _fix_softmax_rom_index(vfile: Path) -> None:
     vfile.write_text(content)
 
 
-def export_gemm(outdir: Path, T_width: int = 2) -> Path:
+def export_gemm(
+    outdir: Path,
+    T_width: int = 2,
+    memory_value_map: dict[pyrtl.MemBlock, dict[int, int]] | None = None,
+) -> Path:
     AXI4StreamLiteBase.reset()
     T_M = T_width
     T_K = T_width
@@ -166,11 +235,17 @@ def export_gemm(outdir: Path, T_width: int = 2) -> Path:
     with open(vfile, "w") as f:
         pyrtl.output_to_verilog(f, block=core.block, add_reset=True)
 
+    _apply_memory_init(vfile, outdir, memory_value_map)
+
     print(f"Exported GEMMCore (T_M={T_M}, T_K={T_K}, T_N={T_N}) -> {vfile}")
     return vfile
 
 
-def export_norm(outdir: Path, T_width: int = 2) -> Path:
+def export_norm(
+    outdir: Path,
+    T_width: int = 2,
+    memory_value_map: dict[pyrtl.MemBlock, dict[int, int]] | None = None,
+) -> Path:
     AXI4StreamLiteBase.reset()
     core = NormCore(T_channel=T_width, name="norm")
 
@@ -189,11 +264,17 @@ def export_norm(outdir: Path, T_width: int = 2) -> Path:
     with open(vfile, "w") as f:
         pyrtl.output_to_verilog(f, block=core.block, add_reset=True)
 
+    _apply_memory_init(vfile, outdir, memory_value_map)
+
     print(f"Exported NormCore (T_channel={T_width}) -> {vfile}")
     return vfile
 
 
-def export_softmax(outdir: Path, T_width: int = 2) -> Path:
+def export_softmax(
+    outdir: Path,
+    T_width: int = 2,
+    memory_value_map: dict[pyrtl.MemBlock, dict[int, int]] | None = None,
+) -> Path:
     AXI4StreamLiteBase.reset()
     core = SoftmaxCore(T_seq=T_width, name="softmax")
 
@@ -213,12 +294,17 @@ def export_softmax(outdir: Path, T_width: int = 2) -> Path:
         pyrtl.output_to_verilog(f, block=core.block, add_reset=True)
 
     _fix_softmax_rom_index(vfile)
+    _apply_memory_init(vfile, outdir, memory_value_map)
 
     print(f"Exported SoftmaxCore (T_seq={T_width}) -> {vfile}")
     return vfile
 
 
-def export_activation(outdir: Path, T_width: int = 2) -> Path:
+def export_activation(
+    outdir: Path,
+    T_width: int = 2,
+    memory_value_map: dict[pyrtl.MemBlock, dict[int, int]] | None = None,
+) -> Path:
     AXI4StreamLiteBase.reset()
     core = ActivationCore(T_width=T_width, name="activation", activation_type="relu")
 
@@ -237,11 +323,17 @@ def export_activation(outdir: Path, T_width: int = 2) -> Path:
     with open(vfile, "w") as f:
         pyrtl.output_to_verilog(f, block=core.block, add_reset=True)
 
+    _apply_memory_init(vfile, outdir, memory_value_map)
+
     print(f"Exported ActivationCore (T_width={T_width}, type=relu) -> {vfile}")
     return vfile
 
 
-def export_mem_router(outdir: Path, T_width: int = 2) -> Path:
+def export_mem_router(
+    outdir: Path,
+    T_width: int = 2,
+    memory_value_map: dict[pyrtl.MemBlock, dict[int, int]] | None = None,
+) -> Path:
     AXI4StreamLiteBase.reset()
     core = MemRouterCore(T_out=T_width, name="mem_router")
 
@@ -260,7 +352,60 @@ def export_mem_router(outdir: Path, T_width: int = 2) -> Path:
     with open(vfile, "w") as f:
         pyrtl.output_to_verilog(f, block=core.block, add_reset=True)
 
+    _apply_memory_init(vfile, outdir, memory_value_map)
+
     print(f"Exported MemRouterCore (T_out={T_width}) -> {vfile}")
+    return vfile
+
+
+def _find_undriven_wires(block: pyrtl.Block) -> list[pyrtl.WireVector]:
+    driven_wires: set[str] = set()
+    for net in block.logic:
+        for arg in net.dests:
+            driven_wires.add(arg.name)
+
+    used_wires: set[str] = set()
+    for net in block.logic:
+        for arg in net.args:
+            if arg is not None:
+                used_wires.add(arg.name)
+
+    undriven: list[pyrtl.WireVector] = []
+    for w in block.wirevector_set:
+        if w.name in used_wires and w.name not in driven_wires:
+            if isinstance(w, (pyrtl.Const, pyrtl.Input, pyrtl.Output, pyrtl.Register)):
+                continue
+            undriven.append(w)
+    return undriven
+
+
+def export_stitched_graph(
+    stitcher: Stitcher,
+    outdir: Path,
+    name: str = "stitched_graph",
+    memory_value_map: dict[pyrtl.MemBlock, dict[int, int]] | None = None,
+) -> Path:
+    if not stitcher._ips:
+        raise ValueError("Stitcher has no registered IPs")
+
+    built_block, drivers = stitcher.build()
+
+    with pyrtl.set_working_block(built_block, no_sanity_check=True):
+        undriven = _find_undriven_wires(built_block)
+        for wire in undriven:
+            wrapper_name = f"stitcher_{wire.name}"
+            wrapper_in = pyrtl.Input(bitwidth=wire.bitwidth, name=wrapper_name)
+            wire <<= wrapper_in
+
+    outdir.mkdir(parents=True, exist_ok=True)
+    vfile = outdir / f"{name}.v"
+
+    with open(vfile, "w") as f:
+        pyrtl.output_to_verilog(f, block=built_block, add_reset=True)
+
+    _apply_memory_init(vfile, outdir, memory_value_map)
+
+    print(f"Exported stitched graph ({len(stitcher._ips)} IPs) -> {vfile}")
     return vfile
 
 

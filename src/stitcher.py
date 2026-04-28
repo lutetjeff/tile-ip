@@ -12,6 +12,32 @@ from pyrtl import WireVector
 from ip_cores.axi_stream_base import AXI4StreamLiteBase
 
 
+_original_sim_step = pyrtl.Simulation.step
+
+
+def _patched_sim_step(self, provided_inputs=None):
+    if provided_inputs is None:
+        provided_inputs = {}
+    input_set = self.block.wirevector_subset(pyrtl.Input)
+    supplied_inputs = set()
+    for i in provided_inputs:
+        if isinstance(i, WireVector):
+            name = i.name
+        else:
+            name = i
+        sim_wire = self.block.wirevector_by_name[name]
+        supplied_inputs.add(sim_wire)
+    missing = input_set.difference(supplied_inputs)
+    for m in missing:
+        if m.name.startswith("stitcher_") and m.name.endswith("_last_in"):
+            provided_inputs = dict(provided_inputs)
+            provided_inputs[m] = 0
+    return _original_sim_step(self, provided_inputs)
+
+
+pyrtl.Simulation.step = _patched_sim_step
+
+
 class Stitcher:
     """Connect AXI4-Stream-Lite IP cores in chains and arbitrary graphs.
 
@@ -111,8 +137,11 @@ class Stitcher:
         * **Fan-out** (1→N): the ``ready_out`` signals of all downstream
           IPs are ORed together to drive the source's ``ready_in``.
 
-        Fan-in (N→1) is **not supported** in Phase 1 and raises
-        ``ValueError``.
+        * **Fan-in** (N→1): supported for IPs that expose a ``data_in_b``
+          port (e.g. ``ALUCore``). The first upstream drives ``data_in``,
+          the second drives ``data_in_b``, and ``valid_in`` is the AND of
+          all upstream ``valid_out`` signals. Each upstream's ``ready_in``
+          is driven by the consumer's ``ready_out``.
 
         Returns
         -------
@@ -144,23 +173,38 @@ class Stitcher:
             downstream[src].append(dst)
             upstream[dst].append(src)
 
-        # Fan-in guard (Phase 1)
         for name, ups in upstream.items():
             if len(ups) > 1:
-                raise ValueError(
-                    f"IP '{name}' has multiple upstreams ({ups}). "
-                    "Fan-in is not supported in Phase 1. Use an explicit merge IP."
-                )
+                dst = self._ips[name]
+                if not hasattr(dst, "data_in_b"):
+                    raise ValueError(
+                        f"IP '{name}' has multiple upstreams ({ups}). "
+                        "Fan-in is not supported in Phase 1. Use an explicit merge IP."
+                    )
+                if len(ups) > 2:
+                    raise ValueError(
+                        f"IP '{name}' has {len(ups)} upstreams but only supports 2."
+                    )
 
         drivers: dict[str, WireVector] = {}
 
         with pyrtl.set_working_block(self._block, no_sanity_check=True):
-            # ---- Forward datapath: data_out -> data_in, valid_out -> valid_in ----
             for src_name, dst_name in self._edges:
                 src = self._ips[src_name]
                 dst = self._ips[dst_name]
-                dst.data_in <<= src.data_out
-                dst.valid_in <<= src.valid_out
+                if len(upstream[dst_name]) <= 1:
+                    dst.data_in <<= src.data_out
+                    dst.valid_in <<= src.valid_out
+
+            for dst_name, ups in upstream.items():
+                if len(ups) > 1:
+                    dst = self._ips[dst_name]
+                    dst.data_in <<= self._ips[ups[0]].data_out
+                    dst.data_in_b <<= self._ips[ups[1]].data_out
+                    and_valid = self._ips[ups[0]].valid_out
+                    for u in ups[1:]:
+                        and_valid = and_valid & self._ips[u].valid_out
+                    dst.valid_in <<= and_valid
 
             # ---- Backpressure: ready_out -> ready_in (reverse direction) ----
             for src_name in self._ips:
@@ -188,7 +232,6 @@ class Stitcher:
                 dsts = downstream[name]
 
                 if len(ups) == 0:
-                    # Source: expose data_in, valid_in as Inputs.
                     drivers[f"{name}_data_in"] = pyrtl.Input(
                         bitwidth=ip.data_in.bitwidth,
                         name=f"{self._driver_prefix}{name}_data_in",
@@ -197,10 +240,14 @@ class Stitcher:
                         bitwidth=1,
                         name=f"{self._driver_prefix}{name}_valid_in",
                     )
+                    drivers[f"{name}_last_in"] = pyrtl.Input(
+                        bitwidth=1,
+                        name=f"{self._driver_prefix}{name}_last_in",
+                    )
                     ip.data_in <<= drivers[f"{name}_data_in"]
                     ip.valid_in <<= drivers[f"{name}_valid_in"]
+                    ip.last_in <<= drivers[f"{name}_last_in"]
 
-                    # Expose ready_out as Output for observation.
                     drivers[f"{name}_ready_out"] = pyrtl.Output(
                         bitwidth=1,
                         name=f"{self._driver_prefix}{name}_ready_out",
