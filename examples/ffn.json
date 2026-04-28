@@ -1,0 +1,13 @@
+{
+  "name": "ffn",
+  "ips": [
+    {"type": "Norm", "name": "norm", "params": ["T_channel"]},
+    {"type": "Activation", "name": "act", "params": ["T_width"]},
+    {"type": "ALU", "name": "alu", "params": ["T_width"]}
+  ],
+  "edges": [
+    ["norm", "act"],
+    ["act", "alu"]
+  ],
+  "constraints": {"max_area": 5000}
+}
