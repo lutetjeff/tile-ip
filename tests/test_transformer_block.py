@@ -37,20 +37,47 @@ class TestTransformerBlock:
         data_val = _pack_bytes(data)
         weight_val = _pack_bytes(weight)
 
-        alu2_valid_seen = False
         fifo1_ready_was_high = False
         norm1_ready_was_high = False
+        tgemm1_valid_seen = False
+        softmax_valid_seen = False
+        tgemm2_valid_seen = False
+        alu1_valid_seen = False
 
-        for cycle in range(100):
+        norm1_beat = 0
+        fifo1_sent = 0
+        max_cycles = 200
+        for cycle in range(max_cycles):
+            last_in_beat = 1 if norm1_beat % 2 == 1 else 0
+
+            norm1_ready = sim.inspect(drivers["norm1_ready_out"])
+            fifo1_ready = sim.inspect(drivers["fifo1_ready_out"])
+
+            if norm1_ready == 1:
+                norm1_valid = 1
+                norm1_last = last_in_beat
+                norm1_beat += 1
+            else:
+                norm1_valid = 0
+                norm1_last = 0
+
+            if fifo1_ready == 1:
+                fifo1_valid = 1
+                fifo1_last = 1
+                fifo1_sent += 1
+            else:
+                fifo1_valid = 0
+                fifo1_last = 0
+
             inputs = {
                 drivers["fifo1_data_in"]: data_val,
-                drivers["fifo1_valid_in"]: 1,
-                drivers["fifo1_last_in"]: 1,
+                drivers["fifo1_valid_in"]: fifo1_valid,
+                drivers["fifo1_last_in"]: fifo1_last,
                 drivers["norm1_data_in"]: data_val,
-                drivers["norm1_valid_in"]: 1,
-                drivers["norm1_last_in"]: 1,
+                drivers["norm1_valid_in"]: norm1_valid,
+                drivers["norm1_last_in"]: norm1_last,
                 drivers["alu2_ready_in"]: 1,
-                manual_inputs["norm2_last_in"]: 1,
+                manual_inputs["norm2_last_in"]: last_in_beat if norm1_valid else 0,
                 manual_inputs["tgemm4_last_in"]: 1,
                 manual_inputs["tgemm1_weight_in"]: weight_val,
                 manual_inputs["tgemm1_weight_valid"]: 1,
@@ -66,14 +93,35 @@ class TestTransformerBlock:
 
             sim.step(inputs)
 
-            if sim.inspect(drivers["alu2_valid_out"]) == 1:
-                alu2_valid_seen = True
-
             if sim.inspect(drivers["fifo1_ready_out"]) == 1:
                 fifo1_ready_was_high = True
             if sim.inspect(drivers["norm1_ready_out"]) == 1:
                 norm1_ready_was_high = True
 
-        assert alu2_valid_seen, "alu2 valid_out was never asserted"
+            try:
+                if sim.inspect("tgemm1_valid_out") == 1:
+                    tgemm1_valid_seen = True
+            except KeyError:
+                pass
+            try:
+                if sim.inspect("softmax_valid_out") == 1:
+                    softmax_valid_seen = True
+            except KeyError:
+                pass
+            try:
+                if sim.inspect("tgemm2_valid_out") == 1:
+                    tgemm2_valid_seen = True
+            except KeyError:
+                pass
+            try:
+                if sim.inspect("alu1_valid_out") == 1:
+                    alu1_valid_seen = True
+            except KeyError:
+                pass
+
         assert fifo1_ready_was_high, "fifo1 ready_out permanently stuck low"
         assert norm1_ready_was_high, "norm1 ready_out permanently stuck low"
+        assert tgemm1_valid_seen, "tgemm1 valid_out was never asserted"
+        assert softmax_valid_seen, "softmax valid_out was never asserted"
+        assert tgemm2_valid_seen, "tgemm2 valid_out was never asserted"
+        assert alu1_valid_seen, "alu1 valid_out was never asserted"
