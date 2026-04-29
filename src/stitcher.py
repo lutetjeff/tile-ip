@@ -9,7 +9,8 @@ from __future__ import annotations
 import pyrtl
 from pyrtl import WireVector
 
-from ip_cores.axi_stream_base import AXI4StreamLiteBase
+from ip_cores.axi_stream_base import AXI4StreamLiteBase, StreamShape
+from ip_cores.shape_adapter import StreamShapeAdapter
 
 
 _original_sim_step = pyrtl.Simulation.step
@@ -123,6 +124,113 @@ class Stitcher:
             raise ValueError(f"Unknown destination IP: {dst_name}")
         self._edges.append((src_name, dst_name))
 
+    def _propagate_shapes(
+        self,
+        upstream: dict[str, list[str]],
+        downstream: dict[str, list[str]],
+    ) -> None:
+        from collections import deque
+
+        in_degree = {name: len(upstream[name]) for name in self._ips}
+        queue = deque([name for name, deg in in_degree.items() if deg == 0])
+        topo_order: list[str] = []
+
+        while queue:
+            node = queue.popleft()
+            topo_order.append(node)
+            for neighbor in downstream[node]:
+                in_degree[neighbor] -= 1
+                if in_degree[neighbor] == 0:
+                    queue.append(neighbor)
+
+        if len(topo_order) != len(self._ips):
+            raise ValueError("Cycle detected in IP graph")
+
+        for name in self._ips:
+            if len(upstream[name]) == 0:
+                ip = self._ips[name]
+                if ip.input_shape is None and ip.output_shape is None:
+                    for dst_name in downstream[name]:
+                        dst = self._ips[dst_name]
+                        if ip._tiling_param != dst._tiling_param:
+                            raise ValueError(
+                                f"Source IP '{name}' has no input_shape and its "
+                                f"output_shape cannot be inferred, but downstream "
+                                f"'{dst_name}' has a different tiling_param "
+                                f"({ip._tiling_param} vs {dst._tiling_param})"
+                            )
+
+        new_edges: list[tuple[str, str]] = []
+        adapter_counter: dict[str, int] = {}
+
+        for src_name in topo_order:
+            src = self._ips[src_name]
+            src_shape = src.output_shape
+
+            for dst_name in downstream[src_name]:
+                dst = self._ips[dst_name]
+
+                if src_shape is None:
+                    if src._tiling_param != dst._tiling_param:
+                        raise ValueError(
+                            f"Cannot determine output shape of '{src_name}' "
+                            f"to create adapter for '{dst_name}'"
+                        )
+                    new_edges.append((src_name, dst_name))
+                    continue
+
+                if src_shape.N % dst._tiling_param != 0:
+                    raise ValueError(
+                        f"Shape mismatch on edge '{src_name}' -> '{dst_name}': "
+                        f"source output N={src_shape.N} is not divisible by "
+                        f"destination tiling_param={dst._tiling_param}"
+                    )
+
+                if src_shape.T != dst._tiling_param:
+                    adapter_name = f"adapter_{src_name}_{dst_name}"
+                    base_name = adapter_name
+                    counter = adapter_counter.get(base_name, 0)
+                    while adapter_name in self._ips:
+                        adapter_name = f"{base_name}_{counter}"
+                        counter += 1
+                    adapter_counter[base_name] = counter
+
+                    adapter = StreamShapeAdapter(
+                        N=src_shape.N,
+                        T_in=src_shape.T,
+                        T_out=dst._tiling_param,
+                        name=adapter_name,
+                        block=self._block,
+                    )
+                    self._ips[adapter_name] = adapter
+
+                    new_edges.append((src_name, adapter_name))
+                    new_edges.append((adapter_name, dst_name))
+
+                    adapter_shape = adapter.output_shape
+                    assert adapter_shape is not None
+                    if dst.input_shape is None:
+                        dst.input_shape = adapter_shape
+                    elif dst.input_shape != adapter_shape:
+                        raise ValueError(
+                            f"Shape mismatch for IP '{dst_name}': upstream "
+                            f"'{src_name}' (via adapter {adapter_name}) has shape "
+                            f"{adapter_shape}, but another upstream expects "
+                            f"{dst.input_shape}"
+                        )
+                else:
+                    new_edges.append((src_name, dst_name))
+                    if dst.input_shape is None:
+                        dst.input_shape = src_shape
+                    elif dst.input_shape != src_shape:
+                        raise ValueError(
+                            f"Shape mismatch for IP '{dst_name}': upstream "
+                            f"'{src_name}' has shape {src_shape}, but another "
+                            f"upstream expects {dst.input_shape}"
+                        )
+
+        self._edges = new_edges
+
     def build(self) -> tuple[pyrtl.Block, dict[str, WireVector]]:
         """Wire up all connections and create wrapper I/O wires.
 
@@ -166,9 +274,16 @@ class Stitcher:
             if dst not in self._ips:
                 raise ValueError(f"Edge references unknown destination IP: {dst}")
 
-        # Build adjacency lists
         upstream: dict[str, list[str]] = {name: [] for name in self._ips}
         downstream: dict[str, list[str]] = {name: [] for name in self._ips}
+        for src, dst in self._edges:
+            downstream[src].append(dst)
+            upstream[dst].append(src)
+
+        self._propagate_shapes(upstream, downstream)
+
+        upstream = {name: [] for name in self._ips}
+        downstream = {name: [] for name in self._ips}
         for src, dst in self._edges:
             downstream[src].append(dst)
             upstream[dst].append(src)

@@ -11,7 +11,7 @@ from __future__ import annotations
 import pyrtl
 from pyrtl import WireVector
 
-from ip_cores.axi_stream_base import AXI4StreamLiteBase
+from ip_cores.axi_stream_base import AXI4StreamLiteBase, StreamShape
 
 
 class MultiBankBRAMCore(AXI4StreamLiteBase):
@@ -218,3 +218,8 @@ class MultiBankBRAMCore(AXI4StreamLiteBase):
             )
             self.ready_out <<= self.read_state == 0
             self.write_ready_out <<= (self.write_state == 0) | (self.write_state == 2)
+
+    def infer_output_shape(self) -> StreamShape | None:
+        if self.input_shape is not None:
+            return self.input_shape
+        return None

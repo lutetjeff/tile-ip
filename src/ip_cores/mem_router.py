@@ -5,7 +5,7 @@ from __future__ import annotations
 import pyrtl
 from pyrtl import WireVector
 
-from ip_cores.axi_stream_base import AXI4StreamLiteBase
+from ip_cores.axi_stream_base import AXI4StreamLiteBase, StreamShape
 
 
 class MemRouterCore(AXI4StreamLiteBase):
@@ -124,3 +124,8 @@ class MemRouterCore(AXI4StreamLiteBase):
             self.data_out <<= pyrtl.concat_list(self.byte_regs)
             self.valid_out <<= self.state == 2
             self.ready_out <<= self.state == 0
+
+    def infer_output_shape(self) -> StreamShape | None:
+        if self.input_shape is not None:
+            return self.input_shape
+        return None

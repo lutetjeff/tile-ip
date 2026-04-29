@@ -12,7 +12,7 @@ from __future__ import annotations
 import pyrtl
 from pyrtl import WireVector
 
-from ip_cores.axi_stream_base import AXI4StreamLiteBase
+from ip_cores.axi_stream_base import AXI4StreamLiteBase, StreamShape
 from ip_cores.stateful_norm import StatefulNormCore
 from ip_cores.temporal_gemm import TemporalGEMMCore
 from ip_cores.stateful_softmax import StatefulSoftmaxCore
@@ -22,8 +22,17 @@ from ip_cores.activation import ActivationCore
 from stitcher import Stitcher
 
 
-def build_transformer_block():
+def build_transformer_block(seq_len: int = 4, emb_dim: int = 4, T: int = 2):
     """Build a transformer block with the tiled-ip framework.
+
+    Parameters
+    ----------
+    seq_len : int
+        Sequence length (default 4).
+    emb_dim : int
+        Embedding dimension (default 4).
+    T : int
+        Tile size used for T_width, T_seq, T_channel, T_K, T_N (default 2).
 
     Returns
     -------
@@ -43,22 +52,32 @@ def build_transformer_block():
 
     pyrtl.Block = _block_factory
     try:
-        fifo1 = FIFOCore(T_width=2, depth=8, name="fifo1")
-        norm1 = StatefulNormCore(T_channel=2, N_channel=4, name="norm1")
-        tgemm1 = TemporalGEMMCore(T_M=1, T_K=2, T_N=2, name="tgemm1")
-        softmax = StatefulSoftmaxCore(N_seq=4, T_seq=2, name="softmax")
-        tgemm2 = TemporalGEMMCore(T_M=1, T_K=2, T_N=2, name="tgemm2")
-        alu1 = ALUCore(T_width=2, name="alu1")
-        df1 = FIFOCore(T_width=2, depth=1, name="df1")
-        df2 = FIFOCore(T_width=2, depth=1, name="df2")
-        df3 = FIFOCore(T_width=2, depth=1, name="df3")
-        df4 = FIFOCore(T_width=2, depth=1, name="df4")
-        fifo2 = FIFOCore(T_width=2, depth=8, name="fifo2")
-        norm2 = StatefulNormCore(T_channel=2, N_channel=4, name="norm2")
-        tgemm3 = TemporalGEMMCore(T_M=1, T_K=2, T_N=2, name="tgemm3")
-        activation = ActivationCore(T_width=2, name="activation", activation_type="relu")
-        tgemm4 = TemporalGEMMCore(T_M=1, T_K=2, T_N=2, name="tgemm4")
-        alu2 = ALUCore(T_width=2, name="alu2")
+        fifo1 = FIFOCore(T_width=T, depth=8, name="fifo1")
+        norm1 = StatefulNormCore(T_channel=T, N_channel=seq_len, name="norm1")
+        tgemm1 = TemporalGEMMCore(
+            T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T, name="tgemm1"
+        )
+        softmax = StatefulSoftmaxCore(N_seq=seq_len, T_seq=T, name="softmax")
+        tgemm2 = TemporalGEMMCore(
+            T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T, name="tgemm2"
+        )
+        alu1 = ALUCore(T_width=T, name="alu1")
+        df1 = FIFOCore(T_width=T, depth=1, name="df1")
+        df2 = FIFOCore(T_width=T, depth=1, name="df2")
+        df3 = FIFOCore(T_width=T, depth=1, name="df3")
+        df4 = FIFOCore(T_width=T, depth=1, name="df4")
+        fifo2 = FIFOCore(T_width=T, depth=8, name="fifo2")
+        norm2 = StatefulNormCore(T_channel=T, N_channel=emb_dim, name="norm2")
+        tgemm3 = TemporalGEMMCore(
+            T_M=1, T_K=T, T_N=T, M=emb_dim // T, N=T, name="tgemm3"
+        )
+        activation = ActivationCore(
+            T_width=T, name="activation", activation_type="relu"
+        )
+        tgemm4 = TemporalGEMMCore(
+            T_M=1, T_K=T, T_N=T, M=emb_dim // T, N=T, name="tgemm4"
+        )
+        alu2 = ALUCore(T_width=T, name="alu2")
     finally:
         pyrtl.Block = original_Block
 
@@ -99,6 +118,10 @@ def build_transformer_block():
     stitcher.connect("activation", "tgemm4")
     stitcher.connect("tgemm4", "alu2")
     stitcher.connect("fifo2", "alu2")
+
+    fifo1.input_shape = StreamShape(seq_len, T)
+    norm1.input_shape = StreamShape(seq_len, T)
+    fifo2.input_shape = StreamShape(emb_dim, T)
 
     built_block, drivers = stitcher.build()
 

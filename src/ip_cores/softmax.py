@@ -6,7 +6,7 @@ import numpy as np
 import pyrtl
 from pyrtl import WireVector
 
-from ip_cores.axi_stream_base import AXI4StreamLiteBase
+from ip_cores.axi_stream_base import AXI4StreamLiteBase, StreamShape
 
 
 def _compute_exp_lut() -> list[int]:
@@ -95,6 +95,9 @@ class SoftmaxCore(AXI4StreamLiteBase):
             self.data_out <<= pyrtl.concat_list(results)
             self.valid_out <<= self.valid_in
             self.ready_out <<= self.ready_in
+
+    def infer_output_shape(self) -> StreamShape:
+        return StreamShape(self._tiling_param, self._tiling_param)
 
     def _find_max(self, lanes: list[WireVector]) -> WireVector:
         current = list(lanes)
