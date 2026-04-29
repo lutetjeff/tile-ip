@@ -26,14 +26,26 @@ class TestTransformerBlock:
     def setup_method(self):
         AXI4StreamLiteBase.reset()
 
-    def test_transformer_block_no_deadlock(self):
-        built_block, drivers, manual_inputs = build_transformer_block()
+    @pytest.mark.parametrize(
+        "seq_len, emb_dim, T",
+        [
+            (4, 4, 1),
+            (4, 4, 2),
+            (16, 4, 2),
+            (4, 16, 2),
+            (16, 16, 4),
+        ],
+    )
+    def test_transformer_block_no_deadlock(self, seq_len, emb_dim, T):
+        built_block, drivers, manual_inputs = build_transformer_block(
+            seq_len=seq_len, emb_dim=emb_dim, T=T
+        )
         _disable_memory_sync_check(built_block)
 
         sim = pyrtl.Simulation(tracer=None, block=built_block)
 
-        data = [1, 2]
-        weight = [1, 2, 3, 4]
+        data = list(range(1, T + 1))
+        weight = list(range(1, T * T + 1))
         data_val = _pack_bytes(data)
         weight_val = _pack_bytes(weight)
 
@@ -46,9 +58,10 @@ class TestTransformerBlock:
 
         norm1_beat = 0
         fifo1_sent = 0
-        max_cycles = 200
+        num_beats = seq_len // T
+        max_cycles = 800
         for cycle in range(max_cycles):
-            last_in_beat = 1 if norm1_beat % 2 == 1 else 0
+            last_in_beat = 1 if (norm1_beat + 1) % num_beats == 0 else 0
 
             norm1_ready = sim.inspect(drivers["norm1_ready_out"])
             fifo1_ready = sim.inspect(drivers["fifo1_ready_out"])

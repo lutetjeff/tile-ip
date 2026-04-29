@@ -29,9 +29,9 @@ class TestCompoundMemCompute:
     def setup_method(self):
         AXI4StreamLiteBase.reset()
 
-    @pytest.mark.parametrize("T_M", [1, 2])
-    @pytest.mark.parametrize("T_K", [1, 2])
-    @pytest.mark.parametrize("T_N", [1, 2])
+    @pytest.mark.parametrize("T_M", [1, 2, 4, 8])
+    @pytest.mark.parametrize("T_K", [1, 2, 4, 8])
+    @pytest.mark.parametrize("T_N", [1, 2, 4, 8])
     def test_compound_random(self, T_M: int, T_K: int, T_N: int) -> None:
         T_out = T_M * T_K
 
@@ -112,9 +112,9 @@ class TestCompoundMemCompute:
         ref_streamed = mem_router_ref(A_flat, (T_M, T_K, False))
         np.testing.assert_array_equal(streamed_bytes, ref_streamed)
 
-    @pytest.mark.parametrize("T_M", [1, 2])
-    @pytest.mark.parametrize("T_K", [1, 2])
-    @pytest.mark.parametrize("T_N", [1, 2])
+    @pytest.mark.parametrize("T_M", [1, 2, 4, 8])
+    @pytest.mark.parametrize("T_K", [1, 2, 4, 8])
+    @pytest.mark.parametrize("T_N", [1, 2, 4, 8])
     def test_compound_all_zeros(self, T_M: int, T_K: int, T_N: int) -> None:
         T_out = T_M * T_K
 
@@ -190,9 +190,9 @@ class TestCompoundMemComputeStitcher:
     def setup_method(self):
         AXI4StreamLiteBase.reset()
 
-    @pytest.mark.parametrize("T_M", [1, 2])
-    @pytest.mark.parametrize("T_K", [1, 2])
-    @pytest.mark.parametrize("T_N", [1, 2])
+    @pytest.mark.parametrize("T_M", [1, 2, 4, 8])
+    @pytest.mark.parametrize("T_K", [1, 2, 4, 8])
+    @pytest.mark.parametrize("T_N", [1, 2, 4, 8])
     def test_compound_random(self, T_M: int, T_K: int, T_N: int) -> None:
         T_out = T_M * T_K
 
@@ -269,9 +269,9 @@ class TestCompoundMemComputeStitcher:
         ref_streamed = mem_router_ref(A_flat, (T_M, T_K, False))
         np.testing.assert_array_equal(streamed_bytes, ref_streamed)
 
-    @pytest.mark.parametrize("T_M", [1, 2])
-    @pytest.mark.parametrize("T_K", [1, 2])
-    @pytest.mark.parametrize("T_N", [1, 2])
+    @pytest.mark.parametrize("T_M", [1, 2, 4, 8])
+    @pytest.mark.parametrize("T_K", [1, 2, 4, 8])
+    @pytest.mark.parametrize("T_N", [1, 2, 4, 8])
     def test_compound_all_zeros(self, T_M: int, T_K: int, T_N: int) -> None:
         T_out = T_M * T_K
 

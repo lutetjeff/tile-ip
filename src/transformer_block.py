@@ -67,15 +67,15 @@ def build_transformer_block(seq_len: int = 4, emb_dim: int = 4, T: int = 2):
         df3 = FIFOCore(T_width=T, depth=1, name="df3")
         df4 = FIFOCore(T_width=T, depth=1, name="df4")
         fifo2 = FIFOCore(T_width=T, depth=8, name="fifo2")
-        norm2 = StatefulNormCore(T_channel=T, N_channel=emb_dim, name="norm2")
+        norm2 = StatefulNormCore(T_channel=T, N_channel=seq_len, name="norm2")
         tgemm3 = TemporalGEMMCore(
-            T_M=1, T_K=T, T_N=T, M=emb_dim // T, N=T, name="tgemm3"
+            T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T, name="tgemm3"
         )
         activation = ActivationCore(
             T_width=T, name="activation", activation_type="relu"
         )
         tgemm4 = TemporalGEMMCore(
-            T_M=1, T_K=T, T_N=T, M=emb_dim // T, N=T, name="tgemm4"
+            T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T, name="tgemm4"
         )
         alu2 = ALUCore(T_width=T, name="alu2")
     finally:
@@ -121,7 +121,7 @@ def build_transformer_block(seq_len: int = 4, emb_dim: int = 4, T: int = 2):
 
     fifo1.input_shape = StreamShape(seq_len, T)
     norm1.input_shape = StreamShape(seq_len, T)
-    fifo2.input_shape = StreamShape(emb_dim, T)
+    fifo2.input_shape = StreamShape(seq_len, T)
 
     built_block, drivers = stitcher.build()
 

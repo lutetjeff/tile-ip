@@ -147,7 +147,7 @@ class TestCompoundFFN:
     def setup_method(self) -> None:
         AXI4StreamLiteBase.reset()
 
-    @pytest.mark.parametrize("T", [2, 4])
+    @pytest.mark.parametrize("T", [2, 4, 8, 16])
     @pytest.mark.parametrize("is_rmsnorm", [False, True])
     @pytest.mark.parametrize("activation_type", ["gelu", "relu"])
     def test_random_single_beat(
@@ -187,7 +187,7 @@ class TestCompoundFFN:
         atol = 5 if activation_type == "gelu" else 5
         np.testing.assert_allclose(hw_out, ref_out, atol=atol)
 
-    @pytest.mark.parametrize("T", [2, 4])
+    @pytest.mark.parametrize("T", [2, 4, 8, 16])
     @pytest.mark.parametrize("is_rmsnorm", [False, True])
     @pytest.mark.parametrize("activation_type", ["gelu", "relu"])
     def test_all_zeros(self, T: int, is_rmsnorm: bool, activation_type: str) -> None:
@@ -223,7 +223,7 @@ class TestCompoundFFN:
         ref_out = _compound_ref(x, data_in_b, is_rmsnorm, activation_type)
         np.testing.assert_array_equal(hw_out, ref_out)
 
-    @pytest.mark.parametrize("T", [2, 4])
+    @pytest.mark.parametrize("T", [2, 4, 8, 16])
     @pytest.mark.parametrize("is_rmsnorm", [False, True])
     @pytest.mark.parametrize("activation_type", ["gelu", "relu"])
     def test_continuous_stream(
@@ -322,7 +322,7 @@ class TestCompoundFFNStitcher:
     def setup_method(self) -> None:
         AXI4StreamLiteBase.reset()
 
-    @pytest.mark.parametrize("T", [2, 4])
+    @pytest.mark.parametrize("T", [2, 4, 8, 16])
     @pytest.mark.parametrize("is_rmsnorm", [False, True])
     @pytest.mark.parametrize("activation_type", ["gelu", "relu"])
     def test_random_single_beat(
@@ -356,7 +356,7 @@ class TestCompoundFFNStitcher:
         atol = 5 if activation_type == "gelu" else 5
         np.testing.assert_allclose(hw_out, ref_out, atol=atol)
 
-    @pytest.mark.parametrize("T", [2, 4])
+    @pytest.mark.parametrize("T", [2, 4, 8, 16])
     @pytest.mark.parametrize("is_rmsnorm", [False, True])
     @pytest.mark.parametrize("activation_type", ["gelu", "relu"])
     def test_all_zeros(self, T: int, is_rmsnorm: bool, activation_type: str) -> None:
@@ -386,7 +386,7 @@ class TestCompoundFFNStitcher:
         ref_out = _compound_ref(x, data_in_b, is_rmsnorm, activation_type)
         np.testing.assert_array_equal(hw_out, ref_out)
 
-    @pytest.mark.parametrize("T", [2, 4])
+    @pytest.mark.parametrize("T", [2, 4, 8, 16])
     @pytest.mark.parametrize("is_rmsnorm", [False, True])
     @pytest.mark.parametrize("activation_type", ["gelu", "relu"])
     def test_continuous_stream(

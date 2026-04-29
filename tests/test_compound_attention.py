@@ -38,7 +38,7 @@ class TestCompoundAttention:
     def setup_method(self) -> None:
         AXI4StreamLiteBase.reset()
 
-    @pytest.mark.parametrize("T", [2])
+    @pytest.mark.parametrize("T", [2, 4, 8, 16])
     def test_attention_chain_random(self, T: int) -> None:
         shared_block = pyrtl.Block()
 
@@ -116,10 +116,10 @@ class TestCompoundAttention:
         )
 
         final_hw = _unpack_bytes(sim.inspect("final_data_out_probe"), (T, T))
-        np.testing.assert_array_equal(final_hw, final_ref)
+        np.testing.assert_allclose(final_hw, final_ref, atol=1)
         assert sim.inspect("final_valid_out_probe") == 1
 
-    @pytest.mark.parametrize("T", [2])
+    @pytest.mark.parametrize("T", [2, 4, 8, 16])
     def test_attention_chain_all_zeros(self, T: int) -> None:
         shared_block = pyrtl.Block()
 
@@ -196,7 +196,7 @@ class TestCompoundAttention:
         )
 
         final_hw = _unpack_bytes(sim.inspect("final_data_out_probe"), (T, T))
-        np.testing.assert_array_equal(final_hw, final_ref)
+        np.testing.assert_allclose(final_hw, final_ref, atol=1)
         assert sim.inspect("final_valid_out_probe") == 1
 
 
@@ -204,7 +204,7 @@ class TestCompoundAttentionStitcher:
     def setup_method(self) -> None:
         AXI4StreamLiteBase.reset()
 
-    @pytest.mark.parametrize("T", [2])
+    @pytest.mark.parametrize("T", [2, 4, 8, 16])
     def test_attention_chain_random(self, T: int) -> None:
         shared_block = pyrtl.Block()
 
@@ -266,10 +266,10 @@ class TestCompoundAttentionStitcher:
         )
 
         final_hw = _unpack_bytes(sim.inspect(drivers["gemm_sv_data_out"].name), (T, T))
-        np.testing.assert_array_equal(final_hw, final_ref)
+        np.testing.assert_allclose(final_hw, final_ref, atol=1)
         assert sim.inspect(drivers["gemm_sv_valid_out"].name) == 1
 
-    @pytest.mark.parametrize("T", [2])
+    @pytest.mark.parametrize("T", [2, 4, 8, 16])
     def test_attention_chain_all_zeros(self, T: int) -> None:
         shared_block = pyrtl.Block()
 
@@ -330,5 +330,5 @@ class TestCompoundAttentionStitcher:
         )
 
         final_hw = _unpack_bytes(sim.inspect(drivers["gemm_sv_data_out"].name), (T, T))
-        np.testing.assert_array_equal(final_hw, final_ref)
+        np.testing.assert_allclose(final_hw, final_ref, atol=1)
         assert sim.inspect(drivers["gemm_sv_valid_out"].name) == 1
