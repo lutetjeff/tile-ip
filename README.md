@@ -9,11 +9,12 @@
 ## Key Features
 
 *   **Parameterized IP Library:** 11 optimized IP cores (GEMM, Softmax, Norm, Activation, ALU, MemRouter, FIFO, TemporalGEMM, StatefulNorm, StatefulSoftmax, MultiBankBRAM).
-*   **Automated Stitching:** A `Stitcher` engine that wires IP cores into chains or graphs using a standardized AXI4-Stream-Lite interface.
+*   **Shape Propagation:** `StreamShape(N, T)` system tracks tensor dimensions through pipelines and auto-configures downstream IPs. The `Stitcher` inserts `StreamShapeAdapter` cores automatically when tiling factors differ.
+*   **Automated Stitching:** A `Stitcher` engine that wires IP cores into chains or graphs using a standardized AXI4-Stream-Lite interface, with topological traversal and shape-aware connection validation.
 *   **DP-Driven Optimization:** A `TilingSolver` that brute-forces the tiling-parameter space `{1, 2, 4}^k` to find area/latency-optimal configurations.
 *   **Hardware Verification:** Full verification stack using PyRTL simulation, cocotb, and Verilator.
-*   **Transformer Ready:** Capability to assemble full GPT-2 transformer blocks.
-*   **Robust Testing:** 535+ tests covering unit, compound, and end-to-end scenarios.
+*   **Transformer Ready:** Parameterized transformer blocks (`seq_len`, `emb_dim`, `T`) with attention and FFN paths, residual connections, and shape inference.
+*   **Robust Testing:** 570+ tests covering unit, compound, end-to-end, shape propagation, and adapter scenarios.
 
 ## IP Catalog
 
@@ -90,8 +91,12 @@ stitcher.connect("norm", "act")
 ```python
 from transformer_block import build_transformer_block
 
-# Assemble full block
-block, drivers, manual_inputs = build_transformer_block()
+# Assemble full block with parameters
+block, drivers, manual_inputs = build_transformer_block(
+    seq_len=4,   # sequence length
+    emb_dim=4,   # embedding dimension
+    T=2,         # tile size
+)
 # Run simulation...
 ```
 
@@ -118,10 +123,18 @@ tiled-ip/
 
 ## Documentation
 
-- [IP Library Specification](docs/IP_LIBRARY.md)
-- [Usage Guide](docs/IP_USAGE.md)
-- [GPT-2 Roadmap](docs/GPT2_ROADMAP.md)
-- [Temporal Streaming Tutorial](docs/GPT_TUTORIAL.md)
+| Document | Description |
+|----------|-------------|
+| [Getting Started](docs/GETTING_STARTED.md) | Overview, repo layout, quick-start examples |
+| [IP Catalog](docs/IP_CATALOG.md) | All 11 IP cores with parameters and implementation details |
+| [Shape Propagation](docs/SHAPE_PROPAGATION.md) | `StreamShape(N,T)` system and automatic adapter insertion |
+| [Transformer Block](docs/TRANSFORMER_BLOCK.md) | Full transformer block architecture and parameterization |
+| [Stitching & Solver](docs/STITCHING.md) | Stitcher wiring engine and DP-based tiling optimizer |
+| [Testing](docs/TESTING.md) | Test framework, results, and cocotb+Verilator verification |
+| [Design Decisions](docs/DESIGN_DECISIONS.md) | Architecture decisions and known limitations |
+| [IP Library Specification](docs/IP_LIBRARY.md) | Low-level interface specification |
+| [GPT-2 Roadmap](docs/GPT2_ROADMAP.md) | Gap analysis and implementation status |
+| [Temporal Streaming Tutorial](docs/GPT_TUTORIAL.md) | Macro-phase scheduling for transformer blocks |
 
 ## License
 
