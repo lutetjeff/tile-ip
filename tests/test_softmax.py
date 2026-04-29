@@ -48,7 +48,7 @@ class TestSoftmaxCore:
     def setup_method(self) -> None:
         AXI4StreamLiteBase.reset()
 
-    @pytest.mark.parametrize("T_seq", [1, 2, 4])
+    @pytest.mark.parametrize("T_seq", [1, 2, 4, 8, 16])
     def test_random_continuous_stream(self, T_seq: int) -> None:
         core = SoftmaxCore(T_seq=T_seq, name="sm")
         sim, data_in, valid_in, ready_in, data_out, _, _ = _create_wrapped_sim(core)
@@ -70,7 +70,7 @@ class TestSoftmaxCore:
                 atol=1,
             )
 
-    @pytest.mark.parametrize("T_seq", [1, 2, 4])
+    @pytest.mark.parametrize("T_seq", [1, 2, 4, 8, 16])
     def test_all_zeros(self, T_seq: int) -> None:
         core = SoftmaxCore(T_seq=T_seq, name="sm")
         sim, data_in, valid_in, ready_in, data_out, _, _ = _create_wrapped_sim(core)
@@ -85,7 +85,7 @@ class TestSoftmaxCore:
             atol=1,
         )
 
-    @pytest.mark.parametrize("T_seq", [1, 2, 4])
+    @pytest.mark.parametrize("T_seq", [1, 2, 4, 8, 16])
     def test_all_same_positive(self, T_seq: int) -> None:
         core = SoftmaxCore(T_seq=T_seq, name="sm")
         sim, data_in, valid_in, ready_in, data_out, _, _ = _create_wrapped_sim(core)
@@ -100,7 +100,7 @@ class TestSoftmaxCore:
             atol=1,
         )
 
-    @pytest.mark.parametrize("T_seq", [1, 2, 4])
+    @pytest.mark.parametrize("T_seq", [1, 2, 4, 8, 16])
     def test_all_same_negative(self, T_seq: int) -> None:
         core = SoftmaxCore(T_seq=T_seq, name="sm")
         sim, data_in, valid_in, ready_in, data_out, _, _ = _create_wrapped_sim(core)
@@ -115,7 +115,7 @@ class TestSoftmaxCore:
             atol=1,
         )
 
-    @pytest.mark.parametrize("T_seq", [1, 2, 4])
+    @pytest.mark.parametrize("T_seq", [1, 2, 4, 8, 16])
     def test_one_dominant(self, T_seq: int) -> None:
         core = SoftmaxCore(T_seq=T_seq, name="sm")
         sim, data_in, valid_in, ready_in, data_out, _, _ = _create_wrapped_sim(core)
@@ -132,7 +132,7 @@ class TestSoftmaxCore:
             atol=1,
         )
 
-    @pytest.mark.parametrize("T_seq", [1, 2, 4])
+    @pytest.mark.parametrize("T_seq", [1, 2, 4, 8, 16])
     def test_alternating(self, T_seq: int) -> None:
         core = SoftmaxCore(T_seq=T_seq, name="sm")
         sim, data_in, valid_in, ready_in, data_out, _, _ = _create_wrapped_sim(core)

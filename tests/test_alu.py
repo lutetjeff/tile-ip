@@ -54,7 +54,7 @@ class TestALUCore:
     def setup_method(self) -> None:
         AXI4StreamLiteBase.reset()
 
-    @pytest.mark.parametrize("T_width", [1, 2, 4])
+    @pytest.mark.parametrize("T_width", [1, 2, 4, 8, 16])
     @pytest.mark.parametrize("op_code", [OP_ADD, OP_MULTIPLY, OP_MASK])
     def test_continuous_stream(self, T_width: int, op_code: int) -> None:
         core = ALUCore(T_width=T_width, name="alu")
@@ -98,7 +98,7 @@ class TestALUCore:
             expected = alu_ref(inputs_a[i], inputs_b[i], op_code)
             np.testing.assert_array_equal(out_bytes, expected)
 
-    @pytest.mark.parametrize("T_width", [1, 2, 4])
+    @pytest.mark.parametrize("T_width", [1, 2, 4, 8, 16])
     @pytest.mark.parametrize("op_code", [OP_ADD, OP_MULTIPLY, OP_MASK])
     def test_all_zeros(self, T_width: int, op_code: int) -> None:
         core = ALUCore(T_width=T_width, name="alu")
@@ -123,7 +123,7 @@ class TestALUCore:
         out_bytes = _unpack_bytes(sim.inspect(data_out.name), T_width)
         np.testing.assert_array_equal(out_bytes, alu_ref(a, b, op_code))
 
-    @pytest.mark.parametrize("T_width", [1, 2, 4])
+    @pytest.mark.parametrize("T_width", [1, 2, 4, 8, 16])
     @pytest.mark.parametrize("op_code", [OP_ADD, OP_MULTIPLY, OP_MASK])
     def test_all_positive_max(self, T_width: int, op_code: int) -> None:
         core = ALUCore(T_width=T_width, name="alu")
@@ -148,7 +148,7 @@ class TestALUCore:
         out_bytes = _unpack_bytes(sim.inspect(data_out.name), T_width)
         np.testing.assert_array_equal(out_bytes, alu_ref(a, b, op_code))
 
-    @pytest.mark.parametrize("T_width", [1, 2, 4])
+    @pytest.mark.parametrize("T_width", [1, 2, 4, 8, 16])
     @pytest.mark.parametrize("op_code", [OP_ADD, OP_MULTIPLY, OP_MASK])
     def test_all_negative_max(self, T_width: int, op_code: int) -> None:
         core = ALUCore(T_width=T_width, name="alu")
@@ -173,7 +173,7 @@ class TestALUCore:
         out_bytes = _unpack_bytes(sim.inspect(data_out.name), T_width)
         np.testing.assert_array_equal(out_bytes, alu_ref(a, b, op_code))
 
-    @pytest.mark.parametrize("T_width", [1, 2, 4])
+    @pytest.mark.parametrize("T_width", [1, 2, 4, 8, 16])
     @pytest.mark.parametrize("op_code", [OP_ADD, OP_MULTIPLY, OP_MASK])
     def test_mixed_extremes(self, T_width: int, op_code: int) -> None:
         core = ALUCore(T_width=T_width, name="alu")

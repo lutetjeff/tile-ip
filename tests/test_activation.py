@@ -50,7 +50,7 @@ class TestActivationCore:
     def setup_method(self) -> None:
         AXI4StreamLiteBase.reset()
 
-    @pytest.mark.parametrize("T_width", [1, 2, 4])
+    @pytest.mark.parametrize("T_width", [1, 2, 4, 8, 16])
     @pytest.mark.parametrize("activation_type", ["gelu", "relu"])
     def test_random_continuous_stream(self, T_width: int, activation_type: str) -> None:
         core = ActivationCore(
@@ -74,7 +74,7 @@ class TestActivationCore:
                 expected = relu_ref(beat)
                 np.testing.assert_array_equal(out_bytes, expected)
 
-    @pytest.mark.parametrize("T_width", [1, 2, 4])
+    @pytest.mark.parametrize("T_width", [1, 2, 4, 8, 16])
     @pytest.mark.parametrize("activation_type", ["gelu", "relu"])
     def test_all_zeros(self, T_width: int, activation_type: str) -> None:
         core = ActivationCore(
@@ -91,7 +91,7 @@ class TestActivationCore:
             expected = relu_ref(beat)
         np.testing.assert_array_equal(out_bytes, expected)
 
-    @pytest.mark.parametrize("T_width", [1, 2, 4])
+    @pytest.mark.parametrize("T_width", [1, 2, 4, 8, 16])
     @pytest.mark.parametrize("activation_type", ["gelu", "relu"])
     def test_all_positive_max(self, T_width: int, activation_type: str) -> None:
         core = ActivationCore(
@@ -108,7 +108,7 @@ class TestActivationCore:
             expected = relu_ref(beat)
         np.testing.assert_array_equal(out_bytes, expected)
 
-    @pytest.mark.parametrize("T_width", [1, 2, 4])
+    @pytest.mark.parametrize("T_width", [1, 2, 4, 8, 16])
     @pytest.mark.parametrize("activation_type", ["gelu", "relu"])
     def test_all_negative_max(self, T_width: int, activation_type: str) -> None:
         core = ActivationCore(

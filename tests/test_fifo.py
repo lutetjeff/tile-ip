@@ -48,7 +48,7 @@ class TestFIFOCore:
     def setup_method(self) -> None:
         AXI4StreamLiteBase.reset()
 
-    @pytest.mark.parametrize("T_width", [1, 2, 4])
+    @pytest.mark.parametrize("T_width", [1, 2, 4, 8, 16])
     @pytest.mark.parametrize("depth", [2, 4])
     def test_continuous_stream(self, T_width: int, depth: int) -> None:
         core = FIFOCore(T_width=T_width, depth=depth, name="fifo")
@@ -90,7 +90,7 @@ class TestFIFOCore:
                 exp_bytes = _unpack_bytes(expected[i][0], T_width)
                 np.testing.assert_array_equal(out_bytes, exp_bytes)
 
-    @pytest.mark.parametrize("T_width", [1, 2, 4])
+    @pytest.mark.parametrize("T_width", [1, 2, 4, 8, 16])
     @pytest.mark.parametrize("depth", [2, 4])
     def test_backpressure(self, T_width: int, depth: int) -> None:
         core = FIFOCore(T_width=T_width, depth=depth, name="fifo")
@@ -132,7 +132,7 @@ class TestFIFOCore:
                 exp_bytes = _unpack_bytes(expected[i][0], T_width)
                 np.testing.assert_array_equal(out_bytes, exp_bytes)
 
-    @pytest.mark.parametrize("T_width", [1, 2, 4])
+    @pytest.mark.parametrize("T_width", [1, 2, 4, 8, 16])
     @pytest.mark.parametrize("depth", [2, 4])
     def test_empty_read(self, T_width: int, depth: int) -> None:
         core = FIFOCore(T_width=T_width, depth=depth, name="fifo")
@@ -150,7 +150,7 @@ class TestFIFOCore:
         assert sim.inspect(valid_out.name) == 0
         assert sim.inspect(ready_out.name) == 1
 
-    @pytest.mark.parametrize("T_width", [1, 2, 4])
+    @pytest.mark.parametrize("T_width", [1, 2, 4, 8, 16])
     @pytest.mark.parametrize("depth", [2, 4])
     def test_full_write(self, T_width: int, depth: int) -> None:
         core = FIFOCore(T_width=T_width, depth=depth, name="fifo")
@@ -174,7 +174,7 @@ class TestFIFOCore:
 
         assert sim.inspect(ready_out.name) == 0
 
-    @pytest.mark.parametrize("T_width", [1, 2, 4])
+    @pytest.mark.parametrize("T_width", [1, 2, 4, 8, 16])
     @pytest.mark.parametrize("depth", [2, 4])
     def test_random_data(self, T_width: int, depth: int) -> None:
         core = FIFOCore(T_width=T_width, depth=depth, name="fifo")

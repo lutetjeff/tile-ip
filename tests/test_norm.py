@@ -82,7 +82,7 @@ def _ref_unscaled(x: np.ndarray, is_rmsnorm: bool) -> np.ndarray:
 # ------------------------------------------------------------------
 
 
-@pytest.mark.parametrize("T_channel", [1, 2, 4])
+@pytest.mark.parametrize("T_channel", [1, 2, 4, 8, 16])
 @pytest.mark.parametrize("is_rmsnorm", [False, True])
 def test_norm_random_small(T_channel: int, is_rmsnorm: bool) -> None:
     """Random small inputs: hardware vs unscaled reference within ±5."""
@@ -99,7 +99,7 @@ def test_norm_random_small(T_channel: int, is_rmsnorm: bool) -> None:
         np.testing.assert_allclose(hw, ref, atol=3)
 
 
-@pytest.mark.parametrize("T_channel", [1, 2, 4])
+@pytest.mark.parametrize("T_channel", [1, 2, 4, 8, 16])
 @pytest.mark.parametrize("is_rmsnorm", [False, True])
 def test_norm_random_large(T_channel: int, is_rmsnorm: bool) -> None:
     """Random large inputs with wider spread: tighter tolerance."""
@@ -115,7 +115,7 @@ def test_norm_random_large(T_channel: int, is_rmsnorm: bool) -> None:
         np.testing.assert_allclose(hw, ref, atol=5)
 
 
-@pytest.mark.parametrize("T_channel", [1, 2, 4])
+@pytest.mark.parametrize("T_channel", [1, 2, 4, 8, 16])
 @pytest.mark.parametrize("is_rmsnorm", [False, True])
 def test_norm_all_zeros(T_channel: int, is_rmsnorm: bool) -> None:
     """All-zero input must produce all-zero output."""
@@ -124,7 +124,7 @@ def test_norm_all_zeros(T_channel: int, is_rmsnorm: bool) -> None:
     np.testing.assert_array_equal(hw, x)
 
 
-@pytest.mark.parametrize("T_channel", [1, 2, 4])
+@pytest.mark.parametrize("T_channel", [1, 2, 4, 8, 16])
 def test_norm_all_same_layernorm(T_channel: int) -> None:
     """LayerNorm on identical values: diff=0, so output should be 0."""
     x = np.full(T_channel, 50, dtype=np.int8)
@@ -150,7 +150,7 @@ def test_norm_max_contrast(T_channel: int) -> None:
 # ------------------------------------------------------------------
 
 
-@pytest.mark.parametrize("T_channel", [1, 2, 4])
+@pytest.mark.parametrize("T_channel", [1, 2, 4, 8, 16])
 @pytest.mark.parametrize("is_rmsnorm", [False, True])
 def test_norm_continuous_stream(T_channel: int, is_rmsnorm: bool) -> None:
     """10-beat continuous stream: every beat matches reference."""
