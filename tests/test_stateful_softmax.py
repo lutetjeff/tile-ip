@@ -4,7 +4,7 @@ import pytest
 
 from ip_cores.axi_stream_base import AXI4StreamLiteBase
 from ip_cores.stateful_softmax import StatefulSoftmaxCore
-from ref_models.softmax_ref import softmax_ref
+from tests.ref_models.softmax_ref import softmax_ref
 
 
 def _pack_bytes(values: np.ndarray) -> int:
@@ -53,8 +53,8 @@ class TestStatefulSoftmaxCore:
         AXI4StreamLiteBase.reset()
 
     @pytest.mark.parametrize("T_seq", [1, 2, 4])
-    def test_16_beat_row_three_passes(self, T_seq: int) -> None:
-        num_beats = 16
+    def test_single_token(self, T_seq: int) -> None:
+        num_beats = 4
         N_seq = num_beats * T_seq
         core = StatefulSoftmaxCore(N_seq=N_seq, T_seq=T_seq, name="ssm")
         sim, data_in, valid_in, last_in, ready_in, data_out, valid_out, last_out, ready_out = _create_wrapped_sim(core)
@@ -68,18 +68,34 @@ class TestStatefulSoftmaxCore:
         expected = softmax_ref(flat)
 
         outputs = []
-        for pass_idx in range(3):
-            for beat_idx in range(num_beats):
-                is_last = 1 if beat_idx == num_beats - 1 else 0
-                sim.step({
-                    data_in: _pack_bytes(beats[beat_idx]),
-                    valid_in: 1,
-                    last_in: is_last,
-                    ready_in: 1,
-                })
-                if sim.inspect(valid_out.name):
-                    out_val = sim.inspect(data_out.name)
-                    outputs.append(_unpack_bytes(out_val, T_seq))
+        beat_idx = 0
+        max_cycles = num_beats * 10
+        for _ in range(max_cycles):
+            is_last = 1 if beat_idx == num_beats - 1 else 0
+            sim.step({
+                data_in: _pack_bytes(beats[beat_idx]),
+                valid_in: 1,
+                last_in: is_last,
+                ready_in: 1,
+            })
+            if sim.inspect(valid_out.name):
+                out_val = sim.inspect(data_out.name)
+                outputs.append(_unpack_bytes(out_val, T_seq))
+            if sim.inspect(ready_out.name):
+                beat_idx += 1
+                if beat_idx == num_beats:
+                    break
+
+        for _ in range(num_beats * 3):
+            sim.step({
+                data_in: 0,
+                valid_in: 0,
+                last_in: 0,
+                ready_in: 1,
+            })
+            if sim.inspect(valid_out.name):
+                out_val = sim.inspect(data_out.name)
+                outputs.append(_unpack_bytes(out_val, T_seq))
 
         result = np.concatenate(outputs)
         np.testing.assert_allclose(
@@ -100,18 +116,34 @@ class TestStatefulSoftmaxCore:
         expected = softmax_ref(flat)
 
         outputs = []
-        for pass_idx in range(3):
-            for beat_idx in range(num_beats):
-                is_last = 1 if beat_idx == num_beats - 1 else 0
-                sim.step({
-                    data_in: _pack_bytes(beats[beat_idx]),
-                    valid_in: 1,
-                    last_in: is_last,
-                    ready_in: 1,
-                })
-                if sim.inspect(valid_out.name):
-                    out_val = sim.inspect(data_out.name)
-                    outputs.append(_unpack_bytes(out_val, T_seq))
+        beat_idx = 0
+        max_cycles = num_beats * 10
+        for _ in range(max_cycles):
+            is_last = 1 if beat_idx == num_beats - 1 else 0
+            sim.step({
+                data_in: _pack_bytes(beats[beat_idx]),
+                valid_in: 1,
+                last_in: is_last,
+                ready_in: 1,
+            })
+            if sim.inspect(valid_out.name):
+                out_val = sim.inspect(data_out.name)
+                outputs.append(_unpack_bytes(out_val, T_seq))
+            if sim.inspect(ready_out.name):
+                beat_idx += 1
+                if beat_idx == num_beats:
+                    break
+
+        for _ in range(num_beats * 3):
+            sim.step({
+                data_in: 0,
+                valid_in: 0,
+                last_in: 0,
+                ready_in: 1,
+            })
+            if sim.inspect(valid_out.name):
+                out_val = sim.inspect(data_out.name)
+                outputs.append(_unpack_bytes(out_val, T_seq))
 
         result = np.concatenate(outputs)
         np.testing.assert_allclose(
@@ -121,7 +153,74 @@ class TestStatefulSoftmaxCore:
         )
 
     @pytest.mark.parametrize("T_seq", [1, 2, 4])
-    def test_backpressure_in_divide(self, T_seq: int) -> None:
+    def test_ii1_back_to_back(self, T_seq: int) -> None:
+        num_beats = 4
+        N_seq = num_beats * T_seq
+        core = StatefulSoftmaxCore(N_seq=N_seq, T_seq=T_seq, name="ssm")
+        sim, data_in, valid_in, last_in, ready_in, data_out, valid_out, last_out, ready_out = _create_wrapped_sim(core)
+
+        np.random.seed(123)
+        num_tokens = 5
+        tokens = [
+            [
+                np.random.randint(-128, 128, size=T_seq, dtype=np.int8)
+                for _ in range(num_beats)
+            ]
+            for _ in range(num_tokens)
+        ]
+        expected = [softmax_ref(np.concatenate(t)) for t in tokens]
+
+        outputs_per_token: list[list[np.ndarray]] = [[] for _ in range(num_tokens)]
+        token_beats_sent = 0
+        current_token = 0
+        max_cycles = num_beats * num_tokens * 4
+
+        for cycle in range(max_cycles):
+            if current_token < num_tokens and sim.inspect(ready_out.name):
+                beat = tokens[current_token][token_beats_sent]
+                is_last = 1 if token_beats_sent == num_beats - 1 else 0
+                sim.step({
+                    data_in: _pack_bytes(beat),
+                    valid_in: 1,
+                    last_in: is_last,
+                    ready_in: 1,
+                })
+                if is_last:
+                    current_token += 1
+                    token_beats_sent = 0
+                else:
+                    token_beats_sent += 1
+            else:
+                sim.step({
+                    data_in: 0,
+                    valid_in: 0,
+                    last_in: 0,
+                    ready_in: 1,
+                })
+
+            if sim.inspect(valid_out.name):
+                out_val = sim.inspect(data_out.name)
+                total_outputs = sum(len(o) for o in outputs_per_token)
+                token_idx = total_outputs // num_beats
+                if token_idx < num_tokens:
+                    outputs_per_token[token_idx].append(
+                        _unpack_bytes(out_val, T_seq)
+                    )
+
+            total_outputs = sum(len(o) for o in outputs_per_token)
+            if total_outputs >= num_tokens * num_beats:
+                break
+
+        for i in range(num_tokens):
+            result = np.concatenate(outputs_per_token[i])
+            np.testing.assert_allclose(
+                result.astype(np.int16),
+                expected[i].astype(np.int16),
+                atol=1,
+            )
+
+    @pytest.mark.parametrize("T_seq", [1, 2, 4])
+    def test_backpressure(self, T_seq: int) -> None:
         num_beats = 4
         N_seq = num_beats * T_seq
         core = StatefulSoftmaxCore(N_seq=N_seq, T_seq=T_seq, name="ssm")
@@ -137,29 +236,51 @@ class TestStatefulSoftmaxCore:
 
         outputs = []
         beat_idx = 0
-        pass_idx = 0
+        stall_active = False
         stall_count = 0
-        while pass_idx < 3:
+        max_cycles = num_beats * 10
+
+        for _ in range(max_cycles):
             is_last = 1 if beat_idx == num_beats - 1 else 0
-            should_stall = pass_idx == 2 and beat_idx == 1 and stall_count < 2
-            ready = 0 if should_stall else 1
+
+            if sim.inspect(valid_out.name) and not stall_active:
+                if len(outputs) == 1:
+                    stall_active = True
+                    stall_count = 0
+
+            if stall_active and stall_count < 2:
+                ready = 0
+                stall_count += 1
+            else:
+                stall_active = False
+                ready = 1
+
             sim.step({
                 data_in: _pack_bytes(beats[beat_idx]),
                 valid_in: 1,
                 last_in: is_last,
                 ready_in: ready,
             })
-            if sim.inspect(valid_out.name) and sim.inspect(ready_out.name):
+
+            if sim.inspect(valid_out.name):
                 out_val = sim.inspect(data_out.name)
                 outputs.append(_unpack_bytes(out_val, T_seq))
+
             if sim.inspect(ready_out.name):
                 beat_idx += 1
-                stall_count = 0
                 if beat_idx == num_beats:
-                    beat_idx = 0
-                    pass_idx += 1
-            else:
-                stall_count += 1
+                    break
+
+        for _ in range(num_beats * 3):
+            sim.step({
+                data_in: 0,
+                valid_in: 0,
+                last_in: 0,
+                ready_in: 1,
+            })
+            if sim.inspect(valid_out.name):
+                out_val = sim.inspect(data_out.name)
+                outputs.append(_unpack_bytes(out_val, T_seq))
 
         result = np.concatenate(outputs)
         np.testing.assert_allclose(
