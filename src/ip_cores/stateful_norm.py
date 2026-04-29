@@ -1,9 +1,8 @@
 """Stateful Normalization IP core (LayerNorm / RMSNorm) for multi-beat channels.
 
 When ``N_channel > T_channel`` the full channel must be streamed over multiple
-beats.  This core accumulates statistics in Pass 1, computes normalization
-parameters in a single compute cycle, then replays the buffered data with
-normalisation applied in Pass 2.
+beats.  This core uses a double-buffered II=1 pipeline: the producer accumulates
+statistics into one bank while the consumer normalises from the other bank.
 
 Fixed-point scheme
 ------------------
@@ -19,12 +18,14 @@ Interface
 ---------
 Inherits ``AXI4-Stream-Lite`` from ``AXI4StreamLiteBase``.
 
-FSM states
-----------
-0 = STATISTICS  – accept beats, accumulate ``sum_x`` / ``sum_x2``, store in BRAM.
-1 = COMPUTE     – calculate mean, variance, ``1/sqrt(var)`` via LUT.
-                  ``ready_out`` is forced low to stall upstream.
-2 = NORMALIZE   – replay buffered beats, apply normalisation / gamma / beta.
+Pipeline
+--------
+* ``tokens_in_flight`` (0-2) tracks buffered packets.
+* ``ready_out = tokens_in_flight < 2`` – upstream can send when space exists.
+* ``valid_out = tokens_in_flight > 0`` – downstream can read when data exists.
+* Producer writes into ``buf_data[write_ptr]`` and latches ``sum_x`` / ``sum_x2``
+  on ``last_in``.
+* Consumer reads from ``buf_data[read_ptr]`` and applies normalisation.
 """
 
 from __future__ import annotations
@@ -44,7 +45,7 @@ from ip_cores.axi_stream_base import AXI4StreamLiteBase
 
 
 class StatefulNormCore(AXI4StreamLiteBase):
-    """Multi-beat LayerNorm / RMSNorm IP core with internal buffering.
+    """Multi-beat LayerNorm / RMSNorm IP core with double-buffered pipeline.
 
     Parameters
     ----------
@@ -104,19 +105,26 @@ class StatefulNormCore(AXI4StreamLiteBase):
     # ------------------------------------------------------------------
 
     def _build_core(self) -> None:
-        """Wire up the FSM, accumulators, BRAM, LUT, and normalise datapath."""
+        """Wire up the double-buffered pipeline, accumulators, LUT, and normalise datapath."""
         T = self._tiling_param
         num_beats = self._num_beats
         name = self._name
         log2_t = self._log2_t
         log2_n = self._log2_n
 
-        # ---- 0.  FSM registers -------------------------------------------
-        # 0 = STATISTICS, 1 = COMPUTE, 2 = NORMALIZE
-        state = pyrtl.Register(bitwidth=2, name=f"{name}_state")
-        beat_count = pyrtl.Register(
-            bitwidth=max(1, (num_beats - 1).bit_length()),
-            name=f"{name}_beat_count",
+        # ---- 0.  Pipeline registers ---------------------------------------
+        write_ptr = pyrtl.Register(bitwidth=1, name=f"{name}_write_ptr")
+        read_ptr = pyrtl.Register(bitwidth=1, name=f"{name}_read_ptr")
+        tokens_in_flight = pyrtl.Register(
+            bitwidth=2, name=f"{name}_tokens_in_flight"
+        )
+
+        beat_count_w = max(1, (num_beats - 1).bit_length())
+        prod_beat_count = pyrtl.Register(
+            bitwidth=beat_count_w, name=f"{name}_prod_beat_count"
+        )
+        cons_beat_count = pyrtl.Register(
+            bitwidth=beat_count_w, name=f"{name}_cons_beat_count"
         )
 
         # ---- 1.  Accumulators --------------------------------------------
@@ -128,43 +136,75 @@ class StatefulNormCore(AXI4StreamLiteBase):
         sum_x = pyrtl.Register(bitwidth=sum_x_bw, name=f"{name}_sum_x")
         sum_x2 = pyrtl.Register(bitwidth=sum_x2_bw, name=f"{name}_sum_x2")
 
-        # ---- 2.  Beat-level buffer (BRAM) --------------------------------
-        beat_addr_w = max(1, (num_beats - 1).bit_length())
-        buf_mem = pyrtl.MemBlock(
-            bitwidth=T * 8,
-            addrwidth=beat_addr_w,
-            name=f"{name}_buf_mem",
-        )
+        # ---- 2.  Double-buffered register banks -------------------------
+        buf_data: list[list[pyrtl.Register]] = []
+        for b in range(2):
+            bank = []
+            for i in range(num_beats):
+                reg = pyrtl.Register(
+                    bitwidth=T * 8, name=f"{name}_buf_data_{b}_{i}"
+                )
+                bank.append(reg)
+            buf_data.append(bank)
+
+        buf_sum_x = [
+            pyrtl.Register(bitwidth=sum_x_bw, name=f"{name}_buf_sum_x_{b}")
+            for b in range(2)
+        ]
+        buf_sum_x2 = [
+            pyrtl.Register(bitwidth=sum_x2_bw, name=f"{name}_buf_sum_x2_{b}")
+            for b in range(2)
+        ]
 
         # ---- 3.  Handshake -----------------------------------------------
-        handshake = self.handshake_accepted()
+        prod_handshake = self.handshake_accepted()
+        cons_handshake = self.valid_out & self.ready_in
+        prod_done = prod_handshake & self.last_in
+        cons_done = cons_handshake & (cons_beat_count == num_beats - 1)
 
-        # ---- 4.  State transitions ---------------------------------------
+        # ---- 4.  Producer beat counter -----------------------------------
         with pyrtl.conditional_assignment:
-            with state == 0:  # STATISTICS
-                with handshake & self.last_in:
-                    state.next |= 1  # → COMPUTE
-            with state == 1:  # COMPUTE
-                state.next |= 2  # → NORMALIZE
-            with state == 2:  # NORMALIZE
-                with self.ready_in & (beat_count == num_beats - 1):
-                    state.next |= 0  # → STATISTICS
+            with prod_done:
+                prod_beat_count.next |= 0
+            with prod_handshake:
+                prod_beat_count.next |= prod_beat_count + 1
+            with pyrtl.otherwise:
+                prod_beat_count.next |= prod_beat_count
 
-        # ---- 5.  Beat counter --------------------------------------------
+        # ---- 5.  Consumer beat counter -----------------------------------
         with pyrtl.conditional_assignment:
-            with state == 0:  # STATISTICS
-                with handshake:
-                    beat_count.next |= beat_count + 1
-            with state == 1:  # COMPUTE
-                beat_count.next |= 0
-            with state == 2:  # NORMALIZE
-                with self.ready_in:
-                    with beat_count == num_beats - 1:
-                        beat_count.next |= 0
-                    with pyrtl.otherwise:
-                        beat_count.next |= beat_count + 1
+            with cons_done:
+                cons_beat_count.next |= 0
+            with cons_handshake:
+                cons_beat_count.next |= cons_beat_count + 1
+            with pyrtl.otherwise:
+                cons_beat_count.next |= cons_beat_count
 
-        # ---- 6.  Slice input into per-beat channels ----------------------
+        # ---- 6.  Pointer updates -----------------------------------------
+        with pyrtl.conditional_assignment:
+            with prod_done:
+                write_ptr.next |= ~write_ptr
+            with pyrtl.otherwise:
+                write_ptr.next |= write_ptr
+
+        with pyrtl.conditional_assignment:
+            with cons_done:
+                read_ptr.next |= ~read_ptr
+            with pyrtl.otherwise:
+                read_ptr.next |= read_ptr
+
+        # ---- 7.  Tokens-in-flight counter --------------------------------
+        with pyrtl.conditional_assignment:
+            with prod_done & cons_done:
+                tokens_in_flight.next |= tokens_in_flight
+            with prod_done:
+                tokens_in_flight.next |= tokens_in_flight + 1
+            with cons_done:
+                tokens_in_flight.next |= tokens_in_flight - 1
+            with pyrtl.otherwise:
+                tokens_in_flight.next |= tokens_in_flight
+
+        # ---- 8.  Slice input into per-beat channels ----------------------
         channels = []
         for i in range(T):
             ch = self.data_in[i * 8 : (i + 1) * 8]
@@ -178,34 +218,65 @@ class StatefulNormCore(AXI4StreamLiteBase):
             extended = pyrtl.concat_list([ch] + [sign] * ext_bits)
             signed_ch.append(extended)
 
-        # ---- 7.  Beat-level sums -----------------------------------------
+        # ---- 9.  Beat-level sums -----------------------------------------
         beat_sum_x = self._adder_tree(signed_ch)
         x2_wires = [signed_mult(ch, ch) for ch in signed_ch]
         beat_sum_x2 = self._adder_tree(x2_wires)
 
-        # ---- 8.  Accumulator updates -------------------------------------
-        with pyrtl.conditional_assignment:
-            with state == 0:  # STATISTICS
-                with handshake:
-                    sum_x.next |= signed_add(sum_x, beat_sum_x)[0:sum_x_bw]
-                    sum_x2.next |= signed_add(sum_x2, beat_sum_x2)[0:sum_x2_bw]
-            with state == 2:  # NORMALIZE -> STATISTICS transition
-                with self.ready_in & (beat_count == num_beats - 1):
-                    sum_x.next |= 0
-                    sum_x2.next |= 0
+        # ---- 10. Accumulator updates -------------------------------------
+        next_sum_x = signed_add(sum_x, beat_sum_x)[0:sum_x_bw]
+        next_sum_x2 = signed_add(sum_x2, beat_sum_x2)[0:sum_x2_bw]
 
-        # ---- 9.  Buffer write (only in STATISTICS on handshake) ----------
-        buf_mem[beat_count] <<= pyrtl.MemBlock.EnabledWrite(
-            self.data_in, (state == 0) & handshake
+        with pyrtl.conditional_assignment:
+            with prod_done:
+                sum_x.next |= 0
+                sum_x2.next |= 0
+            with prod_handshake:
+                sum_x.next |= next_sum_x
+                sum_x2.next |= next_sum_x2
+            with pyrtl.otherwise:
+                sum_x.next |= sum_x
+                sum_x2.next |= sum_x2
+
+        # ---- 11. Latch accumulators into active bank on prod_done --------
+        for b in range(2):
+            with pyrtl.conditional_assignment:
+                with prod_done & (write_ptr == b):
+                    buf_sum_x[b].next |= next_sum_x
+                    buf_sum_x2[b].next |= next_sum_x2
+                with pyrtl.otherwise:
+                    buf_sum_x[b].next |= buf_sum_x[b]
+                    buf_sum_x2[b].next |= buf_sum_x2[b]
+
+        # ---- 12. Buffer write (producer stage) ---------------------------
+        for b in range(2):
+            for i in range(num_beats):
+                with pyrtl.conditional_assignment:
+                    with prod_handshake & (write_ptr == b) & (
+                        prod_beat_count == i
+                    ):
+                        buf_data[b][i].next |= self.data_in
+                    with pyrtl.otherwise:
+                        buf_data[b][i].next |= buf_data[b][i]
+
+        # ---- 13. Buffer read (consumer stage) ----------------------------
+        buf_data_out = pyrtl.Const(0, bitwidth=T * 8)
+        for b in range(2):
+            for i in range(num_beats):
+                match = (read_ptr == b) & (cons_beat_count == i)
+                buf_data_out = pyrtl.select(match, buf_data[b][i], buf_data_out)
+
+        # ---- 14. Select active statistics --------------------------------
+        sum_x_active = pyrtl.select(
+            read_ptr == 0, buf_sum_x[0], buf_sum_x[1]
+        )
+        sum_x2_active = pyrtl.select(
+            read_ptr == 0, buf_sum_x2[0], buf_sum_x2[1]
         )
 
-        # ---- 10. Buffer read (active in NORMALIZE) ----------------------
-        buf_data = buf_mem[beat_count]
-
-        # ---- 11. Compute mean / variance / LUT (combinational, stable ---
-        #          during NORMALIZE because accumulators are frozen)
-        mean = shift_right_arithmetic(sum_x, log2_n)
-        e_x2 = shift_right_arithmetic(sum_x2, log2_n)
+        # ---- 15. Compute mean / variance / LUT (combinational) -----------
+        mean = shift_right_arithmetic(sum_x_active, log2_n)
+        e_x2 = shift_right_arithmetic(sum_x2_active, log2_n)
         mean_sq = signed_mult(mean, mean)
         variance = signed_sub(e_x2, mean_sq)
 
@@ -221,10 +292,10 @@ class StatefulNormCore(AXI4StreamLiteBase):
         lut = self._build_inv_sqrt_lut(name)
         inv_sqrt = lut[var_addr]
 
-        # ---- 12. Normalise each buffered channel -------------------------
+        # ---- 16. Normalise each buffered channel -------------------------
         buf_channels = []
         for i in range(T):
-            ch = buf_data[i * 8 : (i + 1) * 8]
+            ch = buf_data_out[i * 8 : (i + 1) * 8]
             buf_channels.append(ch)
 
         buf_signed_ch = []
@@ -252,7 +323,7 @@ class StatefulNormCore(AXI4StreamLiteBase):
             norm_val = shift_right_arithmetic(prod, 8)
             normalised.append(norm_val)
 
-        # ---- 13. Apply gamma and beta ------------------------------------
+        # ---- 17. Apply gamma and beta ------------------------------------
         gamma_const = Const(self._gamma & 0xFF, bitwidth=8)
         beta_const = Const(self._beta & 0xFF, bitwidth=8)
 
@@ -266,17 +337,17 @@ class StatefulNormCore(AXI4StreamLiteBase):
             biased = signed_add(scaled, beta_ext)
             output_bytes.append(biased[0:8])
 
-        # ---- 14. Output mux ---------------------------------------------
-        in_normalize = state == 2
+        # ---- 18. Output mux ----------------------------------------------
+        has_token = tokens_in_flight > 0
         self.data_out <<= pyrtl.select(
-            in_normalize,
+            has_token,
             pyrtl.concat(*reversed(output_bytes)),
             pyrtl.Const(0, bitwidth=T * 8),
         )
 
-        self.valid_out <<= in_normalize
-        self.last_out <<= in_normalize & (beat_count == num_beats - 1)
-        self.ready_out <<= state == 0
+        self.valid_out <<= has_token
+        self.last_out <<= has_token & (cons_beat_count == num_beats - 1)
+        self.ready_out <<= tokens_in_flight < 2
 
     def _adder_tree(self, wires: list[WireVector]) -> WireVector:
         """Return the sum of *wires* using a binary tree of adders."""
