@@ -36,7 +36,7 @@ import numpy as np
 import pyrtl
 from pyrtl import WireVector
 
-from ip_cores.axi_stream_base import AXI4StreamLiteBase
+from ip_cores.axi_stream_base import AXI4StreamLiteBase, StreamShape
 
 
 def _compute_exp_lut() -> list[int]:
@@ -84,6 +84,9 @@ class StatefulSoftmaxCore(AXI4StreamLiteBase):
 
     def __init__(self, N_seq: int, T_seq: int, name: str, block=None) -> None:
         super().__init__(tiling_param=T_seq, name=name, block=block)
+
+        self._N_seq = N_seq
+        self._T_seq = T_seq
 
         if N_seq <= 0:
             raise ValueError("N_seq must be a positive integer")
@@ -421,6 +424,9 @@ class StatefulSoftmaxCore(AXI4StreamLiteBase):
             diff[0:8],
         )
         return clipped
+
+    def infer_output_shape(self) -> StreamShape:
+        return StreamShape(self._N_seq, self._T_seq)
 
     def _adder_tree(self, values: list[WireVector]) -> WireVector:
         current = list(values)

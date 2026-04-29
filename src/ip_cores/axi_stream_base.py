@@ -7,8 +7,26 @@ collisions or global-state pollution.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
+
 import pyrtl
 from pyrtl import WireVector
+
+
+@dataclass(frozen=True)
+class StreamShape:
+    N: int
+    T: int
+
+    def __post_init__(self):
+        if self.N <= 0 or self.T <= 0:
+            raise ValueError("N and T must be positive")
+        if self.N % self.T != 0:
+            raise ValueError(f"N ({self.N}) must be a multiple of T ({self.T})")
+
+    @property
+    def num_beats(self) -> int:
+        return self.N // self.T
 
 
 class AXI4StreamLiteBase:
@@ -45,7 +63,8 @@ class AXI4StreamLiteBase:
         1-bit end-of-burst marker to downstream consumer.
     """
 
-    def __init__(self, tiling_param: int, name: str, block: pyrtl.Block = None) -> None:
+    def __init__(self, tiling_param: int, name: str, block: pyrtl.Block = None,
+                 input_shape: StreamShape | None = None) -> None:
         if tiling_param <= 0:
             raise ValueError("tiling_param must be a positive integer")
         if not name:
@@ -54,6 +73,8 @@ class AXI4StreamLiteBase:
         self._tiling_param = tiling_param
         self._name = name
         self._bus_width = tiling_param * 8
+        self._input_shape = input_shape
+        self._output_shape: StreamShape | None = None
 
         self.block = block if block is not None else pyrtl.Block()
         with pyrtl.set_working_block(self.block, no_sanity_check=True):
@@ -93,6 +114,27 @@ class AXI4StreamLiteBase:
     @last_out.setter
     def last_out(self, value: WireVector) -> None:
         self._last_out = value
+
+    @property
+    def input_shape(self) -> StreamShape | None:
+        return self._input_shape
+
+    @input_shape.setter
+    def input_shape(self, shape: StreamShape) -> None:
+        self._input_shape = shape
+
+    @property
+    def output_shape(self) -> StreamShape | None:
+        if self._output_shape is not None:
+            return self._output_shape
+        return self.infer_output_shape()
+
+    @output_shape.setter
+    def output_shape(self, shape: StreamShape) -> None:
+        self._output_shape = shape
+
+    def infer_output_shape(self) -> StreamShape | None:
+        return None
 
     # ------------------------------------------------------------------
     # Handshake helpers

@@ -5,7 +5,7 @@ from __future__ import annotations
 import pyrtl
 from pyrtl import WireVector
 
-from ip_cores.axi_stream_base import AXI4StreamLiteBase
+from ip_cores.axi_stream_base import AXI4StreamLiteBase, StreamShape
 
 
 class GEMMCore(AXI4StreamLiteBase):
@@ -100,3 +100,6 @@ class GEMMCore(AXI4StreamLiteBase):
     def average_ii(self) -> int:
         """Average Initiation Interval (II) for this combinational design."""
         return 1
+
+    def infer_output_shape(self) -> StreamShape:
+        return StreamShape(self._T_M * self._T_N, self._T_M * self._T_N)

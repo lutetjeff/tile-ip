@@ -6,7 +6,7 @@ import numpy as np
 import pyrtl
 from pyrtl import WireVector
 
-from ip_cores.axi_stream_base import AXI4StreamLiteBase
+from ip_cores.axi_stream_base import AXI4StreamLiteBase, StreamShape
 
 
 def _compute_gelu_lut() -> list[int]:
@@ -73,3 +73,8 @@ class ActivationCore(AXI4StreamLiteBase):
             self.data_out <<= pyrtl.concat_list(rom_outputs)
             self.valid_out <<= self.valid_in
             self.ready_out <<= self.ready_in
+
+    def infer_output_shape(self) -> StreamShape:
+        if self.input_shape is not None:
+            return self.input_shape
+        return StreamShape(self._bus_width // 8, self._bus_width // 8)

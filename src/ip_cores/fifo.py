@@ -5,7 +5,7 @@ from __future__ import annotations
 import pyrtl
 from pyrtl import WireVector
 
-from ip_cores.axi_stream_base import AXI4StreamLiteBase
+from ip_cores.axi_stream_base import AXI4StreamLiteBase, StreamShape
 
 
 class FIFOCore(AXI4StreamLiteBase):
@@ -67,3 +67,8 @@ class FIFOCore(AXI4StreamLiteBase):
             )
 
             mem[head] <<= pyrtl.MemBlock.EnabledWrite(self.data_in, write_en)
+
+    def infer_output_shape(self) -> StreamShape:
+        if self.input_shape is not None:
+            return self.input_shape
+        return StreamShape(self._bus_width // 8, self._bus_width // 8)

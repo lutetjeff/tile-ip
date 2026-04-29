@@ -35,7 +35,7 @@ from pyrtl.corecircuits import (
     shift_right_arithmetic,
 )
 
-from ip_cores.axi_stream_base import AXI4StreamLiteBase
+from ip_cores.axi_stream_base import AXI4StreamLiteBase, StreamShape
 
 
 class NormCore(AXI4StreamLiteBase):
@@ -242,3 +242,6 @@ class NormCore(AXI4StreamLiteBase):
             name=f"{name}_inv_sqrt_lut",
             asynchronous=True,
         )
+
+    def infer_output_shape(self) -> StreamShape:
+        return StreamShape(self._tiling_param, self._tiling_param)

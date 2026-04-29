@@ -445,3 +445,87 @@ class TestTemporalGEMMCore:
         core = TemporalGEMMCore(T_M=2, T_K=2, T_N=2, name="tgemm")
         stalled = core.stall_pipeline()
         assert stalled.bitwidth == 1
+
+    def test_multi_beat_emit(self) -> None:
+        T_M, T_K, T_N = 1, 4, 4
+        M, N = 1, 16
+        core = TemporalGEMMCore(T_M=T_M, T_K=T_K, T_N=T_N, M=M, N=N, name="tgemm")
+        (
+            sim,
+            data_in,
+            valid_in,
+            last_in,
+            ready_in,
+            accum_in,
+            emit_in,
+            weight_in,
+            weight_valid_in,
+            data_out,
+            valid_out,
+            last_out,
+            ready_out,
+            weight_ready_out,
+        ) = _create_wrapped_sim(core)
+
+        A = np.random.randint(-50, 50, size=(M, T_K), dtype=np.int8)
+        B_tiles = []
+        for _ in range(N // T_N):
+            B = np.random.randint(-50, 50, size=(T_K, T_N), dtype=np.int8)
+            B_tiles.append(B)
+
+        for beat, B in enumerate(B_tiles):
+            is_last = 1 if beat == len(B_tiles) - 1 else 0
+            sim.step(
+                {
+                    data_in: _pack_bytes(A),
+                    valid_in: 1,
+                    last_in: is_last,
+                    ready_in: 1,
+                    accum_in: 0,
+                    emit_in: 0,
+                    weight_in: _pack_bytes(B),
+                    weight_valid_in: 1,
+                }
+            )
+
+        emit_outputs = []
+        num_emit_beats = (M * N) // (T_M * T_N)
+        for beat in range(num_emit_beats):
+            sim.step(
+                {
+                    data_in: 0,
+                    valid_in: 0,
+                    last_in: 0,
+                    ready_in: 1,
+                    accum_in: 0,
+                    emit_in: 0,
+                    weight_in: 0,
+                    weight_valid_in: 0,
+                }
+            )
+            assert sim.inspect(valid_out) == 1
+            assert sim.inspect(ready_out) == 0
+            assert sim.inspect(weight_ready_out) == 0
+            expected_last = 1 if beat == num_emit_beats - 1 else 0
+            assert sim.inspect(last_out) == expected_last
+            emit_outputs.append(_unpack_bytes(sim.inspect(data_out), (T_M, T_N)))
+
+        sim.step(
+            {
+                data_in: 0,
+                valid_in: 0,
+                last_in: 0,
+                ready_in: 1,
+                accum_in: 0,
+                emit_in: 0,
+                weight_in: 0,
+                weight_valid_in: 0,
+            }
+        )
+        assert sim.inspect(valid_out) == 0
+        assert sim.inspect(ready_out) == 1
+
+        C_hw = np.concatenate(emit_outputs, axis=1)
+        B_full = np.concatenate(B_tiles, axis=1)
+        C_ref = gemm_ref(A, B_full)
+        np.testing.assert_array_equal(C_hw, C_ref)
