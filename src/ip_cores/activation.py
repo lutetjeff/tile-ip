@@ -17,11 +17,7 @@ def _compute_gelu_lut() -> list[int]:
     for u in range(256):
         s = np.array(u).astype(np.int8).astype(np.float32)
         gelu_float = 0.5 * s * (1 + np.tanh(sqrt_2_over_pi * (s + c * s**3)))
-        max_abs = np.max(np.abs(gelu_float))
-        if max_abs > 0:
-            gelu_scaled = np.round(gelu_float * 127.0 / max_abs)
-        else:
-            gelu_scaled = gelu_float
+        gelu_scaled = np.round(gelu_float)
         val = np.clip(gelu_scaled, -128, 127).astype(np.int8)
         lut.append(int(val) & 0xFF)
     return lut

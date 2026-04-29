@@ -68,11 +68,8 @@ class TestActivationCore:
             out_val = sim.inspect(data_out.name)
             out_bytes = _unpack_bytes(out_val, T_width)
             if activation_type == "gelu":
-                expected = np.array(
-                    [gelu_ref(np.array([x], dtype=np.int8))[0] for x in beat],
-                    dtype=np.int8,
-                )
-                np.testing.assert_allclose(out_bytes, expected, atol=130)
+                expected = gelu_ref(beat)
+                np.testing.assert_array_equal(out_bytes, expected)
             else:
                 expected = relu_ref(beat)
                 np.testing.assert_array_equal(out_bytes, expected)
@@ -89,10 +86,7 @@ class TestActivationCore:
         sim.step({data_in: packed, valid_in: 1, ready_in: 1})
         out_bytes = _unpack_bytes(sim.inspect(data_out.name), T_width)
         if activation_type == "gelu":
-            expected = np.array(
-                [gelu_ref(np.array([x], dtype=np.int8))[0] for x in beat],
-                dtype=np.int8,
-            )
+            expected = gelu_ref(beat)
         else:
             expected = relu_ref(beat)
         np.testing.assert_array_equal(out_bytes, expected)
@@ -109,10 +103,7 @@ class TestActivationCore:
         sim.step({data_in: packed, valid_in: 1, ready_in: 1})
         out_bytes = _unpack_bytes(sim.inspect(data_out.name), T_width)
         if activation_type == "gelu":
-            expected = np.array(
-                [gelu_ref(np.array([x], dtype=np.int8))[0] for x in beat],
-                dtype=np.int8,
-            )
+            expected = gelu_ref(beat)
         else:
             expected = relu_ref(beat)
         np.testing.assert_array_equal(out_bytes, expected)
@@ -129,10 +120,7 @@ class TestActivationCore:
         sim.step({data_in: packed, valid_in: 1, ready_in: 1})
         out_bytes = _unpack_bytes(sim.inspect(data_out.name), T_width)
         if activation_type == "gelu":
-            expected = np.array(
-                [gelu_ref(np.array([x], dtype=np.int8))[0] for x in beat],
-                dtype=np.int8,
-            )
+            expected = gelu_ref(beat)
         else:
             expected = relu_ref(beat)
         np.testing.assert_array_equal(out_bytes, expected)

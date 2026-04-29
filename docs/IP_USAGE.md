@@ -631,11 +631,11 @@ Because the hardware uses fixed-point LUTs instead of floating-point math, small
 | ALU (ADD) | exact | Wraparound matches NumPy int8 |
 | ALU (MUL) | exact | Upper 8 bits of signed product |
 | Activation (ReLU) | exact | Straight-through LUT |
-| Activation (GELU) | exact on single-element arrays | LUT uses per-value scaling |
+| Activation (GELU) | `atol = 5` | Fixed-point tanh approximation |
 | Softmax | `atol = 1` | Fixed-point division `>> 16` |
 | Norm | `atol = 3–5` | Piecewise LUT approximation of `1/√x` |
 | Compound FFN (ReLU) | `atol = 5` | Error does not accumulate visibly |
-| Compound FFN (GELU) | `atol = 130` | GELU saturates almost everything to ±127; a ±1 norm error can flip a zero to ±127 |
+| Compound FFN (GELU) | `atol = 5` | Norm approximation + fixed-point GELU |
 | Compound Attention | `atol = 1` for Softmax, exact for GEMMs | Same sources as unit tests |
 
 ---

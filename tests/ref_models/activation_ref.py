@@ -52,13 +52,7 @@ def gelu_ref(x):
     gelu_float = 0.5 * x_float * (1 + np.tanh(inner))
 
     # Requantize to INT8
-    max_abs = np.max(np.abs(gelu_float))
-    if max_abs > 0:
-        scale_factor = 127.0 / max_abs
-        gelu_scaled = np.round(gelu_float * scale_factor)
-    else:
-        gelu_scaled = gelu_float
-
+    gelu_scaled = np.round(gelu_float)
     gelu_int8 = np.clip(gelu_scaled, -128, 127).astype(np.int8)
 
     return gelu_int8

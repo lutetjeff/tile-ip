@@ -56,10 +56,7 @@ def _norm_ref_hw(x: np.ndarray, is_rmsnorm: bool) -> np.ndarray:
 def _activation_ref_hw(x: np.ndarray, activation_type: str) -> np.ndarray:
     """Hardware-matching activation reference (element-wise GELU for LUT match)."""
     if activation_type == "gelu":
-        return np.array(
-            [gelu_ref(np.array([v], dtype=np.int8))[0] for v in x],
-            dtype=np.int8,
-        )
+        return gelu_ref(x)
     else:
         return relu_ref(x)
 
@@ -187,7 +184,7 @@ class TestCompoundFFN:
         hw_out = _unpack_bytes(sim.inspect(alu_data_out_probe.name), T)
 
         ref_out = _compound_ref(x, data_in_b, is_rmsnorm, activation_type)
-        atol = 130 if activation_type == "gelu" else 5
+        atol = 5 if activation_type == "gelu" else 5
         np.testing.assert_allclose(hw_out, ref_out, atol=atol)
 
     @pytest.mark.parametrize("T", [2, 4])
@@ -274,7 +271,7 @@ class TestCompoundFFN:
         )
         outputs.append(_unpack_bytes(sim.inspect(alu_data_out_probe.name), T))
 
-        atol = 130 if activation_type == "gelu" else 5
+        atol = 5 if activation_type == "gelu" else 5
         for i in range(10):
             ref_out = _compound_ref(beats_x[i], beats_b[i], is_rmsnorm, activation_type)
             np.testing.assert_allclose(outputs[i + 1], ref_out, atol=atol)
@@ -356,7 +353,7 @@ class TestCompoundFFNStitcher:
         hw_out = _unpack_bytes(sim.inspect(drivers["alu_data_out"].name), T)
 
         ref_out = _compound_ref(x, data_in_b, is_rmsnorm, activation_type)
-        atol = 130 if activation_type == "gelu" else 5
+        atol = 5 if activation_type == "gelu" else 5
         np.testing.assert_allclose(hw_out, ref_out, atol=atol)
 
     @pytest.mark.parametrize("T", [2, 4])
@@ -431,7 +428,7 @@ class TestCompoundFFNStitcher:
         )
         outputs.append(_unpack_bytes(sim.inspect(drivers["alu_data_out"].name), T))
 
-        atol = 130 if activation_type == "gelu" else 5
+        atol = 5 if activation_type == "gelu" else 5
         for i in range(10):
             ref_out = _compound_ref(beats_x[i], beats_b[i], is_rmsnorm, activation_type)
             np.testing.assert_allclose(outputs[i + 1], ref_out, atol=atol)
