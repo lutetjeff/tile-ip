@@ -22,7 +22,7 @@ def _unpack_bytes(value: int, T_width: int) -> np.ndarray:
 
 @cocotb.test()
 async def test_fifo(dut):
-    T_width = 2
+    T_width = int(os.environ.get("COCOTB_T_WIDTH", "2"))
     depth = 4
 
     clock = Clock(dut.clk, 10, units="ns")

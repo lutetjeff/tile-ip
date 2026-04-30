@@ -1,17 +1,23 @@
-import os
+import sys
 from pathlib import Path
 
-import pytest
 from cocotb.runner import get_runner
+
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
+from export_verilog import export_gemm
 
 
 def test_gemm_cocotb() -> None:
+    outdir = Path("build/rtl")
+    vfile = export_gemm(outdir, T_width=2)
+
     runner = get_runner("verilator")
-    sources = [Path("build/rtl/gemm.v")]
     build_dir = Path("sim_build") / "gemm_cocotb"
+    build_dir.mkdir(parents=True, exist_ok=True)
 
     runner.build(
-        sources=sources,
+        sources=[vfile],
         hdl_toplevel="toplevel",
         build_args=["--trace-fst", "-Wno-fatal"],
         build_dir=build_dir,

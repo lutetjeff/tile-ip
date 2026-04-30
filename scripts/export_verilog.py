@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -156,51 +157,62 @@ def export_fifo(
 
 
 def _fix_alu_multiply_width(vfile: Path) -> None:
+    import re
+
     content = vfile.read_text()
+    pattern = re.compile(r"\{1'd0, \(tmp(\d+) \* tmp(\d+)\)\}")
+    matches = list(pattern.finditer(content))
 
-    # 1. Add wire[15:0] prod16_lower; after wire tmp8;
-    content = content.replace(
-        '    wire tmp8;\n',
-        '    wire tmp8;\n    wire[15:0] prod16_lower;\n'
-    )
+    if not matches:
+        return
 
-    # 2. Add wire[15:0] prod16_upper; after wire tmp45;
-    content = content.replace(
-        '    wire tmp45;\n',
-        '    wire tmp45;\n    wire[15:0] prod16_upper;\n'
-    )
+    seen = set()
+    unique_pairs = []
+    for m in matches:
+        key = (m.group(1), m.group(2))
+        if key not in seen:
+            seen.add(key)
+            unique_pairs.append(key)
 
-    content = content.replace(
-        '    assign tmp25 = ',
-        '    assign prod16_lower = (tmp3 * tmp4);\n    assign tmp25 = '
-    )
-    content = content.replace(
-        '{1\'d0, (tmp3 * tmp4)}',
-        '{1\'d0, prod16_lower}'
-    )
+    wire_decls = []
+    assignments = []
+    for idx, (a, b) in enumerate(unique_pairs):
+        wire_name = f"alu_prod16_{idx}"
+        wire_decls.append(f"    wire[15:0] {wire_name};")
+        assignments.append(f"    assign {wire_name} = (tmp{a} * tmp{b});")
 
-    content = content.replace(
-        '    assign tmp62 = ',
-        '    assign prod16_upper = (tmp40 * tmp41);\n    assign tmp62 = '
-    )
-    content = content.replace(
-        '{1\'d0, (tmp40 * tmp41)}',
-        '{1\'d0, prod16_upper}'
-    )
+    first_wire_match = re.search(r"(    wire tmp\d+;\n)", content)
+    if first_wire_match:
+        insert_pos = first_wire_match.end()
+        wire_block = "\n".join(wire_decls) + "\n"
+        content = content[:insert_pos] + wire_block + content[insert_pos:]
+
+    first_assign_match = re.search(r"(    assign tmp\d+ = .*\n)", content)
+    if first_assign_match:
+        insert_pos = first_assign_match.start()
+        assign_block = "\n".join(assignments) + "\n"
+        content = content[:insert_pos] + assign_block + content[insert_pos:]
+
+    for idx, (a, b) in enumerate(unique_pairs):
+        wire_name = f"alu_prod16_{idx}"
+        content = content.replace(
+            f"{{1'd0, (tmp{a} * tmp{b})}}",
+            f"{{1'd0, {wire_name}}}"
+        )
 
     vfile.write_text(content)
 
 
 def _fix_softmax_rom_index(vfile: Path) -> None:
-    """Fix WIDTHEXPAND: softmax_exp_0 + softmax_exp_1 is 8-bit but ROM needs 9-bit index."""
     content = vfile.read_text()
     content = content.replace(
         '    wire[7:0] softmax_exp_1;\n',
         '    wire[7:0] softmax_exp_1;\n    wire[8:0] exp_sum;\n'
     )
-    content = content.replace(
-        '    assign tmp72 = softmax_inv_sum_rom[(softmax_exp_0 + softmax_exp_1)];',
-        '    assign exp_sum = (softmax_exp_0 + softmax_exp_1);\n    assign tmp72 = softmax_inv_sum_rom[exp_sum];'
+    content = re.sub(
+        r'    assign (tmp\d+) = softmax_inv_sum_rom\[\(softmax_exp_0 \+ softmax_exp_1\)\];',
+        r'    assign exp_sum = (softmax_exp_0 + softmax_exp_1);\n    assign \1 = softmax_inv_sum_rom[exp_sum];',
+        content,
     )
     vfile.write_text(content)
 

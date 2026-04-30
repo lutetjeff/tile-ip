@@ -1,20 +1,30 @@
 import os
+import sys
 from pathlib import Path
 
 import pytest
 from cocotb.runner import get_runner
 
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
+from export_verilog import export_alu
+
 
 @pytest.mark.parametrize("op_code", [0, 1, 2])
-def test_alu_cocotb(op_code: int) -> None:
+@pytest.mark.parametrize("T_width", [2, 4])
+def test_alu_cocotb(op_code: int, T_width: int) -> None:
     os.environ["COCOTB_OP_CODE"] = str(op_code)
+    os.environ["COCOTB_T_WIDTH"] = str(T_width)
+
+    outdir = Path("build/rtl")
+    vfile = export_alu(outdir, T_width=T_width)
 
     runner = get_runner("verilator")
-    sources = [Path("build/rtl/alu.v")]
-    build_dir = Path("sim_build") / f"alu_cocotb_op{op_code}"
+    build_dir = Path("sim_build") / f"alu_cocotb_op{op_code}_t{T_width}"
+    build_dir.mkdir(parents=True, exist_ok=True)
 
     runner.build(
-        sources=sources,
+        sources=[vfile],
         hdl_toplevel="toplevel",
         build_args=["--trace-fst", "-Wno-fatal"],
         build_dir=build_dir,

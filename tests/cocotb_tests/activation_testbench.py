@@ -1,3 +1,5 @@
+import os
+
 import cocotb
 import numpy as np
 from cocotb.clock import Clock
@@ -22,7 +24,7 @@ def _unpack_bytes(value: int, T_width: int) -> np.ndarray:
 
 @cocotb.test()
 async def test_activation(dut):
-    T_width = 2
+    T_width = int(os.environ.get("COCOTB_T_WIDTH", "2"))
 
     clock = Clock(dut.clk, 10, units="ns")
     cocotb.start_soon(clock.start())
