@@ -414,6 +414,20 @@ def _parse_power(rpt_path: Path) -> dict[str, float]:
     return metrics
 
 
+def _classify_vivado_error(workdir: Path) -> str | None:
+    log_path = workdir / "vivado.log"
+    if not log_path.exists():
+        return None
+    text = log_path.read_text()
+    if "over-utilized" in text:
+        return "too_large_for_part"
+    if "synth_design failed" in text and "Interrupt caught" in text:
+        return "synthesis_timeout"
+    if "place_design failed" in text:
+        return "placement_failed"
+    return None
+
+
 def _run_single_config(
     cfg: dict,
     outdir: Path,
@@ -492,7 +506,12 @@ def _run_single_config(
         if result.returncode != 0:
             err_log = workdir / "vivado_error.log"
             err_log.write_text(result.stderr)
-            entry["error"] = f"Vivado exited with code {result.returncode}"
+            classified = _classify_vivado_error(workdir)
+            if classified:
+                entry["status"] = classified
+                entry["error"] = f"Vivado exited with code {result.returncode} ({classified})"
+            else:
+                entry["error"] = f"Vivado exited with code {result.returncode}"
             return entry
 
         missing_reports = [
