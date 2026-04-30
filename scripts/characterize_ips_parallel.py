@@ -239,7 +239,7 @@ def _sweep_configs() -> list[dict]:
             }
         )
 
-    for tm, tk, tn in itertools.product((1, 2, 4), repeat=3):
+    for tm, tk, tn in itertools.product((1, 2, 4, 8, 16), repeat=3):
         configs.append(
             {
                 "ip": "GEMMCore",
@@ -294,7 +294,7 @@ def _sweep_configs() -> list[dict]:
             }
         )
 
-    for tm, tk, tn in itertools.product((1, 2, 4), repeat=3):
+    for tm, tk, tn in itertools.product((1, 2, 4, 8, 16), repeat=3):
         configs.append(
             {
                 "ip": "TemporalGEMMCore",

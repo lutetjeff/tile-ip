@@ -57,7 +57,7 @@ def test_fifo_export(tmp_path: Path, T_width: int, depth: int) -> None:
 
 
 @pytest.mark.parametrize("T_M,T_K,T_N", [
-    (tm, tk, tn) for tm in [1, 2, 4] for tk in [1, 2, 4] for tn in [1, 2, 4]
+    (tm, tk, tn) for tm in [1, 2, 4, 8, 16] for tk in [1, 2, 4, 8, 16] for tn in [1, 2, 4, 8, 16]
 ])
 def test_gemm_export(tmp_path: Path, T_M: int, T_K: int, T_N: int) -> None:
     vfile = _export_gemm_custom(tmp_path, T_M=T_M, T_K=T_K, T_N=T_N)
@@ -108,7 +108,7 @@ def test_mem_router_export(tmp_path: Path, T_width: int) -> None:
 
 
 @pytest.mark.parametrize("T_M,T_K,T_N", [
-    (tm, tk, tn) for tm in [1, 2, 4] for tk in [1, 2, 4] for tn in [1, 2, 4]
+    (tm, tk, tn) for tm in [1, 2, 4, 8, 16] for tk in [1, 2, 4, 8, 16] for tn in [1, 2, 4, 8, 16]
 ])
 def test_temporal_gemm_export(tmp_path: Path, T_M: int, T_K: int, T_N: int) -> None:
     vfile = _export_temporal_gemm_custom(tmp_path, T_M=T_M, T_K=T_K, T_N=T_N)

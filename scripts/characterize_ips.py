@@ -165,7 +165,7 @@ def _sweep_configs() -> list[dict]:
             }
         )
 
-    for tm, tk, tn in itertools.product((1, 2, 4), repeat=3):
+    for tm, tk, tn in itertools.product((1, 2, 4, 8, 16), repeat=3):
         configs.append(
             {
                 "ip": "GEMMCore",
@@ -196,7 +196,7 @@ def _sweep_configs() -> list[dict]:
             {"ip": "MemRouterCore", "name": f"mem_router_T{t}", "params": {"T_out": t}, "exporter": _wrap_exporter(export_mem_router), "exporter_kwargs": {"T_width": t}}
         )
 
-    for tm, tk, tn in itertools.product((1, 2, 4), repeat=3):
+    for tm, tk, tn in itertools.product((1, 2, 4, 8, 16), repeat=3):
         configs.append(
             {
                 "ip": "TemporalGEMMCore",
