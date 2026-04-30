@@ -54,7 +54,10 @@ def _expose_outputs(core, block: pyrtl.Block) -> None:
 
     with pyrtl.set_working_block(block, no_sanity_check=True):
         if core is not None:
+            seen_wires = set()
             for attr_name in dir(core):
+                if attr_name.startswith("_"):
+                    continue
                 if attr_name.endswith("_out") or attr_name in [
                     "data_out",
                     "valid_out",
@@ -65,6 +68,9 @@ def _expose_outputs(core, block: pyrtl.Block) -> None:
                     if isinstance(wire, pyrtl.WireVector) and not isinstance(
                         wire, pyrtl.Output
                     ):
+                        if id(wire) in seen_wires:
+                            continue
+                        seen_wires.add(id(wire))
                         if wire.name not in driven:
                             wire <<= pyrtl.Const(0, bitwidth=wire.bitwidth)
                             continue

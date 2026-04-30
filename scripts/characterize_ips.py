@@ -35,12 +35,26 @@ from export_verilog import (
 
 
 def _expose_outputs(core, block: pyrtl.Block) -> None:
+    driven = set()
+    for net in block.logic:
+        for dest in net.dests:
+            driven.add(dest.name)
+
     with pyrtl.set_working_block(block, no_sanity_check=True):
         if core is not None:
+            seen_wires = set()
             for attr_name in dir(core):
+                if attr_name.startswith("_"):
+                    continue
                 if attr_name.endswith('_out') or attr_name in ['data_out', 'valid_out', 'ready_out', 'last_out']:
                     wire = getattr(core, attr_name)
                     if isinstance(wire, pyrtl.WireVector) and not isinstance(wire, pyrtl.Output):
+                        if id(wire) in seen_wires:
+                            continue
+                        seen_wires.add(id(wire))
+                        if wire.name not in driven:
+                            wire <<= pyrtl.Const(0, bitwidth=wire.bitwidth)
+                            continue
                         old_name = wire.name
                         wire.name = f"internal_{old_name}"
                         out_wire = pyrtl.Output(bitwidth=wire.bitwidth, name=old_name)
@@ -49,6 +63,9 @@ def _expose_outputs(core, block: pyrtl.Block) -> None:
             for wire in list(block.wirevector_set):
                 if wire.name and (wire.name.endswith('_out') or wire.name in ['data_out', 'valid_out', 'ready_out', 'last_out']):
                     if isinstance(wire, pyrtl.Output):
+                        continue
+                    if wire.name not in driven:
+                        wire <<= pyrtl.Const(0, bitwidth=wire.bitwidth)
                         continue
                     old_name = wire.name
                     wire.name = f"internal_{old_name}"
