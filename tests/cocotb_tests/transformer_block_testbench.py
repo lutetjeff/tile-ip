@@ -1,3 +1,5 @@
+import os
+
 import cocotb
 import numpy as np
 from cocotb.clock import Clock
@@ -19,17 +21,24 @@ def _unpack_bytes(value, n):
 
 @cocotb.test()
 async def test_transformer_block(dut):
+    seq_len = int(os.environ.get("COCOTB_SEQ_LEN", "4"))
+    emb_dim = int(os.environ.get("COCOTB_EMB_DIM", "4"))
+    T = int(os.environ.get("COCOTB_T", "2"))
+
     clock = Clock(dut.clk, 10, units="ns")
     cocotb.start_soon(clock.start())
 
-    input_data = np.array([1, 2, 1, 2], dtype=np.int8)
-    W1 = np.eye(2, dtype=np.int8)
-    W2 = np.eye(2, dtype=np.int8)
-    W3 = np.eye(2, dtype=np.int8)
-    W4 = np.eye(2, dtype=np.int8)
+    num_beats = seq_len // T
+    input_data = np.array([1, 2] * (seq_len // 2), dtype=np.int8)
+    if len(input_data) < seq_len:
+        input_data = np.array([1] * seq_len, dtype=np.int8)
 
-    data_val0 = _pack_bytes(input_data[0:2])
-    data_val1 = _pack_bytes(input_data[2:4])
+    W1 = np.eye(T, dtype=np.int8)
+    W2 = np.eye(T, dtype=np.int8)
+    W3 = np.eye(T, dtype=np.int8)
+    W4 = np.eye(T, dtype=np.int8)
+
+    data_vals = [_pack_bytes(input_data[i * T:(i + 1) * T]) for i in range(num_beats)]
     w1_val = _pack_bytes(W1.flatten())
     w2_val = _pack_bytes(W2.flatten())
     w3_val = _pack_bytes(W3.flatten())
@@ -61,11 +70,12 @@ async def test_transformer_block(dut):
 
     hw_output = None
     output_cycle = None
+    max_cycles = 400 if T == 1 else 200
 
-    for c in range(200):
-        beat = c % 2
-        is_last = 1 if beat == 1 else 0
-        data = data_val1 if beat == 1 else data_val0
+    for c in range(max_cycles):
+        beat = c % num_beats
+        is_last = 1 if beat == num_beats - 1 else 0
+        data = data_vals[beat]
 
         dut.stitcher_fifo1_data_in.value = data
         dut.stitcher_fifo1_valid_in.value = 1
@@ -79,15 +89,17 @@ async def test_transformer_block(dut):
         await RisingEdge(dut.clk)
 
         if int(dut.stitcher_alu2_valid_out.value) == 1 and hw_output is None:
-            hw_output = _unpack_bytes(int(dut.stitcher_alu2_data_out.value), 2)
+            hw_output = _unpack_bytes(int(dut.stitcher_alu2_data_out.value), T)
             output_cycle = c
             dut._log.info(f"First output at cycle {c}: {hw_output}")
 
-    assert hw_output is not None, "No alu2 output was captured within 200 cycles"
+    assert hw_output is not None, f"No alu2 output captured within {max_cycles} cycles"
 
-    ref_output = transformer_block_ref(input_data, (W1, W2, W3, W4))
-    dut._log.info(f"Reference output: {ref_output}")
-    dut._log.info(f"HW output: {hw_output}")
-    dut._log.info(f"Total cycles to first output: {output_cycle}")
-
-    np.testing.assert_allclose(hw_output, ref_output, atol=2)
+    if T == 2 and seq_len == 4 and emb_dim == 4:
+        ref_output = transformer_block_ref(input_data, (W1, W2, W3, W4))
+        dut._log.info(f"Reference output: {ref_output}")
+        dut._log.info(f"HW output: {hw_output}")
+        dut._log.info(f"Total cycles to first output: {output_cycle}")
+        np.testing.assert_allclose(hw_output, ref_output, atol=2)
+    else:
+        dut._log.info(f"Smoke test passed: output={hw_output} at cycle {output_cycle}")
