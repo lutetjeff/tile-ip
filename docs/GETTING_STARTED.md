@@ -154,6 +154,23 @@ python scripts/generate_subgraph.py \
 
 The emitted file contains `CONFIG` and `build_ffn()`; import it, call the builder, and pass the `drivers` dict to a `pyrtl.Simulation`.
 
+### 7.5 Vivado IP Characterization
+
+Export all IPs to Verilog and run Vivado Out-of-Context (OOC) synthesis and implementation to collect resource, timing, and power metrics:
+
+```bash
+# Single-threaded sweep
+python scripts/characterize_ips.py --part xc7s50csga324-2 --clock-period 10.0
+
+# Parallel sweep (N concurrent Vivado jobs)
+python scripts/characterize_ips_parallel.py -j 4 --outdir build/char_full
+
+# Resume an interrupted sweep
+python scripts/characterize_ips_parallel.py -j 4 --outdir build/char_full --resume
+```
+
+Results are written to `build/characterization/characterization_results.json` with entries for every `(IP, tile_params)` combination.
+
 ---
 
 ## Further Reading

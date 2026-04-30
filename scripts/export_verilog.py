@@ -27,6 +27,10 @@ from ip_cores.norm import NormCore
 from ip_cores.softmax import SoftmaxCore
 from ip_cores.activation import ActivationCore
 from ip_cores.mem_router import MemRouterCore
+from ip_cores.temporal_gemm import TemporalGEMMCore
+from ip_cores.stateful_norm import StatefulNormCore
+from ip_cores.stateful_softmax import StatefulSoftmaxCore
+from ip_cores.multi_bank_bram import MultiBankBRAMCore
 from stitcher import Stitcher
 
 
@@ -370,6 +374,168 @@ def export_mem_router(
     return vfile
 
 
+def export_temporal_gemm(
+    outdir: Path,
+    T_width: int = 2,
+    memory_value_map: dict[pyrtl.MemBlock, dict[int, int]] | None = None,
+) -> Path:
+    AXI4StreamLiteBase.reset()
+    T_M = T_width
+    T_K = T_width
+    T_N = T_width
+    M = T_M
+    N = T_N
+    core = TemporalGEMMCore(T_M=T_M, T_K=T_K, T_N=T_N, M=M, N=N, name="temporal_gemm")
+
+    with pyrtl.set_working_block(core.block, no_sanity_check=True):
+        dummy_data_in = pyrtl.Input(bitwidth=core.data_in.bitwidth, name="data_in")
+        dummy_valid_in = pyrtl.Input(bitwidth=1, name="valid_in")
+        dummy_ready_in = pyrtl.Input(bitwidth=1, name="ready_in")
+        dummy_last_in = pyrtl.Input(bitwidth=1, name="last_in")
+        dummy_accum_in = pyrtl.Input(bitwidth=1, name="accum_in")
+        dummy_emit_in = pyrtl.Input(bitwidth=1, name="emit_in")
+        dummy_weight_in = pyrtl.Input(bitwidth=core.weight_in.bitwidth, name="weight_in")
+        dummy_weight_valid_in = pyrtl.Input(bitwidth=1, name="weight_valid_in")
+
+        core.data_in <<= dummy_data_in
+        core.valid_in <<= dummy_valid_in
+        core.ready_in <<= dummy_ready_in
+        core.last_in <<= dummy_last_in
+        core.accum_in <<= dummy_accum_in
+        core.emit_in <<= dummy_emit_in
+        core.weight_in <<= dummy_weight_in
+        core.weight_valid_in <<= dummy_weight_valid_in
+
+    outdir.mkdir(parents=True, exist_ok=True)
+    vfile = outdir / "temporal_gemm.v"
+
+    with open(vfile, "w") as f:
+        pyrtl.output_to_verilog(f, block=core.block, add_reset=True)
+
+    _apply_memory_init(vfile, outdir, memory_value_map)
+
+    print(f"Exported TemporalGEMMCore (T_M={T_M}, T_K={T_K}, T_N={T_N}, M={M}, N={N}) -> {vfile}")
+    return vfile
+
+
+def export_stateful_norm(
+    outdir: Path,
+    T_width: int = 2,
+    memory_value_map: dict[pyrtl.MemBlock, dict[int, int]] | None = None,
+) -> Path:
+    AXI4StreamLiteBase.reset()
+    T_channel = T_width
+    N_channel = T_channel
+    core = StatefulNormCore(
+        T_channel=T_channel,
+        N_channel=N_channel,
+        name="stateful_norm",
+        is_rmsnorm=False,
+        gamma=1,
+        beta=0,
+    )
+
+    with pyrtl.set_working_block(core.block, no_sanity_check=True):
+        dummy_data_in = pyrtl.Input(bitwidth=core.data_in.bitwidth, name="data_in")
+        dummy_valid_in = pyrtl.Input(bitwidth=1, name="valid_in")
+        dummy_ready_in = pyrtl.Input(bitwidth=1, name="ready_in")
+        dummy_last_in = pyrtl.Input(bitwidth=1, name="last_in")
+
+        core.data_in <<= dummy_data_in
+        core.valid_in <<= dummy_valid_in
+        core.ready_in <<= dummy_ready_in
+        core.last_in <<= dummy_last_in
+
+    outdir.mkdir(parents=True, exist_ok=True)
+    vfile = outdir / "stateful_norm.v"
+
+    with open(vfile, "w") as f:
+        pyrtl.output_to_verilog(f, block=core.block, add_reset=True)
+
+    _apply_memory_init(vfile, outdir, memory_value_map)
+
+    print(f"Exported StatefulNormCore (T_channel={T_channel}, N_channel={N_channel}) -> {vfile}")
+    return vfile
+
+
+def export_stateful_softmax(
+    outdir: Path,
+    T_width: int = 2,
+    memory_value_map: dict[pyrtl.MemBlock, dict[int, int]] | None = None,
+) -> Path:
+    AXI4StreamLiteBase.reset()
+    T_seq = T_width
+    N_seq = T_seq
+    core = StatefulSoftmaxCore(N_seq=N_seq, T_seq=T_seq, name="stateful_softmax")
+
+    with pyrtl.set_working_block(core.block, no_sanity_check=True):
+        dummy_data_in = pyrtl.Input(bitwidth=core.data_in.bitwidth, name="data_in")
+        dummy_valid_in = pyrtl.Input(bitwidth=1, name="valid_in")
+        dummy_ready_in = pyrtl.Input(bitwidth=1, name="ready_in")
+        dummy_last_in = pyrtl.Input(bitwidth=1, name="last_in")
+
+        core.data_in <<= dummy_data_in
+        core.valid_in <<= dummy_valid_in
+        core.ready_in <<= dummy_ready_in
+        core.last_in <<= dummy_last_in
+
+    outdir.mkdir(parents=True, exist_ok=True)
+    vfile = outdir / "stateful_softmax.v"
+
+    with open(vfile, "w") as f:
+        pyrtl.output_to_verilog(f, block=core.block, add_reset=True)
+
+    _apply_memory_init(vfile, outdir, memory_value_map)
+
+    print(f"Exported StatefulSoftmaxCore (N_seq={N_seq}, T_seq={T_seq}) -> {vfile}")
+    return vfile
+
+
+def export_multi_bank_bram(
+    outdir: Path,
+    T_width: int = 2,
+    memory_value_map: dict[pyrtl.MemBlock, dict[int, int]] | None = None,
+) -> Path:
+    AXI4StreamLiteBase.reset()
+    core = MultiBankBRAMCore(T=T_width, num_banks=4, addr_width=8, name="multi_bank_bram")
+
+    with pyrtl.set_working_block(core.block, no_sanity_check=True):
+        dummy_data_in = pyrtl.Input(bitwidth=core.data_in.bitwidth, name="data_in")
+        dummy_valid_in = pyrtl.Input(bitwidth=1, name="valid_in")
+        dummy_ready_in = pyrtl.Input(bitwidth=1, name="ready_in")
+        dummy_last_in = pyrtl.Input(bitwidth=1, name="last_in")
+        dummy_read_addr = pyrtl.Input(bitwidth=core.read_addr.bitwidth, name="read_addr")
+        dummy_read_bank_sel = pyrtl.Input(bitwidth=core.read_bank_sel.bitwidth, name="read_bank_sel")
+        dummy_write_data_in = pyrtl.Input(bitwidth=core.write_data_in.bitwidth, name="write_data_in")
+        dummy_write_valid_in = pyrtl.Input(bitwidth=1, name="write_valid_in")
+        dummy_write_last_in = pyrtl.Input(bitwidth=1, name="write_last_in")
+        dummy_write_addr = pyrtl.Input(bitwidth=core.write_addr.bitwidth, name="write_addr")
+        dummy_write_bank_sel = pyrtl.Input(bitwidth=core.write_bank_sel.bitwidth, name="write_bank_sel")
+
+        core.data_in <<= dummy_data_in
+        core.valid_in <<= dummy_valid_in
+        core.ready_in <<= dummy_ready_in
+        core.last_in <<= dummy_last_in
+        core.read_addr <<= dummy_read_addr
+        core.read_bank_sel <<= dummy_read_bank_sel
+        core.write_data_in <<= dummy_write_data_in
+        core.write_valid_in <<= dummy_write_valid_in
+        core.write_last_in <<= dummy_write_last_in
+        core.write_addr <<= dummy_write_addr
+        core.write_bank_sel <<= dummy_write_bank_sel
+
+    outdir.mkdir(parents=True, exist_ok=True)
+    vfile = outdir / "multi_bank_bram.v"
+
+    with open(vfile, "w") as f:
+        pyrtl.output_to_verilog(f, block=core.block, add_reset=True)
+
+    _apply_memory_init(vfile, outdir, memory_value_map)
+
+    print(f"Exported MultiBankBRAMCore (T={T_width}, num_banks=4, addr_width=8) -> {vfile}")
+    return vfile
+
+
 def _find_undriven_wires(block: pyrtl.Block) -> list[pyrtl.WireVector]:
     driven_wires: set[str] = set()
     for net in block.logic:
@@ -429,6 +595,10 @@ CORE_EXPORTERS = {
     "softmax": export_softmax,
     "activation": export_activation,
     "mem_router": export_mem_router,
+    "temporal_gemm": export_temporal_gemm,
+    "stateful_norm": export_stateful_norm,
+    "stateful_softmax": export_stateful_softmax,
+    "multi_bank_bram": export_multi_bank_bram,
 }
 
 
