@@ -22,6 +22,58 @@ from ip_cores.activation import ActivationCore
 from frontend import TiledIPGraph
 
 
+def _compute_fifo_depths(seq_len: int, emb_dim: int, T: int) -> tuple[int, int]:
+    """Compute residual FIFO depths for the transformer block.
+
+    Each residual FIFO must buffer enough beats to cover the latency of
+    the parallel compute path. The compute path processes one full
+    sequence (N/T beats) before producing output, so the FIFO must hold
+    all beats that accumulate while the compute path is busy.
+
+    Attention path (fifo1): norm1 → tgemm1 → softmax → tgemm2
+    FFN path (fifo2):       norm2 → tgemm3 → activation → tgemm4
+
+    Returns (fifo1_depth, fifo2_depth).
+    """
+    num_beats = seq_len // T
+
+    # StatefulNorm: double-buffered, accepts num_beats then processes.
+    # Latency = num_beats (accumulate) + num_beats (emit) = 2 * num_beats
+    # But double-buffering means it can overlap: effective = num_beats
+    # (it starts emitting while accepting the next sequence)
+    norm_latency = num_beats
+
+    # TemporalGEMM: accumulates num_tiles beats then emits num_tiles beats.
+    # num_tiles = (M * N) / (T_M * T_N) where M=seq_len//T, N=T, T_M=1, T_N=T
+    # = (seq_len//T * T) / (1 * T) = seq_len//T = num_beats
+    # Latency = num_beats (accumulate) + num_beats (emit) = 2 * num_beats
+    tgemm_latency = 2 * num_beats
+
+    # StatefulSoftmax: 3-pass over num_beats each.
+    # Pass 1: find max (num_beats), Pass 2: sum exp (num_beats), Pass 3: normalize (num_beats)
+    # Triple-buffered (tokens_in_flight < 3), but each pass takes num_beats cycles.
+    # Total latency = 3 * num_beats
+    softmax_latency = 3 * num_beats
+
+    # Activation: combinational (0 cycles)
+    activation_latency = 0
+
+    # ALU: 1-cycle registered output
+    alu_latency = 1
+
+    # Attention path: norm1 + tgemm1 + softmax + tgemm2
+    attn_latency = norm_latency + tgemm_latency + softmax_latency + tgemm_latency
+
+    # FFN path: norm2 + tgemm3 + activation + tgemm4
+    ffn_latency = norm_latency + tgemm_latency + activation_latency + tgemm_latency
+
+    # Add margin for pipeline bubbles and backpressure settling
+    fifo1_depth = attn_latency + num_beats
+    fifo2_depth = ffn_latency + num_beats
+
+    return fifo1_depth, fifo2_depth
+
+
 def build_transformer_block(seq_len: int = 4, emb_dim: int = 4, T: int = 2):
     """Build a transformer block with the tiled-ip framework.
 
@@ -46,7 +98,8 @@ def build_transformer_block(seq_len: int = 4, emb_dim: int = 4, T: int = 2):
     AXI4StreamLiteBase.reset()
     graph = TiledIPGraph()
     input_fifo = graph.add_node("input_fifo", FIFOCore, T_width=T, depth=1)
-    fifo1 = graph.add_node("fifo1", FIFOCore, T_width=T, depth=40)
+    fifo1_depth, fifo2_depth = _compute_fifo_depths(seq_len, emb_dim, T)
+    fifo1 = graph.add_node("fifo1", FIFOCore, T_width=T, depth=fifo1_depth)
     norm1 = graph.add_node("norm1", StatefulNormCore, T_channel=T, N_channel=seq_len)
     tgemm1 = graph.add_node(
         "tgemm1", TemporalGEMMCore, T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T
@@ -56,7 +109,7 @@ def build_transformer_block(seq_len: int = 4, emb_dim: int = 4, T: int = 2):
         "tgemm2", TemporalGEMMCore, T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T
     )
     alu1 = graph.add_node("alu1", ALUCore, T_width=T, op_mode="add")
-    fifo2 = graph.add_node("fifo2", FIFOCore, T_width=T, depth=24)
+    fifo2 = graph.add_node("fifo2", FIFOCore, T_width=T, depth=fifo2_depth)
     norm2 = graph.add_node("norm2", StatefulNormCore, T_channel=T, N_channel=seq_len)
     tgemm3 = graph.add_node(
         "tgemm3", TemporalGEMMCore, T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T
