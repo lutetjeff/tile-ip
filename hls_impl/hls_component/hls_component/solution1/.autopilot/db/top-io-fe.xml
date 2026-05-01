@@ -1,0 +1,219 @@
+<root versionMajor = "1" versionMinor = "5">
+  <kernel src_name="transformer_top" language="c" hwCtrl="ap_ctrl_chain" mem_layout="fpga64-xilinx-none">
+    <args>
+      <arg id="0" access_type="r" src_name="in" src_type="stream&lt;ap_int&lt;16&gt;, 0&gt;&amp;" src_isptr="1" src_bitwidth="16" src_size_or_depth="1">
+        <hw hw_usage="data" hw_interface="AXI-Stream" hw_name="in_r" hw_bitwidth="16" hw_size_or_depth="0" hw_kernel_support="true">
+          <constraint constraint_type="pragma interface" mode="axis" register_option="1" register_mode="both"/>
+        </hw>
+      </arg>
+      <arg id="1" access_type="w" src_name="out" src_type="stream&lt;ap_int&lt;16&gt;, 0&gt;&amp;" src_isptr="1" src_bitwidth="16" src_size_or_depth="1">
+        <hw hw_usage="data" hw_interface="AXI-Stream" hw_name="out_r" hw_bitwidth="16" hw_size_or_depth="0" hw_kernel_support="true">
+          <constraint constraint_type="pragma interface" mode="axis" register_option="1" register_mode="both"/>
+        </hw>
+      </arg>
+      <arg id="2" access_type="r" src_name="w1" src_type="signed char*" src_isptr="1" src_bitwidth="8" src_size_or_depth="256">
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w1_0" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w1_1" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w1_2" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w1_3" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w1_4" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w1_5" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w1_6" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w1_7" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w1_8" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w1_9" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w1_10" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w1_11" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w1_12" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w1_13" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w1_14" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w1_15" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+      </arg>
+      <arg id="3" access_type="r" src_name="w2" src_type="signed char*" src_isptr="1" src_bitwidth="8" src_size_or_depth="256">
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w2_0" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w2_1" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w2_2" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w2_3" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w2_4" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w2_5" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w2_6" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w2_7" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w2_8" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w2_9" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w2_10" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w2_11" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w2_12" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w2_13" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w2_14" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w2_15" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+      </arg>
+      <arg id="4" access_type="r" src_name="w3" src_type="signed char*" src_isptr="1" src_bitwidth="8" src_size_or_depth="256">
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w3_0" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w3_1" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w3_2" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w3_3" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w3_4" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w3_5" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w3_6" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w3_7" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w3_8" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w3_9" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w3_10" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w3_11" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w3_12" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w3_13" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w3_14" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w3_15" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+      </arg>
+      <arg id="5" access_type="r" src_name="w4" src_type="signed char*" src_isptr="1" src_bitwidth="8" src_size_or_depth="256">
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w4_0" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w4_1" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w4_2" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w4_3" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w4_4" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w4_5" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w4_6" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w4_7" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w4_8" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w4_9" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w4_10" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w4_11" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w4_12" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w4_13" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w4_14" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+        <hw hw_usage="data" hw_interface="BRAM" hw_name="w4_15" hw_bitwidth="8" hw_size_or_depth="16" hw_kernel_support="false">
+          <constraint constraint_type="pragma interface" mode="bram" register_option="0"/>
+        </hw>
+      </arg>
+    </args>
+    <return src_type="void" src_bitwidth="0" offset="0x0">
+      <hw hw_usage="data" hw_interface="" hw_name="" hw_bitwidth="0" hw_kernel_support="true"/>
+    </return>
+  </kernel>
+</root>

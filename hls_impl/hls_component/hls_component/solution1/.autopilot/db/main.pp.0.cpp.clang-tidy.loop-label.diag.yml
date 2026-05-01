@@ -1,0 +1,316 @@
+---
+MainSourceFile:  '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+Diagnostics:
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_676_1:  '
+      FilePath:        '/home/lutet/data3/amd_fpga_tools/2025.2/Vitis/common/technology/autopilot/etc/ap_int_ref.h'
+      FileOffset:      676
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          280957
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_676_1: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_690_1:  '
+      FilePath:        '/home/lutet/data3/amd_fpga_tools/2025.2/Vitis/common/technology/autopilot/etc/ap_int_ref.h'
+      FileOffset:      690
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          281428
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_690_1: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_704_1:  '
+      FilePath:        '/home/lutet/data3/amd_fpga_tools/2025.2/Vitis/common/technology/autopilot/etc/ap_int_ref.h'
+      FileOffset:      704
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          281900
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_704_1: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_1251_1:  '
+      FilePath:        '/home/lutet/data3/amd_fpga_tools/2025.2/Vitis/common/technology/autopilot/etc/ap_fixed_base.h'
+      FileOffset:      1251
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          629974
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_1251_1: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_29_1:  '
+      FilePath:        main.cpp
+      FileOffset:      29
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2365226
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_29_1: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_38_1:  '
+      FilePath:        main.cpp
+      FileOffset:      38
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2365420
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_38_1: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_53_1:  '
+      FilePath:        main.cpp
+      FileOffset:      53
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2365722
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_53_1: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_66_1:  '
+      FilePath:        main.cpp
+      FileOffset:      66
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2365963
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_66_1: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_85_1:  '
+      FilePath:        main.cpp
+      FileOffset:      85
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2366284
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_85_1: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_90_2:  '
+      FilePath:        main.cpp
+      FileOffset:      90
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2366441
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_90_2: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_109_3:  '
+      FilePath:        main.cpp
+      FileOffset:      109
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2366741
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_109_3: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_112_4:  '
+      FilePath:        main.cpp
+      FileOffset:      112
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2366837
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_112_4: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_139_1:  '
+      FilePath:        main.cpp
+      FileOffset:      139
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2367389
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_139_1: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_144_2:  '
+      FilePath:        main.cpp
+      FileOffset:      144
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2367546
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_144_2: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_151_3:  '
+      FilePath:        main.cpp
+      FileOffset:      151
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2367656
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_151_3: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_154_4:  '
+      FilePath:        main.cpp
+      FileOffset:      154
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2367752
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_154_4: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_158_5:  '
+      FilePath:        main.cpp
+      FileOffset:      158
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2367873
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_158_5: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_188_1:  '
+      FilePath:        main.cpp
+      FileOffset:      188
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2368528
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_188_1: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_193_2:  '
+      FilePath:        main.cpp
+      FileOffset:      193
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2368685
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_193_2: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_205_3:  '
+      FilePath:        main.cpp
+      FileOffset:      205
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2368963
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_205_3: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_217_4:  '
+      FilePath:        main.cpp
+      FileOffset:      217
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2369269
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_217_4: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_220_5:  '
+      FilePath:        main.cpp
+      FileOffset:      220
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2369365
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_220_5: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_236_1:  '
+      FilePath:        main.cpp
+      FileOffset:      236
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2369751
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_236_1: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_241_2:  '
+      FilePath:        main.cpp
+      FileOffset:      241
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2369908
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_241_2: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_256_1:  '
+      FilePath:        main.cpp
+      FileOffset:      256
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2370208
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_256_1: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+  - DiagnosticName:  xilinx-label-all-loops
+    DiagnosticMessage:
+      Message:         'Added loop label VITIS_LOOP_265_2:  '
+      FilePath:        main.cpp
+      FileOffset:      265
+      Replacements:
+        - FilePath:        '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp'
+          Offset:          2370492
+          Length:          0
+          ReplacementText: 'VITIS_LOOP_265_2: '
+    Level:           Remark
+    BuildDirectory:  '/home/lutet/tiled-ip/hls_impl/hls_component'
+...

@@ -1,0 +1,15 @@
+[
+  {
+    "directory": "/home/lutet/tiled-ip/hls_impl/hls_component",
+    "arguments": [
+      "/home/lutet/data3/amd_fpga_tools/2025.2/Vitis/lnx64/tools/vcxx/libexec/clang++",
+      "--gcc-toolchain=/home/lutet/data3/amd_fpga_tools/2025.2/Vitis/tps/lnx64/gcc-8.3.0",
+      "-fhls",
+      "-hls-syn-headers-dir=/home/lutet/data3/amd_fpga_tools/2025.2/Vitis/common/technology/autopilot",
+      "-fhlstoplevel=transformer_top",
+      "-c",
+      "/home/lutet/tiled-ip/hls_impl/hls_component/main.cpp"
+    ],
+    "file": "/home/lutet/tiled-ip/hls_impl/hls_component/main.cpp"
+  }
+]

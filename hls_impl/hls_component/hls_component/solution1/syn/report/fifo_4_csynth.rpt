@@ -1,0 +1,151 @@
+
+
+================================================================
+== Vitis HLS Report for 'fifo_4'
+================================================================
+* Date:           Fri May  1 14:34:44 2026
+
+* Version:        2025.2 (Build 6295257 on Nov 14 2025)
+* Project:        hls_component
+* Solution:       solution1 (Vivado IP Flow Target)
+* Product family: spartan7
+* Target device:  xc7s50-csga324-2
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing: 
+    * Summary: 
+    +--------+----------+----------+------------+
+    |  Clock |  Target  | Estimated| Uncertainty|
+    +--------+----------+----------+------------+
+    |ap_clk  |  10.00 ns|  6.905 ns|     2.70 ns|
+    +--------+----------+----------+------------+
+
++ Latency: 
+    * Summary: 
+    +---------+---------+-----------+-----------+-----+-----+------------------------------------------------+
+    |  Latency (cycles) |   Latency (absolute)  |  Interval |                    Pipeline                    |
+    |   min   |   max   |    min    |    max    | min | max |                      Type                      |
+    +---------+---------+-----------+-----------+-----+-----+------------------------------------------------+
+    |        9|        9|  90.000 ns|  90.000 ns|    8|    8|  loop auto-rewind stp (delay=0 clock cycles(s))|
+    +---------+---------+-----------+-----------+-----+-----+------------------------------------------------+
+
+    + Detail: 
+        * Instance: 
+        N/A
+
+        * Loop: 
+        +-------------------+---------+---------+----------+-----------+-----------+------+----------+
+        |                   |  Latency (cycles) | Iteration|  Initiation Interval  | Trip |          |
+        |     Loop Name     |   min   |   max   |  Latency |  achieved |   target  | Count| Pipelined|
+        +-------------------+---------+---------+----------+-----------+-----------+------+----------+
+        |- VITIS_LOOP_66_1  |        7|        7|         1|          1|          1|     8|       yes|
+        +-------------------+---------+---------+----------+-----------+-----------+------+----------+
+
+
+
+================================================================
+== Utilization Estimates
+================================================================
+* Summary: 
++-----------------+---------+-----+-------+-------+-----+
+|       Name      | BRAM_18K| DSP |   FF  |  LUT  | URAM|
++-----------------+---------+-----+-------+-------+-----+
+|DSP              |        -|    -|      -|      -|    -|
+|Expression       |        -|    -|      0|     24|    -|
+|FIFO             |        -|    -|      -|      -|    -|
+|Instance         |        -|    -|      -|      -|    -|
+|Memory           |        -|    -|      -|      -|    -|
+|Multiplexer      |        -|    -|      0|     54|    -|
+|Register         |        -|    -|      6|      -|    -|
++-----------------+---------+-----+-------+-------+-----+
+|Total            |        0|    0|      6|     78|    0|
++-----------------+---------+-----+-------+-------+-----+
+|Available        |      150|  120|  65200|  32600|    0|
++-----------------+---------+-----+-------+-------+-----+
+|Utilization (%)  |        0|    0|     ~0|     ~0|    0|
++-----------------+---------+-----+-------+-------+-----+
+
++ Detail: 
+    * Instance: 
+    N/A
+
+    * DSP: 
+    N/A
+
+    * Memory: 
+    N/A
+
+    * FIFO: 
+    N/A
+
+    * Expression: 
+    +----------------------------------+----------+----+---+----+------------+------------+
+    |           Variable Name          | Operation| DSP| FF| LUT| Bitwidth P0| Bitwidth P1|
+    +----------------------------------+----------+----+---+----+------------+------------+
+    |i_fu_62_p2                        |         +|   0|  0|  11|           3|           1|
+    |icmp_ln66_fu_68_p2                |      icmp|   0|  0|  11|           3|           2|
+    |ap_block_state1_pp0_stage0_iter0  |        or|   0|  0|   2|           1|           1|
+    +----------------------------------+----------+----+---+----+------------+------------+
+    |Total                             |          |   0|  0|  24|           7|           4|
+    +----------------------------------+----------+----+---+----+------------+------------+
+
+    * Multiplexer: 
+    +-----------------------+----+-----------+-----+-----------+
+    |          Name         | LUT| Input Size| Bits| Total Bits|
+    +-----------------------+----+-----------+-----+-----------+
+    |ap_done_int            |   9|          2|    1|          2|
+    |ap_sig_allocacmp_i_12  |   9|          2|    3|          6|
+    |i_11_fu_36             |   9|          2|    3|          6|
+    |real_start             |   9|          2|    1|          2|
+    |s_alu1_blk_n           |   9|          2|    1|          2|
+    |s_alu1_fifo_blk_n      |   9|          2|    1|          2|
+    +-----------------------+----+-----------+-----+-----------+
+    |Total                  |  54|         12|   10|         20|
+    +-----------------------+----+-----------+-----+-----------+
+
+    * Register: 
+    +----------------+---+----+-----+-----------+
+    |      Name      | FF| LUT| Bits| Const Bits|
+    +----------------+---+----+-----+-----------+
+    |ap_CS_fsm       |  1|   0|    1|          0|
+    |ap_done_reg     |  1|   0|    1|          0|
+    |i_11_fu_36      |  3|   0|    3|          0|
+    |start_once_reg  |  1|   0|    1|          0|
+    +----------------+---+----+-----+-----------+
+    |Total           |  6|   0|    6|          0|
+    +----------------+---+----+-----+-----------+
+
+
+
+================================================================
+== Interface
+================================================================
+* Summary: 
++----------------------------+-----+-----+------------+--------------+--------------+
+|          RTL Ports         | Dir | Bits|  Protocol  | Source Object|    C Type    |
++----------------------------+-----+-----+------------+--------------+--------------+
+|ap_clk                      |   in|    1|  ap_ctrl_hs|        fifo.4|  return value|
+|ap_rst                      |   in|    1|  ap_ctrl_hs|        fifo.4|  return value|
+|ap_start                    |   in|    1|  ap_ctrl_hs|        fifo.4|  return value|
+|start_full_n                |   in|    1|  ap_ctrl_hs|        fifo.4|  return value|
+|ap_done                     |  out|    1|  ap_ctrl_hs|        fifo.4|  return value|
+|ap_continue                 |   in|    1|  ap_ctrl_hs|        fifo.4|  return value|
+|ap_idle                     |  out|    1|  ap_ctrl_hs|        fifo.4|  return value|
+|ap_ready                    |  out|    1|  ap_ctrl_hs|        fifo.4|  return value|
+|start_out                   |  out|    1|  ap_ctrl_hs|        fifo.4|  return value|
+|start_write                 |  out|    1|  ap_ctrl_hs|        fifo.4|  return value|
+|s_alu1_dout                 |   in|   16|     ap_fifo|        s_alu1|       pointer|
+|s_alu1_empty_n              |   in|    1|     ap_fifo|        s_alu1|       pointer|
+|s_alu1_read                 |  out|    1|     ap_fifo|        s_alu1|       pointer|
+|s_alu1_num_data_valid       |   in|    3|     ap_fifo|        s_alu1|       pointer|
+|s_alu1_fifo_cap             |   in|    3|     ap_fifo|        s_alu1|       pointer|
+|s_alu1_fifo_din             |  out|   16|     ap_fifo|   s_alu1_fifo|       pointer|
+|s_alu1_fifo_full_n          |   in|    1|     ap_fifo|   s_alu1_fifo|       pointer|
+|s_alu1_fifo_write           |  out|    1|     ap_fifo|   s_alu1_fifo|       pointer|
+|s_alu1_fifo_num_data_valid  |   in|    7|     ap_fifo|   s_alu1_fifo|       pointer|
+|s_alu1_fifo_fifo_cap        |   in|    7|     ap_fifo|   s_alu1_fifo|       pointer|
++----------------------------+-----+-----+------------+--------------+--------------+
+

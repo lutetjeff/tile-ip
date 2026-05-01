@@ -23,6 +23,7 @@ class FIFOCore(AXI4StreamLiteBase):
 
     def __init__(self, T_width: int, depth: int, name: str) -> None:
         super().__init__(tiling_param=T_width, name=name)
+        self.depth = depth
 
         with pyrtl.set_working_block(self.block, no_sanity_check=True):
             ptr_width = max(1, (depth - 1).bit_length())

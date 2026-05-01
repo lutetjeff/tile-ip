@@ -1,0 +1,190 @@
+<profile>
+
+<section name = "Vitis HLS Report for 'stateful_softmax_Pipeline_VITIS_LOOP_217_4'" level="0">
+<item name = "Date">Fri May  1 14:54:09 2026
+</item>
+<item name = "Version">2025.2 (Build 6295257 on Nov 14 2025)</item>
+<item name = "Project">hls_component</item>
+<item name = "Solution">hls (Vivado IP Flow Target)</item>
+<item name = "Product family">spartan7</item>
+<item name = "Target device">xc7s50-csga324-2</item>
+</section>
+
+<section name = "Performance Estimates" level="0">
+<item name = "Timing">
+<section name = "" level="1">
+<item name = "Summary"><table name="" hasTotal="0">
+<keys size="4">Clock, Target, Estimated, Uncertainty</keys>
+<column name="ap_clk">10.00 ns, 8.780 ns, 1.00 ns</column>
+</table>
+</item>
+</section>
+</item>
+<item name = "Latency">
+<section name = "" level="1">
+<item name = "Summary"><table name="" hasTotal="0">
+<keys size="8">, min, max, min, max, min, max, Type</keys>
+<column name="">29, 29, 0.290 us, 0.290 us, 0, 0, loop pipeline stp</column>
+</table>
+</item>
+<item name = "Detail">
+<section name = "" level="1">
+<item name = "Instance"><table name="" hasTotal="0">
+<keys size="9">Instance, Module, min, max, min, max, min, max, Type</keys>
+</table>
+</item>
+<item name = "Loop"><table name="" hasTotal="0">
+<keys size="8">Loop Name, min, max, Latency, achieved, target, Count, Pipelined</keys>
+<column name="- VITIS_LOOP_217_4">27, 27, 21, 1, 1, 8, yes</column>
+</table>
+</item>
+</section>
+</item>
+</section>
+</item>
+</section>
+
+<section name = "Utilization Estimates" level="0">
+<item name = "Summary"><table name="" hasTotal="1">
+<keys size="6">Name, BRAM_18K, DSP, FF, LUT, URAM</keys>
+<column name="DSP">-, -, -, -, -</column>
+<column name="Expression">-, -, 0, 84, -</column>
+<column name="FIFO">-, -, -, -, -</column>
+<column name="Instance">-, -, 1476, 1208, -</column>
+<column name="Memory">-, -, -, -, -</column>
+<column name="Multiplexer">-, -, 0, 45, -</column>
+<column name="Register">-, -, 45, -, -</column>
+<specialColumn name="Available">150, 120, 65200, 32600, 0</specialColumn>
+<specialColumn name="Utilization (%)">0, 0, 2, 4, 0</specialColumn>
+</table>
+</item>
+<item name = "Detail">
+<section name = "" level="1">
+<item name = "Instance"><table name="" hasTotal="1">
+<keys size="7">Instance, Module, BRAM_18K, DSP, FF, LUT, URAM</keys>
+<column name="sparsemux_17_3_9_1_1_U428">sparsemux_17_3_9_1_1, 0, 0, 0, 39, 0</column>
+<column name="sparsemux_17_3_9_1_1_U430">sparsemux_17_3_9_1_1, 0, 0, 0, 39, 0</column>
+<column name="udiv_17ns_13ns_17_21_1_U429">udiv_17ns_13ns_17_21_1, 0, 0, 738, 565, 0</column>
+<column name="udiv_17ns_13ns_17_21_1_U431">udiv_17ns_13ns_17_21_1, 0, 0, 738, 565, 0</column>
+</table>
+</item>
+<item name = "DSP"><table name="" hasTotal="0">
+<keys size="3">Instance, Module, Expression</keys>
+</table>
+</item>
+<item name = "Memory"><table name="" hasTotal="1">
+<keys size="10">Memory, Module, BRAM_18K, FF, LUT, URAM, Words, Bits, Banks, W*Bits*Banks</keys>
+</table>
+</item>
+<item name = "FIFO"><table name="" hasTotal="1">
+<keys size="8">Name, BRAM_18K, FF, LUT, URAM, Depth, Bits, Size:D*B</keys>
+</table>
+</item>
+<item name = "Expression"><table name="" hasTotal="1">
+<keys size="7">Variable Name, Operation, DSP, FF, LUT, Bitwidth P0, Bitwidth P1</keys>
+<column name="add_ln217_fu_249_p2">+, 0, 0, 13, 4, 1</column>
+<column name="add_ln223_fu_307_p2">+, 0, 0, 20, 13, 13</column>
+<column name="ap_block_pp0_stage0_01001">and, 0, 0, 2, 1, 1</column>
+<column name="icmp_ln217_fu_243_p2">icmp, 0, 0, 13, 4, 5</column>
+<column name="icmp_ln224_1_fu_424_p2">icmp, 0, 0, 10, 2, 1</column>
+<column name="icmp_ln224_fu_392_p2">icmp, 0, 0, 10, 2, 1</column>
+<column name="elems_2_fu_434_p3">select, 0, 0, 7, 1, 2</column>
+<column name="elems_fu_402_p3">select, 0, 0, 7, 1, 2</column>
+<column name="ap_enable_pp0">xor, 0, 0, 2, 1, 2</column>
+</table>
+</item>
+<item name = "Multiplexer"><table name="" hasTotal="1">
+<keys size="5">Name, LUT, Input Size, Bits, Total Bits</keys>
+<column name="ap_done_int">9, 2, 1, 2</column>
+<column name="ap_enable_reg_pp0_iter1">9, 2, 1, 2</column>
+<column name="ap_sig_allocacmp_i_1">9, 2, 4, 8</column>
+<column name="i_fu_108">9, 2, 4, 8</column>
+<column name="s_softmax_out_blk_n">9, 2, 1, 2</column>
+</table>
+</item>
+<item name = "Register"><table name="" hasTotal="1">
+<keys size="5">Name, FF, LUT, Bits, Const Bits</keys>
+<column name="ap_CS_fsm">1, 0, 1, 0</column>
+<column name="ap_done_reg">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter1">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter10">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter11">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter12">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter13">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter14">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter15">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter16">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter17">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter18">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter19">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter2">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter20">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter3">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter4">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter5">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter6">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter7">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter8">1, 0, 1, 0</column>
+<column name="ap_enable_reg_pp0_iter9">1, 0, 1, 0</column>
+<column name="ap_loop_exit_ready_pp0_iter10_reg">1, 0, 1, 0</column>
+<column name="ap_loop_exit_ready_pp0_iter11_reg">1, 0, 1, 0</column>
+<column name="ap_loop_exit_ready_pp0_iter12_reg">1, 0, 1, 0</column>
+<column name="ap_loop_exit_ready_pp0_iter13_reg">1, 0, 1, 0</column>
+<column name="ap_loop_exit_ready_pp0_iter14_reg">1, 0, 1, 0</column>
+<column name="ap_loop_exit_ready_pp0_iter15_reg">1, 0, 1, 0</column>
+<column name="ap_loop_exit_ready_pp0_iter16_reg">1, 0, 1, 0</column>
+<column name="ap_loop_exit_ready_pp0_iter17_reg">1, 0, 1, 0</column>
+<column name="ap_loop_exit_ready_pp0_iter18_reg">1, 0, 1, 0</column>
+<column name="ap_loop_exit_ready_pp0_iter19_reg">1, 0, 1, 0</column>
+<column name="ap_loop_exit_ready_pp0_iter1_reg">1, 0, 1, 0</column>
+<column name="ap_loop_exit_ready_pp0_iter2_reg">1, 0, 1, 0</column>
+<column name="ap_loop_exit_ready_pp0_iter3_reg">1, 0, 1, 0</column>
+<column name="ap_loop_exit_ready_pp0_iter4_reg">1, 0, 1, 0</column>
+<column name="ap_loop_exit_ready_pp0_iter5_reg">1, 0, 1, 0</column>
+<column name="ap_loop_exit_ready_pp0_iter6_reg">1, 0, 1, 0</column>
+<column name="ap_loop_exit_ready_pp0_iter7_reg">1, 0, 1, 0</column>
+<column name="ap_loop_exit_ready_pp0_iter8_reg">1, 0, 1, 0</column>
+<column name="ap_loop_exit_ready_pp0_iter9_reg">1, 0, 1, 0</column>
+<column name="i_fu_108">4, 0, 4, 0</column>
+</table>
+</item>
+</section>
+</item>
+</section>
+
+<section name = "Interface" level="0">
+<item name = "Summary"><table name="" hasTotal="0">
+<keys size="6">RTL Ports, Dir, Bits, Protocol, Source Object, C Type</keys>
+<column name="ap_clk">in, 1, ap_ctrl_hs, stateful_softmax_Pipeline_VITIS_LOOP_217_4, return value</column>
+<column name="ap_rst">in, 1, ap_ctrl_hs, stateful_softmax_Pipeline_VITIS_LOOP_217_4, return value</column>
+<column name="ap_start">in, 1, ap_ctrl_hs, stateful_softmax_Pipeline_VITIS_LOOP_217_4, return value</column>
+<column name="ap_done">out, 1, ap_ctrl_hs, stateful_softmax_Pipeline_VITIS_LOOP_217_4, return value</column>
+<column name="ap_idle">out, 1, ap_ctrl_hs, stateful_softmax_Pipeline_VITIS_LOOP_217_4, return value</column>
+<column name="ap_ready">out, 1, ap_ctrl_hs, stateful_softmax_Pipeline_VITIS_LOOP_217_4, return value</column>
+<column name="s_softmax_out_din">out, 16, ap_fifo, s_softmax_out, pointer</column>
+<column name="s_softmax_out_full_n">in, 1, ap_fifo, s_softmax_out, pointer</column>
+<column name="s_softmax_out_write">out, 1, ap_fifo, s_softmax_out, pointer</column>
+<column name="s_softmax_out_num_data_valid">in, 32, ap_fifo, s_softmax_out, pointer</column>
+<column name="s_softmax_out_fifo_cap">in, 32, ap_fifo, s_softmax_out, pointer</column>
+<column name="exp_val_18">in, 9, ap_none, exp_val_18, scalar</column>
+<column name="exp_val_20">in, 9, ap_none, exp_val_20, scalar</column>
+<column name="exp_val_22">in, 9, ap_none, exp_val_22, scalar</column>
+<column name="exp_val_24">in, 9, ap_none, exp_val_24, scalar</column>
+<column name="exp_val_26">in, 9, ap_none, exp_val_26, scalar</column>
+<column name="exp_val_28">in, 9, ap_none, exp_val_28, scalar</column>
+<column name="exp_val_30">in, 9, ap_none, exp_val_30, scalar</column>
+<column name="exp_val_32">in, 9, ap_none, exp_val_32, scalar</column>
+<column name="zext_ln217">in, 12, ap_none, zext_ln217, scalar</column>
+<column name="zext_ln213_17">in, 9, ap_none, zext_ln213_17, scalar</column>
+<column name="exp_val_19">in, 9, ap_none, exp_val_19, scalar</column>
+<column name="exp_val_21">in, 9, ap_none, exp_val_21, scalar</column>
+<column name="exp_val_23">in, 9, ap_none, exp_val_23, scalar</column>
+<column name="exp_val_25">in, 9, ap_none, exp_val_25, scalar</column>
+<column name="exp_val_27">in, 9, ap_none, exp_val_27, scalar</column>
+<column name="exp_val_29">in, 9, ap_none, exp_val_29, scalar</column>
+<column name="exp_val_31">in, 9, ap_none, exp_val_31, scalar</column>
+<column name="exp_val_33">in, 9, ap_none, exp_val_33, scalar</column>
+</table>
+</item>
+</section>
+</profile>

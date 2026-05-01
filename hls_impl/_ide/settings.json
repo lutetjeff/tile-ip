@@ -1,0 +1,7 @@
+{
+    "clangd.fallbackFlags": [
+        "-I/home/lutet/data3/amd_fpga_tools/2025.2/Vitis/include",
+        "-I/home/lutet/data3/amd_fpga_tools/2025.2/Vitis/include/etc",
+        "-I/home/lutet/data3/amd_fpga_tools/2025.2/Vitis/lnx64/tools/auto_cc/include"
+    ]
+}

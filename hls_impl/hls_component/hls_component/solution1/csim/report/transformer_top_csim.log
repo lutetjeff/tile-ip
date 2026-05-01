@@ -1,0 +1,9 @@
+INFO: [SIM 2] *************** CSIM start ***************
+   Compiling ../../../../main.cpp in debug mode
+   Generating csim.exe
+Input first row:    -4  -10   -9   -9    2    8   -9  -10    5   -7    4   -7    7   -6    6   -8 
+Output first row:   -5  -11  -10  -10    1    6   -8  -11    5   -9    3   -7    6   -6    5  -10 
+PASS: All outputs are non-zero and in valid INT8 range
+INFO [HLS SIM]: The maximum depth reached by any hls::stream() instance in the design is 8
+INFO: [SIM 1] CSim done with 0 errors.
+INFO: [SIM 3] *************** CSIM finish ***************

@@ -1,0 +1,1375 @@
+--- !Passed
+Pass:            inline
+Name:            AlwaysInline
+DebugLoc:        { File: main.cpp, Line: 120, Column: 19 }
+Function:        _Z13stateful_normRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Inlining function '''
+  - Callee:          'pack_beat(signed char*)'
+    DebugLoc:        { File: main.cpp, Line: 35, Column: 0 }
+  - String:          ''' into '''
+  - Caller:          'stateful_norm(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 77, Column: 0 }
+  - String:          ''''
+...
+--- !Passed
+Pass:            inline
+Name:            AlwaysInline
+DebugLoc:        { File: main.cpp, Line: 89, Column: 9 }
+Function:        _Z13stateful_normRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Inlining function '''
+  - Callee:          'unpack_beat(ap_int<16>, signed char*)'
+    DebugLoc:        { File: main.cpp, Line: 27, Column: 0 }
+  - String:          ''' into '''
+  - Caller:          'stateful_norm(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 77, Column: 0 }
+  - String:          ''''
+...
+--- !Passed
+Pass:            inline
+Name:            AlwaysInline
+DebugLoc:        { File: main.cpp, Line: 167, Column: 19 }
+Function:        _Z4gemmRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_a
+Args:            
+  - String:          'Inlining function '''
+  - Callee:          'pack_beat(signed char*)'
+    DebugLoc:        { File: main.cpp, Line: 35, Column: 0 }
+  - String:          ''' into '''
+  - Caller:          'gemm(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 131, Column: 0 }
+  - String:          ''''
+...
+--- !Passed
+Pass:            inline
+Name:            AlwaysInline
+DebugLoc:        { File: main.cpp, Line: 143, Column: 9 }
+Function:        _Z4gemmRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_a
+Args:            
+  - String:          'Inlining function '''
+  - Callee:          'unpack_beat(ap_int<16>, signed char*)'
+    DebugLoc:        { File: main.cpp, Line: 27, Column: 0 }
+  - String:          ''' into '''
+  - Caller:          'gemm(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 131, Column: 0 }
+  - String:          ''''
+...
+--- !Passed
+Pass:            inline
+Name:            AlwaysInline
+DebugLoc:        { File: main.cpp, Line: 227, Column: 19 }
+Function:        _Z16stateful_softmaxRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Inlining function '''
+  - Callee:          'pack_beat(signed char*)'
+    DebugLoc:        { File: main.cpp, Line: 35, Column: 0 }
+  - String:          ''' into '''
+  - Caller:          'stateful_softmax(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 177, Column: 0 }
+  - String:          ''''
+...
+--- !Passed
+Pass:            inline
+Name:            AlwaysInline
+DebugLoc:        { File: main.cpp, Line: 192, Column: 9 }
+Function:        _Z16stateful_softmaxRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Inlining function '''
+  - Callee:          'unpack_beat(ap_int<16>, signed char*)'
+    DebugLoc:        { File: main.cpp, Line: 27, Column: 0 }
+  - String:          ''' into '''
+  - Caller:          'stateful_softmax(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 177, Column: 0 }
+  - String:          ''''
+...
+--- !Passed
+Pass:            inline
+Name:            AlwaysInline
+DebugLoc:        { File: main.cpp, Line: 270, Column: 19 }
+Function:        _Z7alu_addRN3hls6streamI6ap_intILi16EELi0EEES4_S4_
+Args:            
+  - String:          'Inlining function '''
+  - Callee:          'pack_beat(signed char*)'
+    DebugLoc:        { File: main.cpp, Line: 35, Column: 0 }
+  - String:          ''' into '''
+  - Caller:          'alu_add(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 254, Column: 0 }
+  - String:          ''''
+...
+--- !Passed
+Pass:            inline
+Name:            AlwaysInline
+DebugLoc:        { File: main.cpp, Line: 263, Column: 9 }
+Function:        _Z7alu_addRN3hls6streamI6ap_intILi16EELi0EEES4_S4_
+Args:            
+  - String:          'Inlining function '''
+  - Callee:          'unpack_beat(ap_int<16>, signed char*)'
+    DebugLoc:        { File: main.cpp, Line: 27, Column: 0 }
+  - String:          ''' into '''
+  - Caller:          'alu_add(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 254, Column: 0 }
+  - String:          ''''
+...
+--- !Passed
+Pass:            inline
+Name:            AlwaysInline
+DebugLoc:        { File: main.cpp, Line: 245, Column: 19 }
+Function:        _Z15activation_reluRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Inlining function '''
+  - Callee:          'pack_beat(signed char*)'
+    DebugLoc:        { File: main.cpp, Line: 35, Column: 0 }
+  - String:          ''' into '''
+  - Caller:          'activation_relu(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 234, Column: 0 }
+  - String:          ''''
+...
+--- !Passed
+Pass:            inline
+Name:            AlwaysInline
+DebugLoc:        { File: main.cpp, Line: 240, Column: 9 }
+Function:        _Z15activation_reluRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Inlining function '''
+  - Callee:          'unpack_beat(ap_int<16>, signed char*)'
+    DebugLoc:        { File: main.cpp, Line: 27, Column: 0 }
+  - String:          ''' into '''
+  - Caller:          'activation_relu(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 234, Column: 0 }
+  - String:          ''''
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 331, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'fan_out(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 51, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 332, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'fifo(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 64, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 333, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'stateful_norm(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 77, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 334, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'gemm(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 131, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 335, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'stateful_softmax(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 177, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 337, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'alu_add(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 254, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 349, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'activation_relu(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 234, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: main.cpp, Line: 29, Column: 22 }
+Function:        _Z15activation_reluRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Loop '''
+  - LoopName:        VITIS_LOOP_29_1
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: main.cpp, Line: 241, Column: 27 }
+Function:        _Z15activation_reluRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Loop '''
+  - LoopName:        VITIS_LOOP_241_2
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: main.cpp, Line: 38, Column: 22 }
+Function:        _Z15activation_reluRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Loop '''
+  - LoopName:        VITIS_LOOP_38_1
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: main.cpp, Line: 29, Column: 22 }
+Function:        _Z7alu_addRN3hls6streamI6ap_intILi16EELi0EEES4_S4_
+Args:            
+  - String:          'Loop '''
+  - LoopName:        VITIS_LOOP_29_1
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: main.cpp, Line: 29, Column: 22 }
+Function:        _Z7alu_addRN3hls6streamI6ap_intILi16EELi0EEES4_S4_
+Args:            
+  - String:          'Loop '''
+  - LoopName:        VITIS_LOOP_29_1
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: main.cpp, Line: 265, Column: 27 }
+Function:        _Z7alu_addRN3hls6streamI6ap_intILi16EELi0EEES4_S4_
+Args:            
+  - String:          'Loop '''
+  - LoopName:        VITIS_LOOP_265_2
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: main.cpp, Line: 38, Column: 22 }
+Function:        _Z7alu_addRN3hls6streamI6ap_intILi16EELi0EEES4_S4_
+Args:            
+  - String:          'Loop '''
+  - LoopName:        VITIS_LOOP_38_1
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: main.cpp, Line: 220, Column: 27 }
+Function:        _Z16stateful_softmaxRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Loop '''
+  - LoopName:        VITIS_LOOP_220_5
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: main.cpp, Line: 38, Column: 22 }
+Function:        _Z16stateful_softmaxRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Loop '''
+  - LoopName:        VITIS_LOOP_38_1
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: main.cpp, Line: 29, Column: 22 }
+Function:        _Z16stateful_softmaxRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Loop '''
+  - LoopName:        VITIS_LOOP_29_1
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: main.cpp, Line: 193, Column: 27 }
+Function:        _Z16stateful_softmaxRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Loop '''
+  - LoopName:        VITIS_LOOP_193_2
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: main.cpp, Line: 154, Column: 27 }
+Function:        _Z4gemmRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_a
+Args:            
+  - String:          'Loop '''
+  - LoopName:        VITIS_LOOP_154_4
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: main.cpp, Line: 158, Column: 31 }
+Function:        _Z4gemmRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_a
+Args:            
+  - String:          'Loop '''
+  - LoopName:        VITIS_LOOP_158_5
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: main.cpp, Line: 38, Column: 22 }
+Function:        _Z4gemmRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_a
+Args:            
+  - String:          'Loop '''
+  - LoopName:        VITIS_LOOP_38_1
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: main.cpp, Line: 29, Column: 22 }
+Function:        _Z4gemmRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_a
+Args:            
+  - String:          'Loop '''
+  - LoopName:        VITIS_LOOP_29_1
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: main.cpp, Line: 144, Column: 27 }
+Function:        _Z4gemmRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_a
+Args:            
+  - String:          'Loop '''
+  - LoopName:        VITIS_LOOP_144_2
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: main.cpp, Line: 112, Column: 27 }
+Function:        _Z13stateful_normRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Loop '''
+  - LoopName:        VITIS_LOOP_112_4
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: main.cpp, Line: 38, Column: 22 }
+Function:        _Z13stateful_normRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Loop '''
+  - LoopName:        VITIS_LOOP_38_1
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: main.cpp, Line: 29, Column: 22 }
+Function:        _Z13stateful_normRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Loop '''
+  - LoopName:        VITIS_LOOP_29_1
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-infer-unroll
+Name:            ImplicitUnroll
+DebugLoc:        { File: main.cpp, Line: 90, Column: 26 }
+Function:        _Z13stateful_normRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Loop '''
+  - LoopName:        VITIS_LOOP_90_2
+  - String:          ''' is marked as complete unroll implied by the pipeline pragma'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 234, Column: 0 }
+Function:        _Z15activation_reluRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_29_1
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:29:22'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          activation_relu
+  - String:          ''' completely with a factor of '
+  - Factor:          '2'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 234, Column: 0 }
+Function:        _Z15activation_reluRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_241_2
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:241:27'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          activation_relu
+  - String:          ''' completely with a factor of '
+  - Factor:          '2'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 234, Column: 0 }
+Function:        _Z15activation_reluRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_38_1
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:38:22'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          activation_relu
+  - String:          ''' completely with a factor of '
+  - Factor:          '2'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 254, Column: 0 }
+Function:        _Z7alu_addRN3hls6streamI6ap_intILi16EELi0EEES4_S4_
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_29_1
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:29:22'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          alu_add
+  - String:          ''' completely with a factor of '
+  - Factor:          '2'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 254, Column: 0 }
+Function:        _Z7alu_addRN3hls6streamI6ap_intILi16EELi0EEES4_S4_
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_29_1
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:29:22'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          alu_add
+  - String:          ''' completely with a factor of '
+  - Factor:          '2'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 254, Column: 0 }
+Function:        _Z7alu_addRN3hls6streamI6ap_intILi16EELi0EEES4_S4_
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_265_2
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:265:27'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          alu_add
+  - String:          ''' completely with a factor of '
+  - Factor:          '2'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 254, Column: 0 }
+Function:        _Z7alu_addRN3hls6streamI6ap_intILi16EELi0EEES4_S4_
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_38_1
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:38:22'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          alu_add
+  - String:          ''' completely with a factor of '
+  - Factor:          '2'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 177, Column: 0 }
+Function:        _Z16stateful_softmaxRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_220_5
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:220:27'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          stateful_softmax
+  - String:          ''' completely with a factor of '
+  - Factor:          '2'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 177, Column: 0 }
+Function:        _Z16stateful_softmaxRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_38_1
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:38:22'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          stateful_softmax
+  - String:          ''' completely with a factor of '
+  - Factor:          '2'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 177, Column: 0 }
+Function:        _Z16stateful_softmaxRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_205_3
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:205:23'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          stateful_softmax
+  - String:          ''' completely with a factor of '
+  - Factor:          '16'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 177, Column: 0 }
+Function:        _Z16stateful_softmaxRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_29_1
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:29:22'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          stateful_softmax
+  - String:          ''' completely with a factor of '
+  - Factor:          '2'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 177, Column: 0 }
+Function:        _Z16stateful_softmaxRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_193_2
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:193:27'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          stateful_softmax
+  - String:          ''' completely with a factor of '
+  - Factor:          '2'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 131, Column: 0 }
+Function:        _Z4gemmRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_a
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_154_4
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:154:27'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gemm
+  - String:          ''' completely with a factor of '
+  - Factor:          '2'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 131, Column: 0 }
+Function:        _Z4gemmRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_a
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_158_5
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:158:31'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gemm
+  - String:          ''' completely with a factor of '
+  - Factor:          '16'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 131, Column: 0 }
+Function:        _Z4gemmRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_a
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_158_5
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:158:31'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gemm
+  - String:          ''' completely with a factor of '
+  - Factor:          '16'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 131, Column: 0 }
+Function:        _Z4gemmRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_a
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_38_1
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:38:22'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gemm
+  - String:          ''' completely with a factor of '
+  - Factor:          '2'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 131, Column: 0 }
+Function:        _Z4gemmRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_a
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_29_1
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:29:22'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gemm
+  - String:          ''' completely with a factor of '
+  - Factor:          '2'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 131, Column: 0 }
+Function:        _Z4gemmRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_a
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_144_2
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:144:27'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          gemm
+  - String:          ''' completely with a factor of '
+  - Factor:          '2'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 77, Column: 0 }
+Function:        _Z13stateful_normRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_112_4
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:112:27'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          stateful_norm
+  - String:          ''' completely with a factor of '
+  - Factor:          '2'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 77, Column: 0 }
+Function:        _Z13stateful_normRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_38_1
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:38:22'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          stateful_norm
+  - String:          ''' completely with a factor of '
+  - Factor:          '2'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 77, Column: 0 }
+Function:        _Z13stateful_normRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_29_1
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:29:22'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          stateful_norm
+  - String:          ''' completely with a factor of '
+  - Factor:          '2'
+...
+--- !Passed
+Pass:            reflow-pragma-loop-unroll
+Name:            PragmaFullyUnroll
+DebugLoc:        { File: main.cpp, Line: 77, Column: 0 }
+Function:        _Z13stateful_normRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Unrolling loop '''
+  - LoopName:        VITIS_LOOP_90_2
+  - String:          ''' ('
+  - LoopLoc:         'main.cpp:90:26'
+  - String:          ') '
+  - String:          'in function '''
+  - String:          stateful_norm
+  - String:          ''' completely with a factor of '
+  - Factor:          '2'
+...
+--- !Failure
+Pass:            reflow-function-uniquification
+Name:            FunctionUniquification
+DebugLoc:        { File: main.cpp, Line: 332, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - String:          'Duplicating function '''
+  - Name:            'fifo(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&) (.9)'
+  - String:          ''' as different function signatures were detected between this call site and other call site(s). This may impact the resources used in the design.'
+...
+--- !Failure
+Pass:            reflow-function-uniquification
+Name:            FunctionUniquification
+DebugLoc:        { File: main.cpp, Line: 338, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - String:          'Duplicating function '''
+  - Name:            'fifo(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&) (.9)'
+  - String:          ''' as different function signatures were detected between this call site and other call site(s). This may impact the resources used in the design.'
+...
+--- !Failure
+Pass:            reflow-function-uniquification
+Name:            FunctionUniquification
+DebugLoc:        { File: main.cpp, Line: 346, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - String:          'Duplicating function '''
+  - Name:            'fifo(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&) (.9)'
+  - String:          ''' as different function signatures were detected between this call site and other call site(s). This may impact the resources used in the design.'
+...
+--- !Failure
+Pass:            reflow-function-uniquification
+Name:            FunctionUniquification
+DebugLoc:        { File: main.cpp, Line: 345, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - String:          'Duplicating function '''
+  - Name:            'fan_out(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+  - String:          ''' as different function signatures were detected between this call site and other call site(s). This may impact the resources used in the design.'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 331, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'fan_out(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 51, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 332, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'fifo(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&) (.9.85)'
+    DebugLoc:        { File: main.cpp, Line: 64, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 333, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'stateful_norm(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 77, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 334, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'gemm(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 131, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 335, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'stateful_softmax(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 177, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 337, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'alu_add(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 254, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 345, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'fan_out(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&) (.86)'
+    DebugLoc:        { File: main.cpp, Line: 51, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 349, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'activation_relu(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 234, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 352, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'fifo(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&) (.9)'
+    DebugLoc:        { File: main.cpp, Line: 64, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+Function:        apatb_transformer_top_ir
+Args:            
+  - Callee:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          apatb_transformer_top_ir
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Passed
+Pass:            reflow-array-partition
+Name:            ArrayXform
+DebugLoc:        { File: main.cpp, Line: 79, Column: 12 }
+Function:        _Z13stateful_normRN3hls6streamI6ap_intILi16EELi0EEES4_.88
+Args:            
+  - String:          'Applying '
+  - String:          array_partition
+  - String:          ' to '''
+  - UOName:          buf
+  - String:          ''':'
+  - String:          ' '
+  - Mode:            Complete
+  - String:          ' partitioning'
+  - String:          ' on dimension '
+  - Dim:             '1'
+  - String:          .
+...
+--- !Passed
+Pass:            reflow-array-partition
+Name:            ArrayXform
+DebugLoc:        { File: main.cpp, Line: 135, Column: 12 }
+Function:        _Z4gemmRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_a.89
+Args:            
+  - String:          'Applying '
+  - String:          array_partition
+  - String:          ' to '''
+  - UOName:          row
+  - String:          ''':'
+  - String:          ' '
+  - Mode:            Complete
+  - String:          ' partitioning'
+  - String:          ' on dimension '
+  - Dim:             '1'
+  - String:          .
+...
+--- !Passed
+Pass:            reflow-array-partition
+Name:            ArrayXform
+DebugLoc:        { File: main.cpp, Line: 179, Column: 12 }
+Function:        _Z16stateful_softmaxRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Applying '
+  - String:          array_partition
+  - String:          ' to '''
+  - UOName:          buf
+  - String:          ''':'
+  - String:          ' '
+  - Mode:            Complete
+  - String:          ' partitioning'
+  - String:          ' on dimension '
+  - Dim:             '1'
+  - String:          .
+...
+--- !Passed
+Pass:            reflow-array-partition
+Name:            ArrayXform
+DebugLoc:        { File: main.cpp, Line: 202, Column: 11 }
+Function:        _Z16stateful_softmaxRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Applying '
+  - String:          array_partition
+  - String:          ' to '''
+  - UOName:          exp_buf
+  - String:          ''':'
+  - String:          ' '
+  - Mode:            Complete
+  - String:          ' partitioning'
+  - String:          ' on dimension '
+  - Dim:             '1'
+  - String:          .
+...
+--- !Passed
+Pass:            reflow-array-partition
+Name:            ArrayXform
+DebugLoc:        { File: main.cpp, Line: 135, Column: 12 }
+Function:        _Z4gemmRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_a.90
+Args:            
+  - String:          'Applying '
+  - String:          array_partition
+  - String:          ' to '''
+  - UOName:          row
+  - String:          ''':'
+  - String:          ' '
+  - Mode:            Complete
+  - String:          ' partitioning'
+  - String:          ' on dimension '
+  - Dim:             '1'
+  - String:          .
+...
+--- !Passed
+Pass:            reflow-array-partition
+Name:            ArrayXform
+DebugLoc:        { File: main.cpp, Line: 79, Column: 12 }
+Function:        _Z13stateful_normRN3hls6streamI6ap_intILi16EELi0EEES4_
+Args:            
+  - String:          'Applying '
+  - String:          array_partition
+  - String:          ' to '''
+  - UOName:          buf
+  - String:          ''':'
+  - String:          ' '
+  - Mode:            Complete
+  - String:          ' partitioning'
+  - String:          ' on dimension '
+  - Dim:             '1'
+  - String:          .
+...
+--- !Passed
+Pass:            reflow-array-partition
+Name:            ArrayXform
+DebugLoc:        { File: main.cpp, Line: 135, Column: 12 }
+Function:        _Z4gemmRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_a.93
+Args:            
+  - String:          'Applying '
+  - String:          array_partition
+  - String:          ' to '''
+  - UOName:          row
+  - String:          ''':'
+  - String:          ' '
+  - Mode:            Complete
+  - String:          ' partitioning'
+  - String:          ' on dimension '
+  - Dim:             '1'
+  - String:          .
+...
+--- !Passed
+Pass:            reflow-array-partition
+Name:            ArrayXform
+DebugLoc:        { File: main.cpp, Line: 135, Column: 12 }
+Function:        _Z4gemmRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_a
+Args:            
+  - String:          'Applying '
+  - String:          array_partition
+  - String:          ' to '''
+  - UOName:          row
+  - String:          ''':'
+  - String:          ' '
+  - Mode:            Complete
+  - String:          ' partitioning'
+  - String:          ' on dimension '
+  - Dim:             '1'
+  - String:          .
+...
+--- !Passed
+Pass:            reflow-array-partition
+Name:            ArrayXform
+DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - String:          'Applying '
+  - String:          array_partition
+  - String:          ' to '''
+  - UOName:          w1
+  - String:          ''':'
+  - String:          ' '
+  - Mode:            Complete
+  - String:          ' partitioning'
+  - String:          ' on dimension '
+  - Dim:             '2'
+  - String:          .
+...
+--- !Passed
+Pass:            reflow-array-partition
+Name:            ArrayXform
+DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - String:          'Applying '
+  - String:          array_partition
+  - String:          ' to '''
+  - UOName:          w2
+  - String:          ''':'
+  - String:          ' '
+  - Mode:            Complete
+  - String:          ' partitioning'
+  - String:          ' on dimension '
+  - Dim:             '2'
+  - String:          .
+...
+--- !Passed
+Pass:            reflow-array-partition
+Name:            ArrayXform
+DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - String:          'Applying '
+  - String:          array_partition
+  - String:          ' to '''
+  - UOName:          w3
+  - String:          ''':'
+  - String:          ' '
+  - Mode:            Complete
+  - String:          ' partitioning'
+  - String:          ' on dimension '
+  - Dim:             '2'
+  - String:          .
+...
+--- !Passed
+Pass:            reflow-array-partition
+Name:            ArrayXform
+DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - String:          'Applying '
+  - String:          array_partition
+  - String:          ' to '''
+  - UOName:          w4
+  - String:          ''':'
+  - String:          ' '
+  - Mode:            Complete
+  - String:          ' partitioning'
+  - String:          ' on dimension '
+  - Dim:             '2'
+  - String:          .
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 331, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'fan_out(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&) (.1)'
+    DebugLoc:        { File: main.cpp, Line: 51, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 332, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'fifo(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&) (.9.85.87)'
+    DebugLoc:        { File: main.cpp, Line: 64, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 333, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'stateful_norm(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&) (.88)'
+    DebugLoc:        { File: main.cpp, Line: 77, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 334, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'gemm(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16]) (.89)'
+    DebugLoc:        { File: main.cpp, Line: 131, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 335, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'stateful_softmax(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 177, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 336, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'gemm(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16]) (.90)'
+    DebugLoc:        { File: main.cpp, Line: 131, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 337, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'alu_add(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&) (.91)'
+    DebugLoc:        { File: main.cpp, Line: 254, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 338, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'fifo(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&) (.9.85.92)'
+    DebugLoc:        { File: main.cpp, Line: 64, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 345, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'fan_out(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&) (.86)'
+    DebugLoc:        { File: main.cpp, Line: 51, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 346, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'fifo(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&) (.9.85)'
+    DebugLoc:        { File: main.cpp, Line: 64, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 347, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'stateful_norm(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 77, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 348, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'gemm(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16]) (.93)'
+    DebugLoc:        { File: main.cpp, Line: 131, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 349, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'activation_relu(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 234, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 350, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'gemm(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 131, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 351, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'alu_add(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)'
+    DebugLoc:        { File: main.cpp, Line: 254, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...
+--- !Missed
+Pass:            inline
+Name:            NeverInline
+DebugLoc:        { File: main.cpp, Line: 352, Column: 5 }
+Function:        _Z15transformer_topRN3hls6streamI6ap_intILi16EELi0EEES4_PA16_aS6_S6_S6_
+Args:            
+  - Callee:          'fifo(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&) (.9.1)'
+    DebugLoc:        { File: main.cpp, Line: 64, Column: 0 }
+  - String:          ' not inlined into '
+  - Caller:          'transformer_top(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16], signed char (*) [16], signed char (*) [16], signed char (*) [16])'
+    DebugLoc:        { File: main.cpp, Line: 279, Column: 0 }
+  - String:          ' because it should never be inlined (cost=never)'
+...

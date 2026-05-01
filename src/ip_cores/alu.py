@@ -23,6 +23,7 @@ class ALUCore(AXI4StreamLiteBase):
         if op_mode not in ("add", "multiply", "mask"):
             raise ValueError("op_mode must be 'add', 'multiply', or 'mask'")
         super().__init__(tiling_param=T_width, name=name)
+        self.op_mode = op_mode
 
         with pyrtl.set_working_block(self.block, no_sanity_check=True):
             self.data_in_b = WireVector(

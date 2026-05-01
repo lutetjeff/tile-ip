@@ -1,0 +1,1222 @@
+==============================================================
+Vitis HLS - High-Level Synthesis from C, C++ and OpenCL v2025.2 (64-bit)
+Tool Version Limit: 2025.11
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+==============================================================
+INFO: [HLS 200-1505] Using default flow_target 'vivado'
+INFO: [HLS 200-1510] Running: set_part xc7s50csga324-2 
+INFO: [HLS 200-1611] Setting target device to 'xc7s50-csga324-2'
+INFO: [HLS 200-1510] Running: create_clock -period 10 
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
+INFO: [HLS 200-1510] Running: csim_design 
+INFO: [SIM 211-2] *************** CSIM start ***************
+INFO: [HLS 200-2191] C-Simulation will use clang-16 as the compiler
+INFO: [HLS 200-2036] Building debug C Simulation binaries
+INFO: [SIM 211-1] CSim done with 0 errors.
+INFO: [SIM 211-3] *************** CSIM finish ***************
+INFO: [HLS 200-2161] Finished Command csim_design Elapsed time: 00:00:01; Allocated memory: 0.000 MB.
+INFO: [HLS 200-1510] Running: csynth_design 
+INFO: [HLS 200-111] Finished File checks and directory preparation: CPU user time: 0.45 seconds. CPU system time: 0.09 seconds. Elapsed time: 0.54 seconds; current allocated memory: 247.648 MB.
+INFO: [HLS 200-2191] C-Synthesis will use clang-16 as the compiler
+INFO: [HLS 200-10] Analyzing design file 'main.cpp' ... 
+INFO: [HLS 200-111] Finished Source Code Analysis and Preprocessing: CPU user time: 3.1 seconds. CPU system time: 0.55 seconds. Elapsed time: 3.65 seconds; current allocated memory: 250.629 MB.
+INFO: [HLS 200-777] Using interface defaults for 'Vivado' flow target.
+INFO: [HLS 200-1995] There were 5,015 instructions in the design after the 'Compile/Link' phase of compilation. See the Design Size Report for more details (/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 2,352 instructions in the design after the 'Unroll/Inline (step 1)' phase of compilation. See the Design Size Report for more details (/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 1,645 instructions in the design after the 'Unroll/Inline (step 2)' phase of compilation. See the Design Size Report for more details (/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 1,585 instructions in the design after the 'Unroll/Inline (step 3)' phase of compilation. See the Design Size Report for more details (/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 1,585 instructions in the design after the 'Unroll/Inline (step 4)' phase of compilation. See the Design Size Report for more details (/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 5,068 instructions in the design after the 'Array/Struct (step 1)' phase of compilation. See the Design Size Report for more details (/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 3,586 instructions in the design after the 'Array/Struct (step 2)' phase of compilation. See the Design Size Report for more details (/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 3,586 instructions in the design after the 'Array/Struct (step 3)' phase of compilation. See the Design Size Report for more details (/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 3,586 instructions in the design after the 'Array/Struct (step 4)' phase of compilation. See the Design Size Report for more details (/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 3,701 instructions in the design after the 'Array/Struct (step 5)' phase of compilation. See the Design Size Report for more details (/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 3,701 instructions in the design after the 'Performance (step 1)' phase of compilation. See the Design Size Report for more details (/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 3,586 instructions in the design after the 'Performance (step 2)' phase of compilation. See the Design Size Report for more details (/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 3,586 instructions in the design after the 'Performance (step 3)' phase of compilation. See the Design Size Report for more details (/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 3,586 instructions in the design after the 'Performance (step 4)' phase of compilation. See the Design Size Report for more details (/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 3,669 instructions in the design after the 'HW Transforms (step 1)' phase of compilation. See the Design Size Report for more details (/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 200-1995] There were 3,836 instructions in the design after the 'HW Transforms (step 2)' phase of compilation. See the Design Size Report for more details (/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/syn/report/csynth_design_size.rpt:2)
+INFO: [HLS 214-131] Inlining function 'pack_beat(signed char*)' into 'stateful_norm(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)' (main.cpp:120:19)
+INFO: [HLS 214-131] Inlining function 'unpack_beat(ap_int<16>, signed char*)' into 'stateful_norm(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)' (main.cpp:89:9)
+INFO: [HLS 214-131] Inlining function 'pack_beat(signed char*)' into 'gemm(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16])' (main.cpp:167:19)
+INFO: [HLS 214-131] Inlining function 'unpack_beat(ap_int<16>, signed char*)' into 'gemm(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, signed char (*) [16])' (main.cpp:143:9)
+INFO: [HLS 214-131] Inlining function 'pack_beat(signed char*)' into 'stateful_softmax(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)' (main.cpp:227:19)
+INFO: [HLS 214-131] Inlining function 'unpack_beat(ap_int<16>, signed char*)' into 'stateful_softmax(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)' (main.cpp:192:9)
+INFO: [HLS 214-131] Inlining function 'pack_beat(signed char*)' into 'alu_add(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)' (main.cpp:270:19)
+INFO: [HLS 214-131] Inlining function 'unpack_beat(ap_int<16>, signed char*)' into 'alu_add(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)' (main.cpp:263:9)
+INFO: [HLS 214-131] Inlining function 'pack_beat(signed char*)' into 'activation_relu(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)' (main.cpp:245:19)
+INFO: [HLS 214-131] Inlining function 'unpack_beat(ap_int<16>, signed char*)' into 'activation_relu(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)' (main.cpp:240:9)
+INFO: [HLS 214-291] Loop 'VITIS_LOOP_29_1' is marked as complete unroll implied by the pipeline pragma (main.cpp:29:22)
+INFO: [HLS 214-291] Loop 'VITIS_LOOP_241_2' is marked as complete unroll implied by the pipeline pragma (main.cpp:241:27)
+INFO: [HLS 214-291] Loop 'VITIS_LOOP_38_1' is marked as complete unroll implied by the pipeline pragma (main.cpp:38:22)
+INFO: [HLS 214-291] Loop 'VITIS_LOOP_265_2' is marked as complete unroll implied by the pipeline pragma (main.cpp:265:27)
+INFO: [HLS 214-291] Loop 'VITIS_LOOP_220_5' is marked as complete unroll implied by the pipeline pragma (main.cpp:220:27)
+INFO: [HLS 214-291] Loop 'VITIS_LOOP_193_2' is marked as complete unroll implied by the pipeline pragma (main.cpp:193:27)
+INFO: [HLS 214-291] Loop 'VITIS_LOOP_154_4' is marked as complete unroll implied by the pipeline pragma (main.cpp:154:27)
+INFO: [HLS 214-291] Loop 'VITIS_LOOP_158_5' is marked as complete unroll implied by the pipeline pragma (main.cpp:158:31)
+INFO: [HLS 214-291] Loop 'VITIS_LOOP_144_2' is marked as complete unroll implied by the pipeline pragma (main.cpp:144:27)
+INFO: [HLS 214-291] Loop 'VITIS_LOOP_112_4' is marked as complete unroll implied by the pipeline pragma (main.cpp:112:27)
+INFO: [HLS 214-291] Loop 'VITIS_LOOP_90_2' is marked as complete unroll implied by the pipeline pragma (main.cpp:90:26)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_29_1' (main.cpp:29:22) in function 'activation_relu' completely with a factor of 2 (main.cpp:234:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_241_2' (main.cpp:241:27) in function 'activation_relu' completely with a factor of 2 (main.cpp:234:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_38_1' (main.cpp:38:22) in function 'activation_relu' completely with a factor of 2 (main.cpp:234:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_29_1' (main.cpp:29:22) in function 'alu_add' completely with a factor of 2 (main.cpp:254:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_265_2' (main.cpp:265:27) in function 'alu_add' completely with a factor of 2 (main.cpp:254:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_38_1' (main.cpp:38:22) in function 'alu_add' completely with a factor of 2 (main.cpp:254:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_220_5' (main.cpp:220:27) in function 'stateful_softmax' completely with a factor of 2 (main.cpp:177:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_38_1' (main.cpp:38:22) in function 'stateful_softmax' completely with a factor of 2 (main.cpp:177:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_205_3' (main.cpp:205:23) in function 'stateful_softmax' completely with a factor of 16 (main.cpp:177:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_29_1' (main.cpp:29:22) in function 'stateful_softmax' completely with a factor of 2 (main.cpp:177:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_193_2' (main.cpp:193:27) in function 'stateful_softmax' completely with a factor of 2 (main.cpp:177:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_154_4' (main.cpp:154:27) in function 'gemm' completely with a factor of 2 (main.cpp:131:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_158_5' (main.cpp:158:31) in function 'gemm' completely with a factor of 16 (main.cpp:131:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_38_1' (main.cpp:38:22) in function 'gemm' completely with a factor of 2 (main.cpp:131:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_29_1' (main.cpp:29:22) in function 'gemm' completely with a factor of 2 (main.cpp:131:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_144_2' (main.cpp:144:27) in function 'gemm' completely with a factor of 2 (main.cpp:131:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_112_4' (main.cpp:112:27) in function 'stateful_norm' completely with a factor of 2 (main.cpp:77:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_38_1' (main.cpp:38:22) in function 'stateful_norm' completely with a factor of 2 (main.cpp:77:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_29_1' (main.cpp:29:22) in function 'stateful_norm' completely with a factor of 2 (main.cpp:77:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_90_2' (main.cpp:90:26) in function 'stateful_norm' completely with a factor of 2 (main.cpp:77:0)
+WARNING: [HLS 214-366] Duplicating function 'fifo(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&) (.9)' as different function signatures were detected between this call site and other call site(s). This may impact the resources used in the design. (main.cpp:332:5)
+WARNING: [HLS 214-366] Duplicating function 'fifo(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&) (.9)' as different function signatures were detected between this call site and other call site(s). This may impact the resources used in the design. (main.cpp:338:5)
+WARNING: [HLS 214-366] Duplicating function 'fifo(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&) (.9)' as different function signatures were detected between this call site and other call site(s). This may impact the resources used in the design. (main.cpp:346:5)
+WARNING: [HLS 214-366] Duplicating function 'fan_out(hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&, hls::stream<ap_int<16>, 0>&)' as different function signatures were detected between this call site and other call site(s). This may impact the resources used in the design. (main.cpp:345:5)
+INFO: [HLS 214-248] Applying array_partition to 'buf': Complete partitioning on dimension 1. (main.cpp:79:12)
+INFO: [HLS 214-248] Applying array_partition to 'row': Complete partitioning on dimension 1. (main.cpp:135:12)
+INFO: [HLS 214-248] Applying array_partition to 'buf': Complete partitioning on dimension 1. (main.cpp:179:12)
+INFO: [HLS 214-248] Applying array_partition to 'exp_buf': Complete partitioning on dimension 1. (main.cpp:202:11)
+INFO: [HLS 214-248] Applying array_partition to 'w1': Complete partitioning on dimension 2. (main.cpp:279:0)
+INFO: [HLS 214-248] Applying array_partition to 'w2': Complete partitioning on dimension 2. (main.cpp:279:0)
+INFO: [HLS 214-248] Applying array_partition to 'w3': Complete partitioning on dimension 2. (main.cpp:279:0)
+INFO: [HLS 214-248] Applying array_partition to 'w4': Complete partitioning on dimension 2. (main.cpp:279:0)
+INFO: [HLS 200-111] Finished Compiling Optimization and Transform: CPU user time: 2.7 seconds. CPU system time: 0.53 seconds. Elapsed time: 6.78 seconds; current allocated memory: 261.504 MB.
+INFO: [HLS 200-111] Finished Checking Pragmas: CPU user time: 0 seconds. CPU system time: 0 seconds. Elapsed time: 0 seconds; current allocated memory: 261.504 MB.
+INFO: [HLS 200-10] Starting code transformations ...
+INFO: [HLS 200-111] Finished Standard Transforms: CPU user time: 0.17 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.18 seconds; current allocated memory: 263.566 MB.
+INFO: [HLS 200-10] Checking synthesizability ...
+INFO: [HLS 200-111] Finished Checking Synthesizability: CPU user time: 0.1 seconds. CPU system time: 0 seconds. Elapsed time: 0.1 seconds; current allocated memory: 268.387 MB.
+INFO: [XFORM 203-712] Applying dataflow to function 'transformer_top' (main.cpp:277:1), detected/extracted 16 process function(s): 
+	 'fan_out.8'
+	 'fifo.1'
+	 'stateful_norm.2'
+	 'gemm'
+	 'stateful_softmax'
+	 'gemm.5'
+	 'alu_add.3'
+	 'fifo.4'
+	 'fan_out'
+	 'fifo'
+	 'stateful_norm'
+	 'gemm.6'
+	 'activation_relu'
+	 'gemm.7'
+	 'alu_add'
+	 'fifo.9'.
+INFO: [XFORM 203-11] Balancing expressions in function 'stateful_softmax' (main.cpp:31:23)...12 expression(s) balanced.
+INFO: [XFORM 203-11] Balancing expressions in function 'gemm.7' (main.cpp:31:23)...24 expression(s) balanced.
+INFO: [XFORM 203-11] Balancing expressions in function 'gemm.6' (main.cpp:31:23)...24 expression(s) balanced.
+INFO: [XFORM 203-11] Balancing expressions in function 'gemm.5' (main.cpp:31:23)...24 expression(s) balanced.
+INFO: [XFORM 203-11] Balancing expressions in function 'gemm' (main.cpp:31:23)...24 expression(s) balanced.
+INFO: [HLS 200-111] Finished Loop, function and other optimizations: CPU user time: 0.54 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.55 seconds; current allocated memory: 293.273 MB.
+WARNING: [HLS 200-1449] Process gemm has both a predecessor and reads an input from its caller (see the GUI dataflow viewer). This may lead to lower throughput. Consider copying this input via a predecessor process.
+WARNING: [HLS 200-1449] Process gemm.5 has both a predecessor and reads an input from its caller (see the GUI dataflow viewer). This may lead to lower throughput. Consider copying this input via a predecessor process.
+WARNING: [HLS 200-1449] Process gemm.6 has both a predecessor and reads an input from its caller (see the GUI dataflow viewer). This may lead to lower throughput. Consider copying this input via a predecessor process.
+WARNING: [HLS 200-1449] Process gemm.7 has both a predecessor and reads an input from its caller (see the GUI dataflow viewer). This may lead to lower throughput. Consider copying this input via a predecessor process.
+INFO: [HLS 200-111] Finished Architecture Synthesis: CPU user time: 0.46 seconds. CPU system time: 0.07 seconds. Elapsed time: 0.54 seconds; current allocated memory: 591.293 MB.
+INFO: [HLS 200-10] Starting hardware synthesis ...
+INFO: [HLS 200-10] Synthesizing 'transformer_top' ...
+WARNING: [SYN 201-103] Legalizing function name 'fan_out.8' to 'fan_out_8'.
+WARNING: [SYN 201-103] Legalizing function name 'fifo.1' to 'fifo_1'.
+WARNING: [SYN 201-103] Legalizing function name 'stateful_norm.2_Pipeline_VITIS_LOOP_85_1' to 'stateful_norm_2_Pipeline_VITIS_LOOP_85_1'.
+WARNING: [SYN 201-103] Legalizing function name 'stateful_norm.2_Pipeline_VITIS_LOOP_109_3' to 'stateful_norm_2_Pipeline_VITIS_LOOP_109_3'.
+WARNING: [SYN 201-103] Legalizing function name 'stateful_norm.2' to 'stateful_norm_2'.
+WARNING: [SYN 201-103] Legalizing function name 'gemm.5_Pipeline_VITIS_LOOP_139_1' to 'gemm_5_Pipeline_VITIS_LOOP_139_1'.
+WARNING: [SYN 201-103] Legalizing function name 'gemm.5_Pipeline_VITIS_LOOP_151_3' to 'gemm_5_Pipeline_VITIS_LOOP_151_3'.
+WARNING: [SYN 201-103] Legalizing function name 'gemm.5' to 'gemm_5'.
+WARNING: [SYN 201-103] Legalizing function name 'alu_add.3' to 'alu_add_3'.
+WARNING: [SYN 201-103] Legalizing function name 'fifo.4' to 'fifo_4'.
+WARNING: [SYN 201-103] Legalizing function name 'gemm.6_Pipeline_VITIS_LOOP_139_1' to 'gemm_6_Pipeline_VITIS_LOOP_139_1'.
+WARNING: [SYN 201-103] Legalizing function name 'gemm.6_Pipeline_VITIS_LOOP_151_3' to 'gemm_6_Pipeline_VITIS_LOOP_151_3'.
+WARNING: [SYN 201-103] Legalizing function name 'gemm.6' to 'gemm_6'.
+WARNING: [SYN 201-103] Legalizing function name 'gemm.7_Pipeline_VITIS_LOOP_139_1' to 'gemm_7_Pipeline_VITIS_LOOP_139_1'.
+WARNING: [SYN 201-103] Legalizing function name 'gemm.7_Pipeline_VITIS_LOOP_151_3' to 'gemm_7_Pipeline_VITIS_LOOP_151_3'.
+WARNING: [SYN 201-103] Legalizing function name 'gemm.7' to 'gemm_7'.
+WARNING: [SYN 201-103] Legalizing function name 'fifo.9' to 'fifo_9'.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'fan_out_8' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_53_1'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 1, loop 'VITIS_LOOP_53_1'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.09 seconds. CPU system time: 0.04 seconds. Elapsed time: 0.11 seconds; current allocated memory: 593.727 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 593.727 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'fifo_1' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_66_1'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 1, loop 'VITIS_LOOP_66_1'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0 seconds; current allocated memory: 593.918 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 593.918 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'stateful_norm_2_Pipeline_VITIS_LOOP_85_1' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_85_1'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 3, loop 'VITIS_LOOP_85_1'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 594.734 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.01 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.01 seconds; current allocated memory: 594.734 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'stateful_norm_2_Pipeline_VITIS_LOOP_109_3' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_109_3'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 2, loop 'VITIS_LOOP_109_3'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 595.031 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 595.031 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'stateful_norm_2' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 595.031 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0 seconds; current allocated memory: 595.031 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'gemm_Pipeline_VITIS_LOOP_139_1' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_139_1'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 2, loop 'VITIS_LOOP_139_1'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 596.121 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0 seconds; current allocated memory: 596.121 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'gemm_Pipeline_VITIS_LOOP_151_3' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [HLS 200-486] Changing DSP latency (root=acc_1) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_26) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_25) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_24) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_22) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_21) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_19) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_18) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_17) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_16) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_15) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=acc) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_11) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_10) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_9) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_7) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_6) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_4) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_3) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_2) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_1) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160) to 3 in order to utilize available DSP registers.
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_151_3'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 9, loop 'VITIS_LOOP_151_3'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.07 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.08 seconds; current allocated memory: 600.727 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.04 seconds. CPU system time: 0 seconds. Elapsed time: 0.04 seconds; current allocated memory: 600.727 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'gemm' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.07 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.09 seconds; current allocated memory: 604.199 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.04 seconds. CPU system time: 0 seconds. Elapsed time: 0.03 seconds; current allocated memory: 604.199 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'stateful_softmax_Pipeline_VITIS_LOOP_188_1' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_188_1'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 3, loop 'VITIS_LOOP_188_1'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.04 seconds. CPU system time: 0 seconds. Elapsed time: 0.05 seconds; current allocated memory: 605.629 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.01 seconds; current allocated memory: 605.629 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'stateful_softmax_Pipeline_VITIS_LOOP_217_4' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_217_4'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 22, loop 'VITIS_LOOP_217_4'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 606.027 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 606.027 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'stateful_softmax' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.03 seconds. CPU system time: 0 seconds. Elapsed time: 0.04 seconds; current allocated memory: 608.574 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.02 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 608.574 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'gemm_5_Pipeline_VITIS_LOOP_139_1' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_139_1'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 2, loop 'VITIS_LOOP_139_1'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.02 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 608.902 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.01 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.01 seconds; current allocated memory: 608.902 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'gemm_5_Pipeline_VITIS_LOOP_151_3' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [HLS 200-486] Changing DSP latency (root=acc_4) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_84) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_83) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_82) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_80) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_79) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_77) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_76) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_75) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_74) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_73) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=acc) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_69) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_68) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_67) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_65) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_64) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_62) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_61) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_60) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_59) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160) to 3 in order to utilize available DSP registers.
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_151_3'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 9, loop 'VITIS_LOOP_151_3'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.06 seconds. CPU system time: 0 seconds. Elapsed time: 0.07 seconds; current allocated memory: 613.469 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.04 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.04 seconds; current allocated memory: 613.469 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'gemm_5' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.08 seconds. CPU system time: 0 seconds. Elapsed time: 0.08 seconds; current allocated memory: 616.973 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.02 seconds. CPU system time: 0 seconds. Elapsed time: 0.03 seconds; current allocated memory: 616.973 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'alu_add_3' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_256_1'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 2, loop 'VITIS_LOOP_256_1'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.04 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.04 seconds; current allocated memory: 617.855 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 617.855 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'fifo_4' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_66_1'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 1, loop 'VITIS_LOOP_66_1'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 618.051 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0 seconds; current allocated memory: 618.051 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'fan_out' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_53_1'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 1, loop 'VITIS_LOOP_53_1'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 618.234 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0 seconds; current allocated memory: 618.234 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'fifo' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_66_1'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 1, loop 'VITIS_LOOP_66_1'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 618.426 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0 seconds. CPU system time: 0 seconds. Elapsed time: 0 seconds; current allocated memory: 618.426 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'stateful_norm_Pipeline_VITIS_LOOP_85_1' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_85_1'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 3, loop 'VITIS_LOOP_85_1'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 619.242 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.01 seconds; current allocated memory: 619.242 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'stateful_norm_Pipeline_VITIS_LOOP_109_3' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_109_3'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 2, loop 'VITIS_LOOP_109_3'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 619.562 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0 seconds; current allocated memory: 619.562 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'stateful_norm' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 619.562 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 619.562 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'gemm_6_Pipeline_VITIS_LOOP_139_1' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_139_1'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 2, loop 'VITIS_LOOP_139_1'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.02 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 620.648 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 620.648 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'gemm_6_Pipeline_VITIS_LOOP_151_3' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [HLS 200-486] Changing DSP latency (root=acc_3) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_55) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_54) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_53) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_51) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_50) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_48) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_47) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_46) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_45) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_44) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=acc) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_40) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_39) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_38) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_36) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_35) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_33) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_32) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_31) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_30) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160) to 3 in order to utilize available DSP registers.
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_151_3'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 9, loop 'VITIS_LOOP_151_3'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.07 seconds. CPU system time: 0 seconds. Elapsed time: 0.07 seconds; current allocated memory: 625.246 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.04 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.04 seconds; current allocated memory: 625.246 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'gemm_6' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.08 seconds. CPU system time: 0 seconds. Elapsed time: 0.09 seconds; current allocated memory: 628.723 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.03 seconds. CPU system time: 0 seconds. Elapsed time: 0.03 seconds; current allocated memory: 628.723 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'activation_relu' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_236_1'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 2, loop 'VITIS_LOOP_236_1'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.04 seconds. CPU system time: 0 seconds. Elapsed time: 0.04 seconds; current allocated memory: 629.680 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.01 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.01 seconds; current allocated memory: 629.680 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'gemm_7_Pipeline_VITIS_LOOP_139_1' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_139_1'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 2, loop 'VITIS_LOOP_139_1'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 630.352 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 630.352 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'gemm_7_Pipeline_VITIS_LOOP_151_3' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [HLS 200-486] Changing DSP latency (root=acc_2) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_26) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_25) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_24) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_22) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_21) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_19) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_18) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_17) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_16) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_15) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=acc) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_11) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_10) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_9) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_7) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_6) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_4) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_3) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_2) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160_1) to 3 in order to utilize available DSP registers.
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln160) to 3 in order to utilize available DSP registers.
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_151_3'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 9, loop 'VITIS_LOOP_151_3'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.07 seconds. CPU system time: 0 seconds. Elapsed time: 0.08 seconds; current allocated memory: 634.926 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.03 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.04 seconds; current allocated memory: 634.926 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'gemm_7' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.08 seconds. CPU system time: 0 seconds. Elapsed time: 0.08 seconds; current allocated memory: 638.426 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.03 seconds. CPU system time: 0 seconds. Elapsed time: 0.04 seconds; current allocated memory: 638.426 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'alu_add' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_256_1'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 2, loop 'VITIS_LOOP_256_1'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.04 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.03 seconds; current allocated memory: 639.352 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 639.352 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'fifo_9' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_66_1'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 2, loop 'VITIS_LOOP_66_1'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 639.535 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0 seconds; current allocated memory: 639.535 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'transformer_top' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+WARNING: [HLS 200-1018] Consider increasing the depth of FIFO s_fifo1_out (from fifo_1_U0 to alu_add_3_U0) to 5 to improve performance and/or avoid deadlocks.
+WARNING: [HLS 200-1018] Consider increasing the depth of FIFO s_fifo2_out (from fifo_U0 to alu_add_U0) to 5 to improve performance and/or avoid deadlocks.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 640.602 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.03 seconds. CPU system time: 0 seconds. Elapsed time: 0.03 seconds; current allocated memory: 640.602 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'fan_out_8' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'fan_out_8'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.07 seconds. CPU system time: 0 seconds. Elapsed time: 0.07 seconds; current allocated memory: 640.602 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'fifo_1' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'fifo_1'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.02 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.03 seconds; current allocated memory: 640.980 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'stateful_norm_2_Pipeline_VITIS_LOOP_85_1' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'stateful_norm_2_Pipeline_VITIS_LOOP_85_1' pipeline 'VITIS_LOOP_85_1' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-100] Finished creating RTL model for 'stateful_norm_2_Pipeline_VITIS_LOOP_85_1'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.02 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 641.938 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'stateful_norm_2_Pipeline_VITIS_LOOP_109_3' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'stateful_norm_2_Pipeline_VITIS_LOOP_109_3' pipeline 'VITIS_LOOP_109_3' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-100] Generating core module 'sparsemux_17_3_8_1_1': 2 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'stateful_norm_2_Pipeline_VITIS_LOOP_109_3'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.03 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.04 seconds; current allocated memory: 644.340 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'stateful_norm_2' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'stateful_norm_2'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.02 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 645.188 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'gemm_Pipeline_VITIS_LOOP_139_1' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'gemm_Pipeline_VITIS_LOOP_139_1' pipeline 'VITIS_LOOP_139_1' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-100] Finished creating RTL model for 'gemm_Pipeline_VITIS_LOOP_139_1'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.02 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.03 seconds; current allocated memory: 646.336 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'gemm_Pipeline_VITIS_LOOP_151_3' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'gemm_Pipeline_VITIS_LOOP_151_3' pipeline 'VITIS_LOOP_151_3' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_8s_8s_16s_17_4_1': 10 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_8s_8s_17s_17_4_1': 6 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_8s_8s_17s_18_4_1': 2 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_8s_8s_18s_19_4_1': 2 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_8s_8s_19s_20_4_1': 2 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mul_8s_8s_16_1_1': 10 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'sparsemux_17_3_8_1_1': 32 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'gemm_Pipeline_VITIS_LOOP_151_3'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.17 seconds. CPU system time: 0 seconds. Elapsed time: 0.18 seconds; current allocated memory: 654.621 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'gemm' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_0_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_0_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_0_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_0_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_1_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_1_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_1_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_1_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_2_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_2_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_2_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_2_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_3_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_3_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_3_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_3_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_4_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_4_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_4_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_4_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_5_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_5_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_5_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_5_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_6_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_6_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_6_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_6_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_7_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_7_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_7_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_7_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_8_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_8_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_8_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_8_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_9_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_9_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_9_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_9_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_10_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_10_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_10_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_10_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_11_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_11_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_11_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_11_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_12_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_12_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_12_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_12_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_13_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_13_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_13_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_13_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_14_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_14_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_14_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_14_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_15_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_15_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_15_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm/w1_15_Din_B' to 0.
+INFO: [RTGEN 206-100] Finished creating RTL model for 'gemm'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.14 seconds. CPU system time: 0.02 seconds. Elapsed time: 0.15 seconds; current allocated memory: 666.418 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'stateful_softmax_Pipeline_VITIS_LOOP_188_1' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'stateful_softmax_Pipeline_VITIS_LOOP_188_1' pipeline 'VITIS_LOOP_188_1' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-100] Finished creating RTL model for 'stateful_softmax_Pipeline_VITIS_LOOP_188_1'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.1 seconds. CPU system time: 0.03 seconds. Elapsed time: 0.13 seconds; current allocated memory: 679.789 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'stateful_softmax_Pipeline_VITIS_LOOP_217_4' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'stateful_softmax_Pipeline_VITIS_LOOP_217_4' pipeline 'VITIS_LOOP_217_4' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-100] Generating core module 'sparsemux_17_3_9_1_1': 2 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'udiv_17ns_13ns_17_21_1': 2 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'stateful_softmax_Pipeline_VITIS_LOOP_217_4'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.04 seconds. CPU system time: 0 seconds. Elapsed time: 0.04 seconds; current allocated memory: 681.598 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'stateful_softmax' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'stateful_softmax'.
+INFO: [HLS 200-2168] Implementing memory 'transformer_top_stateful_softmax_EXP_LUT_ROM_AUTO_1R' using auto ROMs with 6 copies to ensure enough ports to satisfy II or latency constraints.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.04 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.05 seconds; current allocated memory: 685.047 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'gemm_5_Pipeline_VITIS_LOOP_139_1' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'gemm_5_Pipeline_VITIS_LOOP_139_1' pipeline 'VITIS_LOOP_139_1' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-100] Finished creating RTL model for 'gemm_5_Pipeline_VITIS_LOOP_139_1'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.07 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.07 seconds; current allocated memory: 690.891 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'gemm_5_Pipeline_VITIS_LOOP_151_3' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'gemm_5_Pipeline_VITIS_LOOP_151_3' pipeline 'VITIS_LOOP_151_3' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_8s_8s_16s_17_4_1': 10 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_8s_8s_17s_17_4_1': 6 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_8s_8s_17s_18_4_1': 2 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_8s_8s_18s_19_4_1': 2 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_8s_8s_19s_20_4_1': 2 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mul_8s_8s_16_1_1': 10 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'sparsemux_17_3_8_1_1': 32 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'gemm_5_Pipeline_VITIS_LOOP_151_3'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.17 seconds. CPU system time: 0 seconds. Elapsed time: 0.19 seconds; current allocated memory: 697.965 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'gemm_5' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_0_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_0_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_0_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_0_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_1_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_1_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_1_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_1_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_2_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_2_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_2_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_2_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_3_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_3_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_3_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_3_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_4_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_4_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_4_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_4_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_5_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_5_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_5_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_5_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_6_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_6_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_6_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_6_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_7_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_7_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_7_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_7_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_8_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_8_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_8_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_8_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_9_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_9_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_9_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_9_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_10_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_10_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_10_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_10_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_11_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_11_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_11_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_11_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_12_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_12_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_12_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_12_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_13_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_13_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_13_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_13_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_14_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_14_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_14_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_14_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_15_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_15_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_15_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_5/w2_15_Din_B' to 0.
+INFO: [RTGEN 206-100] Finished creating RTL model for 'gemm_5'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.14 seconds. CPU system time: 0.02 seconds. Elapsed time: 0.15 seconds; current allocated memory: 709.656 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'alu_add_3' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'alu_add_3' pipeline 'VITIS_LOOP_256_1' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-100] Finished creating RTL model for 'alu_add_3'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.11 seconds. CPU system time: 0.02 seconds. Elapsed time: 0.14 seconds; current allocated memory: 721.898 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'fifo_4' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'fifo_4'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.02 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 721.898 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'fan_out' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'fan_out'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.03 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 721.965 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'fifo' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'fifo'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.01 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.03 seconds; current allocated memory: 722.574 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'stateful_norm_Pipeline_VITIS_LOOP_85_1' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'stateful_norm_Pipeline_VITIS_LOOP_85_1' pipeline 'VITIS_LOOP_85_1' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-100] Finished creating RTL model for 'stateful_norm_Pipeline_VITIS_LOOP_85_1'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.03 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 723.086 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'stateful_norm_Pipeline_VITIS_LOOP_109_3' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'stateful_norm_Pipeline_VITIS_LOOP_109_3' pipeline 'VITIS_LOOP_109_3' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-100] Generating core module 'sparsemux_17_3_8_1_1': 2 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'stateful_norm_Pipeline_VITIS_LOOP_109_3'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.03 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.04 seconds; current allocated memory: 725.223 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'stateful_norm' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Finished creating RTL model for 'stateful_norm'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.03 seconds. CPU system time: 0 seconds. Elapsed time: 0.03 seconds; current allocated memory: 726.551 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'gemm_6_Pipeline_VITIS_LOOP_139_1' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'gemm_6_Pipeline_VITIS_LOOP_139_1' pipeline 'VITIS_LOOP_139_1' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-100] Finished creating RTL model for 'gemm_6_Pipeline_VITIS_LOOP_139_1'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.02 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.03 seconds; current allocated memory: 727.996 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'gemm_6_Pipeline_VITIS_LOOP_151_3' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'gemm_6_Pipeline_VITIS_LOOP_151_3' pipeline 'VITIS_LOOP_151_3' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_8s_8s_16s_17_4_1': 10 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_8s_8s_17s_17_4_1': 6 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_8s_8s_17s_18_4_1': 2 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_8s_8s_18s_19_4_1': 2 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_8s_8s_19s_20_4_1': 2 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mul_8s_8s_16_1_1': 10 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'sparsemux_17_3_8_1_1': 32 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'gemm_6_Pipeline_VITIS_LOOP_151_3'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.17 seconds. CPU system time: 0 seconds. Elapsed time: 0.18 seconds; current allocated memory: 733.648 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'gemm_6' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_0_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_0_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_0_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_0_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_1_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_1_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_1_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_1_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_2_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_2_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_2_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_2_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_3_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_3_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_3_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_3_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_4_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_4_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_4_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_4_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_5_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_5_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_5_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_5_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_6_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_6_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_6_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_6_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_7_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_7_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_7_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_7_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_8_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_8_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_8_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_8_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_9_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_9_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_9_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_9_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_10_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_10_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_10_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_10_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_11_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_11_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_11_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_11_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_12_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_12_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_12_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_12_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_13_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_13_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_13_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_13_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_14_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_14_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_14_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_14_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_15_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_15_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_15_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_6/w3_15_Din_B' to 0.
+INFO: [RTGEN 206-100] Finished creating RTL model for 'gemm_6'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.14 seconds. CPU system time: 0.02 seconds. Elapsed time: 0.16 seconds; current allocated memory: 745.484 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'activation_relu' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'activation_relu' pipeline 'VITIS_LOOP_236_1' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-100] Finished creating RTL model for 'activation_relu'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.11 seconds. CPU system time: 0.02 seconds. Elapsed time: 0.12 seconds; current allocated memory: 758.094 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'gemm_7_Pipeline_VITIS_LOOP_139_1' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'gemm_7_Pipeline_VITIS_LOOP_139_1' pipeline 'VITIS_LOOP_139_1' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-100] Finished creating RTL model for 'gemm_7_Pipeline_VITIS_LOOP_139_1'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.02 seconds. CPU system time: 0 seconds. Elapsed time: 0.03 seconds; current allocated memory: 758.633 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'gemm_7_Pipeline_VITIS_LOOP_151_3' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'gemm_7_Pipeline_VITIS_LOOP_151_3' pipeline 'VITIS_LOOP_151_3' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_8s_8s_16s_17_4_1': 10 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_8s_8s_17s_17_4_1': 6 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_8s_8s_17s_18_4_1': 2 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_8s_8s_18s_19_4_1': 2 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_8s_8s_19s_20_4_1': 2 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mul_8s_8s_16_1_1': 10 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'sparsemux_17_3_8_1_1': 32 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'gemm_7_Pipeline_VITIS_LOOP_151_3'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.17 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.17 seconds; current allocated memory: 763.441 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'gemm_7' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_0_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_0_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_0_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_0_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_1_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_1_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_1_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_1_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_2_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_2_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_2_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_2_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_3_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_3_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_3_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_3_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_4_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_4_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_4_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_4_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_5_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_5_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_5_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_5_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_6_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_6_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_6_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_6_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_7_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_7_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_7_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_7_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_8_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_8_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_8_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_8_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_9_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_9_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_9_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_9_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_10_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_10_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_10_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_10_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_11_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_11_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_11_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_11_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_12_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_12_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_12_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_12_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_13_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_13_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_13_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_13_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_14_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_14_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_14_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_14_Din_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_15_WEN_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_15_Din_A' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_15_WEN_B' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'gemm_7/w4_15_Din_B' to 0.
+INFO: [RTGEN 206-100] Finished creating RTL model for 'gemm_7'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.13 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.15 seconds; current allocated memory: 775.332 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'alu_add' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'alu_add' pipeline 'VITIS_LOOP_256_1' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-100] Finished creating RTL model for 'alu_add'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.11 seconds. CPU system time: 0.02 seconds. Elapsed time: 0.13 seconds; current allocated memory: 788.773 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'fifo_9' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'fifo_9' pipeline 'VITIS_LOOP_66_1' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-100] Finished creating RTL model for 'fifo_9'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.02 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.03 seconds; current allocated memory: 789.293 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'transformer_top' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+WARNING: [RTGEN 206-101] Design contains AXI ports. Reset is fixed to synchronous and active low.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/in_r' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/out_r' to 'axis' (register, both mode).
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w1_0' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w1_1' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w1_2' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w1_3' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w1_4' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w1_5' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w1_6' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w1_7' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w1_8' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w1_9' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w1_10' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w1_11' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w1_12' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w1_13' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w1_14' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w1_15' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w2_0' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w2_1' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w2_2' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w2_3' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w2_4' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w2_5' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w2_6' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w2_7' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w2_8' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w2_9' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w2_10' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w2_11' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w2_12' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w2_13' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w2_14' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w2_15' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w3_0' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w3_1' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w3_2' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w3_3' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w3_4' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w3_5' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w3_6' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w3_7' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w3_8' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w3_9' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w3_10' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w3_11' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w3_12' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w3_13' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w3_14' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w3_15' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w4_0' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w4_1' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w4_2' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w4_3' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w4_4' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w4_5' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w4_6' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w4_7' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w4_8' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w4_9' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w4_10' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w4_11' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w4_12' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w4_13' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w4_14' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'transformer_top/w4_15' to 'bram'.
+INFO: [RTGEN 206-500] Setting interface mode on function 'transformer_top' to 'ap_ctrl_chain'.
+INFO: [RTGEN 206-100] Finished creating RTL model for 'transformer_top'.
+INFO: [RTMG 210-285] Implementing FIFO 's_fifo1_U(transformer_top_fifo_w16_d80_A)' using Vivado Default RAMs.
+INFO: [RTMG 210-285] Implementing FIFO 's_norm1_in_U(transformer_top_fifo_w16_d2_S)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 's_fifo1_out_U(transformer_top_fifo_w16_d2_S)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 's_norm1_out_U(transformer_top_fifo_w16_d2_S)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 's_gemm1_out_U(transformer_top_fifo_w16_d2_S)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 's_softmax_out_U(transformer_top_fifo_w16_d2_S)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 's_gemm2_out_U(transformer_top_fifo_w16_d2_S)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 's_alu1_U(transformer_top_fifo_w16_d2_S)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 's_alu1_fifo_U(transformer_top_fifo_w16_d48_S)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 's_fifo2_U(transformer_top_fifo_w16_d48_S)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 's_norm2_in_U(transformer_top_fifo_w16_d2_S)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 's_fifo2_out_U(transformer_top_fifo_w16_d2_S)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 's_norm2_out_U(transformer_top_fifo_w16_d2_S)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 's_gemm3_out_U(transformer_top_fifo_w16_d2_S)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 's_relu_out_U(transformer_top_fifo_w16_d2_S)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 's_gemm4_out_U(transformer_top_fifo_w16_d2_S)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 's_alu2_fifo_U(transformer_top_fifo_w16_d32_S)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'start_for_fifo_1_U0_U(transformer_top_start_for_fifo_1_U0)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'start_for_stateful_norm_2_U0_U(transformer_top_start_for_stateful_norm_2_U0)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'start_for_stateful_softmax_U0_U(transformer_top_start_for_stateful_softmax_U0)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'start_for_alu_add_3_U0_U(transformer_top_start_for_alu_add_3_U0)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'start_for_fifo_4_U0_U(transformer_top_start_for_fifo_4_U0)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'start_for_fan_out_U0_U(transformer_top_start_for_fan_out_U0)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'start_for_fifo_U0_U(transformer_top_start_for_fifo_U0)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'start_for_stateful_norm_U0_U(transformer_top_start_for_stateful_norm_U0)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'start_for_activation_relu_U0_U(transformer_top_start_for_activation_relu_U0)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'start_for_alu_add_U0_U(transformer_top_start_for_alu_add_U0)' using Shift Registers.
+INFO: [RTMG 210-285] Implementing FIFO 'start_for_fifo_9_U0_U(transformer_top_start_for_fifo_9_U0)' using Shift Registers.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.05 seconds. CPU system time: 0 seconds. Elapsed time: 0.06 seconds; current allocated memory: 790.785 MB.
+INFO: [HLS 200-111] Finished Generating all RTL models: CPU user time: 0.28 seconds. CPU system time: 0.06 seconds. Elapsed time: 0.33 seconds; current allocated memory: 799.906 MB.
+INFO: [HLS 200-2225] Wrote inferred directives to file /home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/syn/inferred_directives.ini
+INFO: [HLS 200-111] Finished Updating report files: CPU user time: 1.25 seconds. CPU system time: 0.05 seconds. Elapsed time: 1.32 seconds; current allocated memory: 835.020 MB.
+INFO: [VHDL 208-304] Generating VHDL RTL for transformer_top.
+INFO: [VLOG 209-307] Generating Verilog RTL for transformer_top.
+INFO: [HLS 200-790] **** Loop Constraint Status: All loop constraints were satisfied.
+INFO: [HLS 200-789] **** Estimated Fmax: 137.92 MHz
+INFO: [HLS 200-2161] Finished Command csynth_design Elapsed time: 00:00:18; Allocated memory: 587.371 MB.
+INFO: [HLS 200-1510] Running: close_project 

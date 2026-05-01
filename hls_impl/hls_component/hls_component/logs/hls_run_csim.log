@@ -1,0 +1,28 @@
+  **** HLS Build v2025.2 6295257
+INFO: [HLS 200-2005] Using work_dir /home/lutet/tiled-ip/hls_impl/hls_component/hls_component 
+INFO: [HLS 200-2176] Writing Vitis IDE component file /home/lutet/tiled-ip/hls_impl/hls_component/hls_component/vitis-comp.json
+INFO: [HLS 200-10] Creating and opening component '/home/lutet/tiled-ip/hls_impl/hls_component/hls_component'.
+INFO: [HLS 200-1505] Using default flow_target 'vivado'
+Resolution: For help on HLS 200-1505 see docs.amd.com/access/sources/dita/topic?Doc_Version=2025.2%20English&url=ug1448-hls-guidance&resourceid=200-1505.html
+INFO: [HLS 200-2174] Applying component config ini file hls_config.cfg
+INFO: [HLS 200-1465] Applying config ini 'syn.file=main.cpp' from hls_config.cfg(9)
+INFO: [HLS 200-10] Adding design file '/home/lutet/tiled-ip/hls_impl/hls_component/main.cpp' to the project
+INFO: [HLS 200-1465] Applying config ini 'syn.top=transformer_top' from hls_config.cfg(10)
+INFO: [HLS 200-1465] Applying config ini 'flow_target=vivado' from hls_config.cfg(4)
+INFO: [HLS 200-1505] Using flow_target 'vivado'
+Resolution: For help on HLS 200-1505 see docs.amd.com/access/sources/dita/topic?Doc_Version=2025.2%20English&url=ug1448-hls-guidance&resourceid=200-1505.html
+INFO: [HLS 200-1465] Applying config ini 'part=xc7s50csga324-2' from hls_config.cfg(1)
+INFO: [HLS 200-1611] Setting target device to 'xc7s50-csga324-2'
+INFO: [HLS 200-1465] Applying config ini 'clock=10ns' from hls_config.cfg(7)
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
+INFO: [HLS 200-1465] Applying config ini 'clock_uncertainty=1ns' from hls_config.cfg(8)
+INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 1ns.
+INFO: [HLS 200-1465] Applying config ini 'package.output.format=ip_catalog' from hls_config.cfg(5)
+INFO: [HLS 200-2176] Writing Vitis IDE component file /home/lutet/tiled-ip/hls_impl/hls_component/hls_component/vitis-comp.json
+INFO: [SIM 211-2] *************** CSIM start ***************
+INFO: [HLS 200-2191] C-Simulation will use clang-16 as the compiler
+ERROR: [HLS 200-627] Cannot find C test bench. Please specify test bench files using 'add_files -tb'.
+ERROR: [SIM 211-100] CSim failed with errors.
+INFO: [SIM 211-3] *************** CSIM finish ***************
+ERROR: CSIM Failed
+INFO: [HLS 200-112] Total CPU user time: 0.67 seconds. Total CPU system time: 0.27 seconds. Total elapsed time: 0.85 seconds; peak allocated memory: 269.266 MB.

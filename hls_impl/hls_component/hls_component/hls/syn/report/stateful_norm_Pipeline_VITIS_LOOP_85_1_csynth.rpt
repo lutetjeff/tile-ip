@@ -1,0 +1,197 @@
+
+
+================================================================
+== Vitis HLS Report for 'stateful_norm_Pipeline_VITIS_LOOP_85_1'
+================================================================
+* Date:           Fri May  1 14:54:10 2026
+
+* Version:        2025.2 (Build 6295257 on Nov 14 2025)
+* Project:        hls_component
+* Solution:       hls (Vivado IP Flow Target)
+* Product family: spartan7
+* Target device:  xc7s50-csga324-2
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing: 
+    * Summary: 
+    +--------+----------+----------+------------+
+    |  Clock |  Target  | Estimated| Uncertainty|
+    +--------+----------+----------+------------+
+    |ap_clk  |  10.00 ns|  8.098 ns|     1.00 ns|
+    +--------+----------+----------+------------+
+
++ Latency: 
+    * Summary: 
+    +---------+---------+----------+----------+-----+-----+-------------------+
+    |  Latency (cycles) |  Latency (absolute) |  Interval |      Pipeline     |
+    |   min   |   max   |    min   |    max   | min | max |        Type       |
+    +---------+---------+----------+----------+-----+-----+-------------------+
+    |       10|       10|  0.100 us|  0.100 us|    0|    0|  loop pipeline stp|
+    +---------+---------+----------+----------+-----+-----+-------------------+
+
+    + Detail: 
+        * Instance: 
+        N/A
+
+        * Loop: 
+        +-------------------+---------+---------+----------+-----------+-----------+------+----------+
+        |                   |  Latency (cycles) | Iteration|  Initiation Interval  | Trip |          |
+        |     Loop Name     |   min   |   max   |  Latency |  achieved |   target  | Count| Pipelined|
+        +-------------------+---------+---------+----------+-----------+-----------+------+----------+
+        |- VITIS_LOOP_85_1  |        8|        8|         2|          1|          1|     8|       yes|
+        +-------------------+---------+---------+----------+-----------+-----------+------+----------+
+
+
+
+================================================================
+== Utilization Estimates
+================================================================
+* Summary: 
++-----------------+---------+-----+-------+-------+-----+
+|       Name      | BRAM_18K| DSP |   FF  |  LUT  | URAM|
++-----------------+---------+-----+-------+-------+-----+
+|DSP              |        -|    -|      -|      -|    -|
+|Expression       |        -|    -|      0|     65|    -|
+|FIFO             |        -|    -|      -|      -|    -|
+|Instance         |        -|    -|      -|      -|    -|
+|Memory           |        -|    -|      -|      -|    -|
+|Multiplexer      |        -|    -|      0|     54|    -|
+|Register         |        -|    -|    150|      -|    -|
++-----------------+---------+-----+-------+-------+-----+
+|Total            |        0|    0|    150|    119|    0|
++-----------------+---------+-----+-------+-------+-----+
+|Available        |      150|  120|  65200|  32600|    0|
++-----------------+---------+-----+-------+-------+-----+
+|Utilization (%)  |        0|    0|     ~0|     ~0|    0|
++-----------------+---------+-----+-------+-------+-----+
+
++ Detail: 
+    * Instance: 
+    N/A
+
+    * DSP: 
+    N/A
+
+    * Memory: 
+    N/A
+
+    * FIFO: 
+    N/A
+
+    * Expression: 
+    +--------------------------------+----------+----+---+----+------------+------------+
+    |          Variable Name         | Operation| DSP| FF| LUT| Bitwidth P0| Bitwidth P1|
+    +--------------------------------+----------+----+---+----+------------+------------+
+    |add_ln85_fu_308_p2              |         +|   0|  0|  13|           4|           1|
+    |add_ln94_fu_446_p2              |         +|   0|  0|  16|           9|           9|
+    |sum_x_1_fu_456_p2               |         +|   0|  0|  19|          12|          12|
+    |ap_block_pp0_stage0_01001_grp1  |       and|   0|  0|   2|           1|           1|
+    |icmp_ln85_fu_302_p2             |      icmp|   0|  0|  13|           4|           5|
+    |ap_enable_pp0                   |       xor|   0|  0|   2|           1|           2|
+    +--------------------------------+----------+----+---+----+------------+------------+
+    |Total                           |          |   0|  0|  65|          31|          30|
+    +--------------------------------+----------+----+---+----+------------+------------+
+
+    * Multiplexer: 
+    +-------------------------+----+-----------+-----+-----------+
+    |           Name          | LUT| Input Size| Bits| Total Bits|
+    +-------------------------+----+-----------+-----+-----------+
+    |ap_done_int              |   9|          2|    1|          2|
+    |ap_enable_reg_pp0_iter1  |   9|          2|    1|          2|
+    |ap_sig_allocacmp_i_3     |   9|          2|    4|          8|
+    |i_fu_96                  |   9|          2|    4|          8|
+    |s_norm2_in_blk_n         |   9|          2|    1|          2|
+    |sum_x_fu_92              |   9|          2|   12|         24|
+    +-------------------------+----+-----------+-----+-----------+
+    |Total                    |  54|         12|   23|         46|
+    +-------------------------+----+-----------+-----+-----------+
+
+    * Register: 
+    +-------------------------+----+----+-----+-----------+
+    |           Name          | FF | LUT| Bits| Const Bits|
+    +-------------------------+----+----+-----+-----------+
+    |ap_CS_fsm                |   1|   0|    1|          0|
+    |ap_done_reg              |   1|   0|    1|          0|
+    |ap_enable_reg_pp0_iter1  |   1|   0|    1|          0|
+    |buf_10_fu_136            |   8|   0|    8|          0|
+    |buf_11_fu_140            |   8|   0|    8|          0|
+    |buf_12_fu_144            |   8|   0|    8|          0|
+    |buf_13_fu_148            |   8|   0|    8|          0|
+    |buf_14_fu_152            |   8|   0|    8|          0|
+    |buf_15_fu_156            |   8|   0|    8|          0|
+    |buf_16_fu_160            |   8|   0|    8|          0|
+    |buf_2_fu_104             |   8|   0|    8|          0|
+    |buf_3_fu_108             |   8|   0|    8|          0|
+    |buf_4_fu_112             |   8|   0|    8|          0|
+    |buf_5_fu_116             |   8|   0|    8|          0|
+    |buf_6_fu_120             |   8|   0|    8|          0|
+    |buf_7_fu_124             |   8|   0|    8|          0|
+    |buf_8_fu_128             |   8|   0|    8|          0|
+    |buf_9_fu_132             |   8|   0|    8|          0|
+    |buf_fu_100               |   8|   0|    8|          0|
+    |i_fu_96                  |   4|   0|    4|          0|
+    |sum_x_fu_92              |  12|   0|   12|          0|
+    |trunc_ln85_reg_649       |   3|   0|    3|          0|
+    +-------------------------+----+----+-----+-----------+
+    |Total                    | 150|   0|  150|          0|
+    +-------------------------+----+----+-----+-----------+
+
+
+
+================================================================
+== Interface
+================================================================
+* Summary: 
++---------------------------+-----+-----+------------+----------------------------------------+--------------+
+|         RTL Ports         | Dir | Bits|  Protocol  |              Source Object             |    C Type    |
++---------------------------+-----+-----+------------+----------------------------------------+--------------+
+|ap_clk                     |   in|    1|  ap_ctrl_hs|  stateful_norm_Pipeline_VITIS_LOOP_85_1|  return value|
+|ap_rst                     |   in|    1|  ap_ctrl_hs|  stateful_norm_Pipeline_VITIS_LOOP_85_1|  return value|
+|ap_start                   |   in|    1|  ap_ctrl_hs|  stateful_norm_Pipeline_VITIS_LOOP_85_1|  return value|
+|ap_done                    |  out|    1|  ap_ctrl_hs|  stateful_norm_Pipeline_VITIS_LOOP_85_1|  return value|
+|ap_idle                    |  out|    1|  ap_ctrl_hs|  stateful_norm_Pipeline_VITIS_LOOP_85_1|  return value|
+|ap_ready                   |  out|    1|  ap_ctrl_hs|  stateful_norm_Pipeline_VITIS_LOOP_85_1|  return value|
+|s_norm2_in_dout            |   in|   16|     ap_fifo|                              s_norm2_in|       pointer|
+|s_norm2_in_empty_n         |   in|    1|     ap_fifo|                              s_norm2_in|       pointer|
+|s_norm2_in_read            |  out|    1|     ap_fifo|                              s_norm2_in|       pointer|
+|s_norm2_in_num_data_valid  |   in|    3|     ap_fifo|                              s_norm2_in|       pointer|
+|s_norm2_in_fifo_cap        |   in|    3|     ap_fifo|                              s_norm2_in|       pointer|
+|buf_49_out                 |  out|    8|      ap_vld|                              buf_49_out|       pointer|
+|buf_49_out_ap_vld          |  out|    1|      ap_vld|                              buf_49_out|       pointer|
+|buf_48_out                 |  out|    8|      ap_vld|                              buf_48_out|       pointer|
+|buf_48_out_ap_vld          |  out|    1|      ap_vld|                              buf_48_out|       pointer|
+|buf_47_out                 |  out|    8|      ap_vld|                              buf_47_out|       pointer|
+|buf_47_out_ap_vld          |  out|    1|      ap_vld|                              buf_47_out|       pointer|
+|buf_46_out                 |  out|    8|      ap_vld|                              buf_46_out|       pointer|
+|buf_46_out_ap_vld          |  out|    1|      ap_vld|                              buf_46_out|       pointer|
+|buf_45_out                 |  out|    8|      ap_vld|                              buf_45_out|       pointer|
+|buf_45_out_ap_vld          |  out|    1|      ap_vld|                              buf_45_out|       pointer|
+|buf_44_out                 |  out|    8|      ap_vld|                              buf_44_out|       pointer|
+|buf_44_out_ap_vld          |  out|    1|      ap_vld|                              buf_44_out|       pointer|
+|buf_43_out                 |  out|    8|      ap_vld|                              buf_43_out|       pointer|
+|buf_43_out_ap_vld          |  out|    1|      ap_vld|                              buf_43_out|       pointer|
+|buf_42_out                 |  out|    8|      ap_vld|                              buf_42_out|       pointer|
+|buf_42_out_ap_vld          |  out|    1|      ap_vld|                              buf_42_out|       pointer|
+|buf_41_out                 |  out|    8|      ap_vld|                              buf_41_out|       pointer|
+|buf_41_out_ap_vld          |  out|    1|      ap_vld|                              buf_41_out|       pointer|
+|buf_40_out                 |  out|    8|      ap_vld|                              buf_40_out|       pointer|
+|buf_40_out_ap_vld          |  out|    1|      ap_vld|                              buf_40_out|       pointer|
+|buf_39_out                 |  out|    8|      ap_vld|                              buf_39_out|       pointer|
+|buf_39_out_ap_vld          |  out|    1|      ap_vld|                              buf_39_out|       pointer|
+|buf_38_out                 |  out|    8|      ap_vld|                              buf_38_out|       pointer|
+|buf_38_out_ap_vld          |  out|    1|      ap_vld|                              buf_38_out|       pointer|
+|buf_37_out                 |  out|    8|      ap_vld|                              buf_37_out|       pointer|
+|buf_37_out_ap_vld          |  out|    1|      ap_vld|                              buf_37_out|       pointer|
+|buf_36_out                 |  out|    8|      ap_vld|                              buf_36_out|       pointer|
+|buf_36_out_ap_vld          |  out|    1|      ap_vld|                              buf_36_out|       pointer|
+|buf_35_out                 |  out|    8|      ap_vld|                              buf_35_out|       pointer|
+|buf_35_out_ap_vld          |  out|    1|      ap_vld|                              buf_35_out|       pointer|
+|buf_out                    |  out|    8|      ap_vld|                                 buf_out|       pointer|
+|buf_out_ap_vld             |  out|    1|      ap_vld|                                 buf_out|       pointer|
+|sum_x_out                  |  out|   12|      ap_vld|                               sum_x_out|       pointer|
+|sum_x_out_ap_vld           |  out|    1|      ap_vld|                               sum_x_out|       pointer|
++---------------------------+-----+-----+------------+----------------------------------------+--------------+
+

@@ -1,0 +1,148 @@
+
+
+================================================================
+== Vitis HLS Report for 'activation_relu'
+================================================================
+* Date:           Fri May  1 14:54:10 2026
+
+* Version:        2025.2 (Build 6295257 on Nov 14 2025)
+* Project:        hls_component
+* Solution:       hls (Vivado IP Flow Target)
+* Product family: spartan7
+* Target device:  xc7s50-csga324-2
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing: 
+    * Summary: 
+    +--------+----------+----------+------------+
+    |  Clock |  Target  | Estimated| Uncertainty|
+    +--------+----------+----------+------------+
+    |ap_clk  |  10.00 ns|  7.756 ns|     1.00 ns|
+    +--------+----------+----------+------------+
+
++ Latency: 
+    * Summary: 
+    +---------+---------+-----------+-----------+-----+-----+------------------------------------------------+
+    |  Latency (cycles) |   Latency (absolute)  |  Interval |                    Pipeline                    |
+    |   min   |   max   |    min    |    max    | min | max |                      Type                      |
+    +---------+---------+-----------+-----------+-----+-----+------------------------------------------------+
+    |        9|        9|  90.000 ns|  90.000 ns|    8|    8|  loop auto-rewind stp (delay=0 clock cycles(s))|
+    +---------+---------+-----------+-----------+-----+-----+------------------------------------------------+
+
+    + Detail: 
+        * Instance: 
+        N/A
+
+        * Loop: 
+        +--------------------+---------+---------+----------+-----------+-----------+------+----------+
+        |                    |  Latency (cycles) | Iteration|  Initiation Interval  | Trip |          |
+        |      Loop Name     |   min   |   max   |  Latency |  achieved |   target  | Count| Pipelined|
+        +--------------------+---------+---------+----------+-----------+-----------+------+----------+
+        |- VITIS_LOOP_236_1  |        7|        7|         1|          1|          1|     8|       yes|
+        +--------------------+---------+---------+----------+-----------+-----------+------+----------+
+
+
+
+================================================================
+== Utilization Estimates
+================================================================
+* Summary: 
++-----------------+---------+-----+-------+-------+-----+
+|       Name      | BRAM_18K| DSP |   FF  |  LUT  | URAM|
++-----------------+---------+-----+-------+-------+-----+
+|DSP              |        -|    -|      -|      -|    -|
+|Expression       |        -|    -|      0|     38|    -|
+|FIFO             |        -|    -|      -|      -|    -|
+|Instance         |        -|    -|      -|      -|    -|
+|Memory           |        -|    -|      -|      -|    -|
+|Multiplexer      |        -|    -|      0|     45|    -|
+|Register         |        -|    -|      5|      -|    -|
++-----------------+---------+-----+-------+-------+-----+
+|Total            |        0|    0|      5|     83|    0|
++-----------------+---------+-----+-------+-------+-----+
+|Available        |      150|  120|  65200|  32600|    0|
++-----------------+---------+-----+-------+-------+-----+
+|Utilization (%)  |        0|    0|     ~0|     ~0|    0|
++-----------------+---------+-----+-------+-------+-----+
+
++ Detail: 
+    * Instance: 
+    N/A
+
+    * DSP: 
+    N/A
+
+    * Memory: 
+    N/A
+
+    * FIFO: 
+    N/A
+
+    * Expression: 
+    +----------------------------------+----------+----+---+----+------------+------------+
+    |           Variable Name          | Operation| DSP| FF| LUT| Bitwidth P0| Bitwidth P1|
+    +----------------------------------+----------+----+---+----+------------+------------+
+    |i_fu_140_p2                       |         +|   0|  0|  11|           3|           1|
+    |icmp_ln236_fu_146_p2              |      icmp|   0|  0|  11|           3|           2|
+    |ap_block_state1_pp0_stage0_iter0  |        or|   0|  0|   2|           1|           1|
+    |elems_26_fu_119_p3                |    select|   0|  0|   7|           1|           1|
+    |elems_fu_99_p3                    |    select|   0|  0|   7|           1|           1|
+    +----------------------------------+----------+----+---+----+------------+------------+
+    |Total                             |          |   0|  0|  38|           9|           6|
+    +----------------------------------+----------+----+---+----+------------+------------+
+
+    * Multiplexer: 
+    +-----------------------+----+-----------+-----+-----------+
+    |          Name         | LUT| Input Size| Bits| Total Bits|
+    +-----------------------+----+-----------+-----+-----------+
+    |ap_done_int            |   9|          2|    1|          2|
+    |ap_sig_allocacmp_i_22  |   9|          2|    3|          6|
+    |i_21_fu_52             |   9|          2|    3|          6|
+    |s_gemm3_out_blk_n      |   9|          2|    1|          2|
+    |s_relu_out_blk_n       |   9|          2|    1|          2|
+    +-----------------------+----+-----------+-----+-----------+
+    |Total                  |  45|         10|    9|         18|
+    +-----------------------+----+-----------+-----+-----------+
+
+    * Register: 
+    +-------------+---+----+-----+-----------+
+    |     Name    | FF| LUT| Bits| Const Bits|
+    +-------------+---+----+-----+-----------+
+    |ap_CS_fsm    |  1|   0|    1|          0|
+    |ap_done_reg  |  1|   0|    1|          0|
+    |i_21_fu_52   |  3|   0|    3|          0|
+    +-------------+---+----+-----+-----------+
+    |Total        |  5|   0|    5|          0|
+    +-------------+---+----+-----+-----------+
+
+
+
+================================================================
+== Interface
+================================================================
+* Summary: 
++----------------------------+-----+-----+------------+-----------------+--------------+
+|          RTL Ports         | Dir | Bits|  Protocol  |  Source Object  |    C Type    |
++----------------------------+-----+-----+------------+-----------------+--------------+
+|ap_clk                      |   in|    1|  ap_ctrl_hs|  activation_relu|  return value|
+|ap_rst                      |   in|    1|  ap_ctrl_hs|  activation_relu|  return value|
+|ap_start                    |   in|    1|  ap_ctrl_hs|  activation_relu|  return value|
+|ap_done                     |  out|    1|  ap_ctrl_hs|  activation_relu|  return value|
+|ap_continue                 |   in|    1|  ap_ctrl_hs|  activation_relu|  return value|
+|ap_idle                     |  out|    1|  ap_ctrl_hs|  activation_relu|  return value|
+|ap_ready                    |  out|    1|  ap_ctrl_hs|  activation_relu|  return value|
+|s_gemm3_out_dout            |   in|   16|     ap_fifo|      s_gemm3_out|       pointer|
+|s_gemm3_out_empty_n         |   in|    1|     ap_fifo|      s_gemm3_out|       pointer|
+|s_gemm3_out_read            |  out|    1|     ap_fifo|      s_gemm3_out|       pointer|
+|s_gemm3_out_num_data_valid  |   in|    3|     ap_fifo|      s_gemm3_out|       pointer|
+|s_gemm3_out_fifo_cap        |   in|    3|     ap_fifo|      s_gemm3_out|       pointer|
+|s_relu_out_din              |  out|   16|     ap_fifo|       s_relu_out|       pointer|
+|s_relu_out_full_n           |   in|    1|     ap_fifo|       s_relu_out|       pointer|
+|s_relu_out_write            |  out|    1|     ap_fifo|       s_relu_out|       pointer|
+|s_relu_out_num_data_valid   |   in|    3|     ap_fifo|       s_relu_out|       pointer|
+|s_relu_out_fifo_cap         |   in|    3|     ap_fifo|       s_relu_out|       pointer|
++----------------------------+-----+-----+------------+-----------------+--------------+
+

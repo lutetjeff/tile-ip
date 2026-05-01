@@ -1,0 +1,141 @@
+{
+  "0": {
+    "basicblocks": 1,
+    "calls": "3 8 6 7 9 7 2 8 5 8 6 7 4 7 2 1",
+    "control_depth": 0,
+    "def_use_depth": 1,
+    "file": "main.cpp",
+    "fileloc": 277,
+    "instructions": 74,
+    "memory_accesses": 0,
+    "name": "transformer_top",
+    "total_instructions": 1585
+  },
+  "1": {
+    "basicblocks": 3,
+    "calls": "",
+    "control_depth": 0,
+    "def_use_depth": 3,
+    "file": "main.cpp",
+    "fileloc": 64,
+    "instructions": 8,
+    "memory_accesses": 2,
+    "name": "fifo",
+    "total_instructions": 8
+  },
+  "2": {
+    "basicblocks": 3,
+    "calls": "",
+    "control_depth": 0,
+    "def_use_depth": 5,
+    "file": "main.cpp",
+    "fileloc": 252,
+    "instructions": 21,
+    "memory_accesses": 3,
+    "name": "alu_add",
+    "total_instructions": 21
+  },
+  "3": {
+    "basicblocks": 3,
+    "calls": "",
+    "control_depth": 0,
+    "def_use_depth": 3,
+    "file": "main.cpp",
+    "fileloc": 49,
+    "instructions": 9,
+    "memory_accesses": 3,
+    "name": "fan_out",
+    "total_instructions": 9
+  },
+  "4": {
+    "basicblocks": 3,
+    "calls": "",
+    "control_depth": 0,
+    "def_use_depth": 6,
+    "file": "main.cpp",
+    "fileloc": 234,
+    "instructions": 19,
+    "memory_accesses": 2,
+    "name": "activation_relu",
+    "total_instructions": 19
+  },
+  "5": {
+    "basicblocks": 3,
+    "calls": "",
+    "control_depth": 0,
+    "def_use_depth": 3,
+    "file": "main.cpp",
+    "fileloc": 49,
+    "instructions": 9,
+    "memory_accesses": 3,
+    "name": "fan_out",
+    "total_instructions": 9
+  },
+  "6": {
+    "basicblocks": 5,
+    "calls": "",
+    "control_depth": 0,
+    "def_use_depth": 9,
+    "file": "main.cpp",
+    "fileloc": 77,
+    "instructions": 53,
+    "loads": {
+      "L": 2
+    },
+    "memory_accesses": 6,
+    "name": "stateful_norm",
+    "stores": {
+      "L": 2
+    },
+    "total_instructions": 53
+  },
+  "7": {
+    "basicblocks": 5,
+    "calls": "",
+    "control_depth": 0,
+    "def_use_depth": 27,
+    "file": "main.cpp",
+    "fileloc": 129,
+    "instructions": 250,
+    "loads": {
+      "L": 48
+    },
+    "memory_accesses": 36,
+    "name": "gemm",
+    "stores": {
+      "L": 2
+    },
+    "total_instructions": 250
+  },
+  "8": {
+    "basicblocks": 3,
+    "calls": "",
+    "control_depth": 0,
+    "def_use_depth": 3,
+    "file": "main.cpp",
+    "fileloc": 64,
+    "instructions": 8,
+    "memory_accesses": 2,
+    "name": "fifo",
+    "total_instructions": 8
+  },
+  "9": {
+    "basicblocks": 5,
+    "calls": "",
+    "control_depth": 0,
+    "def_use_depth": 23,
+    "file": "main.cpp",
+    "fileloc": 177,
+    "instructions": 294,
+    "loads": {
+      "G": 16,
+      "L": 18
+    },
+    "memory_accesses": 6,
+    "name": "stateful_softmax",
+    "stores": {
+      "L": 18
+    },
+    "total_instructions": 294
+  }
+}

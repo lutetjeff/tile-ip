@@ -1,0 +1,607 @@
+{
+    "1": {
+        "name": "gemm",
+        "file": "main.cpp",
+        "fileloc": "129",
+        "instructions": "567",
+        "total_instructions": "1151",
+        "calls": "24 18",
+        "basicblocks": "1",
+        "memory_accesses": "0",
+        "control_depth": "0",
+        "def_use_depth": "2",
+        "loads": {
+            "L": "16",
+            "T": "256"
+        }
+    },
+    "2": {
+        "name": "fifo",
+        "file": "main.cpp",
+        "fileloc": "64",
+        "instructions": "16",
+        "total_instructions": "16",
+        "calls": "",
+        "basicblocks": "3",
+        "memory_accesses": "4",
+        "control_depth": "0",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "0": {
+        "name": "transformer_top",
+        "file": "main.cpp",
+        "fileloc": "277",
+        "instructions": "203",
+        "total_instructions": "5802",
+        "calls": "8 12 13 28 27 19 14 15 23 26 6 1 20 16 4 2",
+        "basicblocks": "1",
+        "memory_accesses": "0",
+        "control_depth": "0",
+        "def_use_depth": "1"
+    },
+    "3": {
+        "name": "gemm.7_Pipeline_VITIS_LOOP_151_3",
+        "file": "main.cpp",
+        "fileloc": "151",
+        "instructions": "493",
+        "total_instructions": "493",
+        "calls": "",
+        "basicblocks": "4",
+        "memory_accesses": "3",
+        "control_depth": "1",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "4": {
+        "name": "alu_add",
+        "file": "main.cpp",
+        "fileloc": "252",
+        "instructions": "25",
+        "total_instructions": "25",
+        "calls": "",
+        "basicblocks": "3",
+        "memory_accesses": "5",
+        "control_depth": "0",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "5": {
+        "name": "stateful_softmax_Pipeline_VITIS_LOOP_217_4",
+        "file": "main.cpp",
+        "fileloc": "217",
+        "instructions": "55",
+        "total_instructions": "55",
+        "calls": "",
+        "basicblocks": "4",
+        "memory_accesses": "3",
+        "control_depth": "1",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "6": {
+        "name": "stateful_norm",
+        "file": "main.cpp",
+        "fileloc": "77",
+        "instructions": "42",
+        "total_instructions": "189",
+        "calls": "11 17",
+        "basicblocks": "1",
+        "memory_accesses": "0",
+        "control_depth": "0",
+        "def_use_depth": "3",
+        "loads": {
+            "L": "17"
+        }
+    },
+    "7": {
+        "name": "gemm.5_Pipeline_VITIS_LOOP_151_3",
+        "file": "main.cpp",
+        "fileloc": "151",
+        "instructions": "493",
+        "total_instructions": "493",
+        "calls": "",
+        "basicblocks": "4",
+        "memory_accesses": "3",
+        "control_depth": "1",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "8": {
+        "name": "fan_out",
+        "file": "main.cpp",
+        "fileloc": "49",
+        "instructions": "18",
+        "total_instructions": "18",
+        "calls": "",
+        "basicblocks": "3",
+        "memory_accesses": "5",
+        "control_depth": "0",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "9": {
+        "name": "stateful_norm.2_Pipeline_VITIS_LOOP_109_3",
+        "file": "main.cpp",
+        "fileloc": "109",
+        "instructions": "45",
+        "total_instructions": "45",
+        "calls": "",
+        "basicblocks": "4",
+        "memory_accesses": "3",
+        "control_depth": "1",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "10": {
+        "name": "gemm.5_Pipeline_VITIS_LOOP_139_1",
+        "file": "main.cpp",
+        "fileloc": "135",
+        "instructions": "91",
+        "total_instructions": "91",
+        "calls": "",
+        "basicblocks": "13",
+        "memory_accesses": "19",
+        "control_depth": "2",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "17"
+        },
+        "stores": {
+            "L": "18"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "11": {
+        "name": "stateful_norm_Pipeline_VITIS_LOOP_85_1",
+        "file": "main.cpp",
+        "fileloc": "79",
+        "instructions": "102",
+        "total_instructions": "102",
+        "calls": "",
+        "basicblocks": "13",
+        "memory_accesses": "21",
+        "control_depth": "2",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "19"
+        },
+        "stores": {
+            "L": "20"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "12": {
+        "name": "fifo",
+        "file": "main.cpp",
+        "fileloc": "64",
+        "instructions": "16",
+        "total_instructions": "16",
+        "calls": "",
+        "basicblocks": "3",
+        "memory_accesses": "4",
+        "control_depth": "0",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "13": {
+        "name": "stateful_norm",
+        "file": "main.cpp",
+        "fileloc": "77",
+        "instructions": "42",
+        "total_instructions": "189",
+        "calls": "21 9",
+        "basicblocks": "1",
+        "memory_accesses": "0",
+        "control_depth": "0",
+        "def_use_depth": "3",
+        "loads": {
+            "L": "17"
+        }
+    },
+    "14": {
+        "name": "alu_add",
+        "file": "main.cpp",
+        "fileloc": "252",
+        "instructions": "25",
+        "total_instructions": "25",
+        "calls": "",
+        "basicblocks": "3",
+        "memory_accesses": "5",
+        "control_depth": "0",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "15": {
+        "name": "fifo",
+        "file": "main.cpp",
+        "fileloc": "64",
+        "instructions": "16",
+        "total_instructions": "16",
+        "calls": "",
+        "basicblocks": "3",
+        "memory_accesses": "4",
+        "control_depth": "0",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "16": {
+        "name": "gemm",
+        "file": "main.cpp",
+        "fileloc": "129",
+        "instructions": "567",
+        "total_instructions": "1151",
+        "calls": "30 3",
+        "basicblocks": "1",
+        "memory_accesses": "0",
+        "control_depth": "0",
+        "def_use_depth": "2",
+        "loads": {
+            "L": "16",
+            "T": "256"
+        }
+    },
+    "17": {
+        "name": "stateful_norm_Pipeline_VITIS_LOOP_109_3",
+        "file": "main.cpp",
+        "fileloc": "109",
+        "instructions": "45",
+        "total_instructions": "45",
+        "calls": "",
+        "basicblocks": "4",
+        "memory_accesses": "3",
+        "control_depth": "1",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "18": {
+        "name": "gemm.6_Pipeline_VITIS_LOOP_151_3",
+        "file": "main.cpp",
+        "fileloc": "151",
+        "instructions": "493",
+        "total_instructions": "493",
+        "calls": "",
+        "basicblocks": "4",
+        "memory_accesses": "3",
+        "control_depth": "1",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "19": {
+        "name": "gemm",
+        "file": "main.cpp",
+        "fileloc": "129",
+        "instructions": "567",
+        "total_instructions": "1151",
+        "calls": "10 7",
+        "basicblocks": "1",
+        "memory_accesses": "0",
+        "control_depth": "0",
+        "def_use_depth": "2",
+        "loads": {
+            "L": "16",
+            "T": "256"
+        }
+    },
+    "20": {
+        "name": "activation_relu",
+        "file": "main.cpp",
+        "fileloc": "234",
+        "instructions": "25",
+        "total_instructions": "25",
+        "calls": "",
+        "basicblocks": "3",
+        "memory_accesses": "4",
+        "control_depth": "0",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "21": {
+        "name": "stateful_norm.2_Pipeline_VITIS_LOOP_85_1",
+        "file": "main.cpp",
+        "fileloc": "79",
+        "instructions": "102",
+        "total_instructions": "102",
+        "calls": "",
+        "basicblocks": "13",
+        "memory_accesses": "21",
+        "control_depth": "2",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "19"
+        },
+        "stores": {
+            "L": "20"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "22": {
+        "name": "gemm_Pipeline_VITIS_LOOP_151_3",
+        "file": "main.cpp",
+        "fileloc": "151",
+        "instructions": "493",
+        "total_instructions": "493",
+        "calls": "",
+        "basicblocks": "4",
+        "memory_accesses": "3",
+        "control_depth": "1",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "23": {
+        "name": "fan_out",
+        "file": "main.cpp",
+        "fileloc": "49",
+        "instructions": "18",
+        "total_instructions": "18",
+        "calls": "",
+        "basicblocks": "3",
+        "memory_accesses": "5",
+        "control_depth": "0",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "24": {
+        "name": "gemm.6_Pipeline_VITIS_LOOP_139_1",
+        "file": "main.cpp",
+        "fileloc": "135",
+        "instructions": "91",
+        "total_instructions": "91",
+        "calls": "",
+        "basicblocks": "13",
+        "memory_accesses": "19",
+        "control_depth": "2",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "17"
+        },
+        "stores": {
+            "L": "18"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "25": {
+        "name": "gemm_Pipeline_VITIS_LOOP_139_1",
+        "file": "main.cpp",
+        "fileloc": "135",
+        "instructions": "91",
+        "total_instructions": "91",
+        "calls": "",
+        "basicblocks": "13",
+        "memory_accesses": "19",
+        "control_depth": "2",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "17"
+        },
+        "stores": {
+            "L": "18"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "26": {
+        "name": "fifo",
+        "file": "main.cpp",
+        "fileloc": "64",
+        "instructions": "16",
+        "total_instructions": "16",
+        "calls": "",
+        "basicblocks": "3",
+        "memory_accesses": "4",
+        "control_depth": "0",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "1"
+        },
+        "stores": {
+            "L": "2"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "27": {
+        "name": "stateful_softmax",
+        "file": "main.cpp",
+        "fileloc": "177",
+        "instructions": "286",
+        "total_instructions": "442",
+        "calls": "29 5",
+        "basicblocks": "1",
+        "memory_accesses": "0",
+        "control_depth": "0",
+        "def_use_depth": "17",
+        "loads": {
+            "G": "16",
+            "L": "17"
+        }
+    },
+    "28": {
+        "name": "gemm",
+        "file": "main.cpp",
+        "fileloc": "129",
+        "instructions": "567",
+        "total_instructions": "1151",
+        "calls": "25 22",
+        "basicblocks": "1",
+        "memory_accesses": "0",
+        "control_depth": "0",
+        "def_use_depth": "2",
+        "loads": {
+            "L": "16",
+            "T": "256"
+        }
+    },
+    "29": {
+        "name": "stateful_softmax_Pipeline_VITIS_LOOP_188_1",
+        "file": "main.cpp",
+        "fileloc": "179",
+        "instructions": "101",
+        "total_instructions": "101",
+        "calls": "",
+        "basicblocks": "13",
+        "memory_accesses": "21",
+        "control_depth": "2",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "19"
+        },
+        "stores": {
+            "L": "20"
+        },
+        "loops": {
+            "L": "1"
+        }
+    },
+    "30": {
+        "name": "gemm.7_Pipeline_VITIS_LOOP_139_1",
+        "file": "main.cpp",
+        "fileloc": "135",
+        "instructions": "91",
+        "total_instructions": "91",
+        "calls": "",
+        "basicblocks": "13",
+        "memory_accesses": "19",
+        "control_depth": "2",
+        "def_use_depth": "1",
+        "loads": {
+            "L": "17"
+        },
+        "stores": {
+            "L": "18"
+        },
+        "loops": {
+            "L": "1"
+        }
+    }
+}

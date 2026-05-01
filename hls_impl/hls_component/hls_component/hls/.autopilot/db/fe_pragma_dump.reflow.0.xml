@@ -1,0 +1,89 @@
+<pragmas>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int<16>::ap_int(int)" off="0" region="0" recursive="0"/>
+<pragma file="main.cpp" line="52" pragmaType="inline" parentfunction="fan_out" off="1" region="0" recursive="0"/>
+<pragma file="main.cpp" line="54" pragmaType="pipeline" parentfunction="fan_out" off="0" ii="1" rewind="0" style=""/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int_base<16, true>::RType<16, true>::arg1 operator<<<16, true>(ap_int_base<16, true> const&, int)" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="checkOverflowCsim" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int_base<16, true>::ap_int_base(int)" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int<16>::ap_int<16, true>(ap_int_base<16, true> const&)" off="0" region="0" recursive="0"/>
+<pragma file="data3/amd_fpga_tools/2025.2/Vitis/common/technology/autopilot/etc/ap_common.h" line="522" pragmaType="inline" parentfunction="ssdm_int<16, true>::ssdm_int(short)" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int_base<16, true>::ap_int_base<8, false>(ap_int_base<8, false> const&)" off="0" region="0" recursive="0"/>
+<pragma file="main.cpp" line="36" pragmaType="inline" parentfunction="pack_beat" off="0" region="0" recursive="0"/>
+<pragma file="main.cpp" line="39" pragmaType="unroll" parentfunction="pack_beat" factor="-1" skip_exit_check="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="checkOverflowBaseC" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_uint<8>::ap_uint(signed char)" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int<16>::ap_int<8>(ap_uint<8> const&)" off="0" region="0" recursive="0"/>
+<pragma file="main.cpp" line="78" pragmaType="inline" parentfunction="stateful_norm" off="1" region="0" recursive="0"/>
+<pragma file="main.cpp" line="110" pragmaType="pipeline" parentfunction="stateful_norm" off="0" ii="1" rewind="0" style=""/>
+<pragma file="main.cpp" line="113" pragmaType="unroll" parentfunction="stateful_norm" factor="-1" skip_exit_check="0"/>
+<pragma file="main.cpp" line="86" pragmaType="pipeline" parentfunction="stateful_norm" off="0" ii="1" rewind="0" style=""/>
+<pragma file="main.cpp" line="91" pragmaType="unroll" parentfunction="stateful_norm" factor="-1" skip_exit_check="0"/>
+<pragma file="main.cpp" line="80" pragmaType="array_partition" parentfunction="stateful_norm" dim="1" factor="0" mode="complete" dynamic="0" variable="buf"/>
+<pragma file="main.cpp" line="28" pragmaType="inline" parentfunction="unpack_beat" off="0" region="0" recursive="0"/>
+<pragma file="main.cpp" line="30" pragmaType="unroll" parentfunction="unpack_beat" factor="-1" skip_exit_check="0"/>
+<pragma file="main.cpp" line="285" pragmaType="dataflow" parentfunction="transformer_top" disable_start_propagation="0"/>
+<pragma file="main.cpp" line="0" pragmaType="fpga.handshake.mode" parentfunction="transformer_top" mode="ap_ctrl_chain" name="ap_ctrl_chain"/>
+<pragma file="main.cpp" line="282" pragmaType="interface" parentfunction="transformer_top" mode="axis" port="in" register="1" register_mode="both" name="" depth="-1"/>
+<pragma file="main.cpp" line="283" pragmaType="interface" parentfunction="transformer_top" mode="axis" port="out" register="1" register_mode="both" name="" depth="-1"/>
+<pragma file="main.cpp" line="284" pragmaType="interface" parentfunction="transformer_top" mode="ap_memory" port="w1" storage_type="-1" impl="-1" latency="-1" name="" depth="-1"/>
+<pragma file="main.cpp" line="284" pragmaType="interface" parentfunction="transformer_top" mode="ap_memory" port="w2" storage_type="-1" impl="-1" latency="-1" name="" depth="-1"/>
+<pragma file="main.cpp" line="284" pragmaType="interface" parentfunction="transformer_top" mode="ap_memory" port="w3" storage_type="-1" impl="-1" latency="-1" name="" depth="-1"/>
+<pragma file="main.cpp" line="284" pragmaType="interface" parentfunction="transformer_top" mode="ap_memory" port="w4" storage_type="-1" impl="-1" latency="-1" name="" depth="-1"/>
+<pragma file="main.cpp" line="308" pragmaType="stream" parentfunction="transformer_top" depth="80" type="fifo" variable="s_fifo1"/>
+<pragma file="main.cpp" line="309" pragmaType="stream" parentfunction="transformer_top" depth="2" type="fifo" variable="s_norm1_in"/>
+<pragma file="main.cpp" line="310" pragmaType="stream" parentfunction="transformer_top" depth="2" type="fifo" variable="s_norm1_out"/>
+<pragma file="main.cpp" line="311" pragmaType="stream" parentfunction="transformer_top" depth="2" type="fifo" variable="s_gemm1_out"/>
+<pragma file="main.cpp" line="312" pragmaType="stream" parentfunction="transformer_top" depth="2" type="fifo" variable="s_softmax_out"/>
+<pragma file="main.cpp" line="313" pragmaType="stream" parentfunction="transformer_top" depth="2" type="fifo" variable="s_gemm2_out"/>
+<pragma file="main.cpp" line="314" pragmaType="stream" parentfunction="transformer_top" depth="2" type="fifo" variable="s_fifo1_out"/>
+<pragma file="main.cpp" line="315" pragmaType="stream" parentfunction="transformer_top" depth="2" type="fifo" variable="s_alu1"/>
+<pragma file="main.cpp" line="316" pragmaType="stream" parentfunction="transformer_top" depth="48" type="fifo" variable="s_alu1_fifo"/>
+<pragma file="main.cpp" line="317" pragmaType="stream" parentfunction="transformer_top" depth="48" type="fifo" variable="s_fifo2"/>
+<pragma file="main.cpp" line="318" pragmaType="stream" parentfunction="transformer_top" depth="2" type="fifo" variable="s_norm2_in"/>
+<pragma file="main.cpp" line="319" pragmaType="stream" parentfunction="transformer_top" depth="2" type="fifo" variable="s_norm2_out"/>
+<pragma file="main.cpp" line="320" pragmaType="stream" parentfunction="transformer_top" depth="2" type="fifo" variable="s_gemm3_out"/>
+<pragma file="main.cpp" line="321" pragmaType="stream" parentfunction="transformer_top" depth="2" type="fifo" variable="s_relu_out"/>
+<pragma file="main.cpp" line="322" pragmaType="stream" parentfunction="transformer_top" depth="2" type="fifo" variable="s_gemm4_out"/>
+<pragma file="main.cpp" line="323" pragmaType="stream" parentfunction="transformer_top" depth="2" type="fifo" variable="s_fifo2_out"/>
+<pragma file="main.cpp" line="324" pragmaType="stream" parentfunction="transformer_top" depth="32" type="fifo" variable="s_alu2_fifo"/>
+<pragma file="main.cpp" line="178" pragmaType="inline" parentfunction="stateful_softmax" off="1" region="0" recursive="0"/>
+<pragma file="main.cpp" line="218" pragmaType="pipeline" parentfunction="stateful_softmax" off="0" ii="1" rewind="0" style=""/>
+<pragma file="main.cpp" line="221" pragmaType="unroll" parentfunction="stateful_softmax" factor="-1" skip_exit_check="0"/>
+<pragma file="main.cpp" line="206" pragmaType="unroll" parentfunction="stateful_softmax" factor="-1" skip_exit_check="0"/>
+<pragma file="main.cpp" line="189" pragmaType="pipeline" parentfunction="stateful_softmax" off="0" ii="1" rewind="0" style=""/>
+<pragma file="main.cpp" line="194" pragmaType="unroll" parentfunction="stateful_softmax" factor="-1" skip_exit_check="0"/>
+<pragma file="main.cpp" line="180" pragmaType="array_partition" parentfunction="stateful_softmax" dim="1" factor="0" mode="complete" dynamic="0" variable="buf"/>
+<pragma file="main.cpp" line="203" pragmaType="array_partition" parentfunction="stateful_softmax" dim="1" factor="0" mode="complete" dynamic="0" variable="exp_buf"/>
+<pragma file="main.cpp" line="235" pragmaType="inline" parentfunction="activation_relu" off="1" region="0" recursive="0"/>
+<pragma file="main.cpp" line="237" pragmaType="pipeline" parentfunction="activation_relu" off="0" ii="1" rewind="0" style=""/>
+<pragma file="main.cpp" line="242" pragmaType="unroll" parentfunction="activation_relu" factor="-1" skip_exit_check="0"/>
+<pragma file="main.cpp" line="255" pragmaType="inline" parentfunction="alu_add" off="1" region="0" recursive="0"/>
+<pragma file="main.cpp" line="257" pragmaType="pipeline" parentfunction="alu_add" off="0" ii="1" rewind="0" style=""/>
+<pragma file="main.cpp" line="266" pragmaType="unroll" parentfunction="alu_add" factor="-1" skip_exit_check="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int<32>::ap_int<32, true>(ap_int_base<32, true> const&)" off="0" region="0" recursive="0"/>
+<pragma file="data3/amd_fpga_tools/2025.2/Vitis/common/technology/autopilot/etc/ap_common.h" line="522" pragmaType="inline" parentfunction="ssdm_int<32, true>::ssdm_int(int)" off="0" region="0" recursive="0"/>
+<pragma file="main.cpp" line="132" pragmaType="inline" parentfunction="gemm" off="1" region="0" recursive="0"/>
+<pragma file="main.cpp" line="152" pragmaType="pipeline" parentfunction="gemm" off="0" ii="1" rewind="0" style=""/>
+<pragma file="main.cpp" line="155" pragmaType="unroll" parentfunction="gemm" factor="-1" skip_exit_check="0"/>
+<pragma file="main.cpp" line="159" pragmaType="unroll" parentfunction="gemm" factor="-1" skip_exit_check="0"/>
+<pragma file="main.cpp" line="140" pragmaType="pipeline" parentfunction="gemm" off="0" ii="1" rewind="0" style=""/>
+<pragma file="main.cpp" line="145" pragmaType="unroll" parentfunction="gemm" factor="-1" skip_exit_check="0"/>
+<pragma file="main.cpp" line="133" pragmaType="array_partition" parentfunction="gemm" dim="2" factor="0" mode="complete" dynamic="0" variable="weights"/>
+<pragma file="main.cpp" line="136" pragmaType="array_partition" parentfunction="gemm" dim="1" factor="0" mode="complete" dynamic="0" variable="row"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="read" off="0" region="0" recursive="0"/>
+<pragma file="main.cpp" line="65" pragmaType="inline" parentfunction="fifo" off="1" region="0" recursive="0"/>
+<pragma file="main.cpp" line="67" pragmaType="pipeline" parentfunction="fifo" off="0" ii="1" rewind="0" style=""/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int_base<32, true>::ap_int_base(int)" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int_base<16, true>::RType<32, true>::logic operator&<16, true, 32, true>(ap_int_base<16, true> const&, ap_int_base<32, true> const&)" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int_base<32, true>::ap_int_base<16, true>(ap_int_base<16, true> const&)" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="hls::stream<ap_int<16>, 0>::stream(char const*)" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int_base<16, true>::RType<16, true>::arg1 operator>><16, true>(ap_int_base<16, true> const&, int)" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int_base<16, true>::RType<($_0)32, true>::logic operator&<16, true>(ap_int_base<16, true> const&, int)" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int_base<32, true>::operator long long() const" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int_base<8, false>::ap_int_base(signed char)" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="checkOverflowBaseC" off="0" region="0" recursive="0"/>
+<pragma file="data3/amd_fpga_tools/2025.2/Vitis/common/technology/autopilot/etc/ap_common.h" line="530" pragmaType="inline" parentfunction="ssdm_int<8, false>::ssdm_int(unsigned char)" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="read" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="write" off="0" region="0" recursive="0"/>
+<pragma file="" line="0" pragmaType="inline" parentfunction="ap_int_base<16, true>& ap_int_base<16, true>::operator|=<16, true>(ap_int_base<16, true> const&)" off="0" region="0" recursive="0"/>
+</pragmas>

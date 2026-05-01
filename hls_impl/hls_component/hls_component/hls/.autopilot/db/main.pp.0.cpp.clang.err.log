@@ -1,0 +1,181 @@
+main.cpp:28:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=inline_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=unpack_beat_XLX_SEP_ PragmaOptions=_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS INLINE
+^
+main.cpp:30:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=unroll_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=unpack_beat_XLX_SEP_ PragmaOptions=_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS UNROLL
+^
+main.cpp:36:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=inline_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=pack_beat_XLX_SEP_ PragmaOptions=_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS INLINE
+^
+main.cpp:39:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=unroll_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=pack_beat_XLX_SEP_ PragmaOptions=_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS UNROLL
+^
+main.cpp:52:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=inline_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=fan_out_XLX_SEP_ PragmaOptions=off_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS INLINE off
+^
+main.cpp:54:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=pipeline_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=fan_out_XLX_SEP_ PragmaOptions=II=1_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS PIPELINE II=1
+^
+main.cpp:65:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=inline_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=fifo_XLX_SEP_ PragmaOptions=off_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS INLINE off
+^
+main.cpp:67:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=pipeline_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=fifo_XLX_SEP_ PragmaOptions=II=1_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS PIPELINE II=1
+^
+main.cpp:78:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=inline_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=stateful_norm_XLX_SEP_ PragmaOptions=off_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS INLINE off
+^
+main.cpp:80:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=array_partition_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=stateful_norm_XLX_SEP_ PragmaOptions=variable=buf complete_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS ARRAY_PARTITION variable=buf complete
+^
+main.cpp:86:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=pipeline_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=stateful_norm_XLX_SEP_ PragmaOptions=II=1_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS PIPELINE II=1
+^
+main.cpp:91:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=unroll_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=stateful_norm_XLX_SEP_ PragmaOptions=_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS UNROLL
+^
+main.cpp:110:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=pipeline_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=stateful_norm_XLX_SEP_ PragmaOptions=II=1_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS PIPELINE II=1
+^
+main.cpp:113:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=unroll_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=stateful_norm_XLX_SEP_ PragmaOptions=_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS UNROLL
+^
+main.cpp:132:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=inline_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=gemm_XLX_SEP_ PragmaOptions=off_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS INLINE off
+^
+main.cpp:133:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=array_partition_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=gemm_XLX_SEP_ PragmaOptions=variable=weights complete dim=2_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS ARRAY_PARTITION variable=weights complete dim=2
+^
+main.cpp:136:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=array_partition_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=gemm_XLX_SEP_ PragmaOptions=variable=row complete_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS ARRAY_PARTITION variable=row complete
+^
+main.cpp:140:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=pipeline_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=gemm_XLX_SEP_ PragmaOptions=II=1_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS PIPELINE II=1
+^
+main.cpp:145:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=unroll_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=gemm_XLX_SEP_ PragmaOptions=_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS UNROLL
+^
+main.cpp:152:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=pipeline_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=gemm_XLX_SEP_ PragmaOptions=II=1_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS PIPELINE II=1
+^
+main.cpp:155:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=unroll_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=gemm_XLX_SEP_ PragmaOptions=_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS UNROLL
+^
+main.cpp:159:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=unroll_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=gemm_XLX_SEP_ PragmaOptions=_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS UNROLL
+^
+main.cpp:178:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=inline_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=stateful_softmax_XLX_SEP_ PragmaOptions=off_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS INLINE off
+^
+main.cpp:180:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=array_partition_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=stateful_softmax_XLX_SEP_ PragmaOptions=variable=buf complete_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS ARRAY_PARTITION variable=buf complete
+^
+main.cpp:189:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=pipeline_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=stateful_softmax_XLX_SEP_ PragmaOptions=II=1_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS PIPELINE II=1
+^
+main.cpp:194:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=unroll_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=stateful_softmax_XLX_SEP_ PragmaOptions=_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS UNROLL
+^
+main.cpp:203:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=array_partition_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=stateful_softmax_XLX_SEP_ PragmaOptions=variable=exp_buf complete_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS ARRAY_PARTITION variable=exp_buf complete
+^
+main.cpp:206:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=unroll_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=stateful_softmax_XLX_SEP_ PragmaOptions=_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS UNROLL
+^
+main.cpp:218:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=pipeline_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=stateful_softmax_XLX_SEP_ PragmaOptions=II=1_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS PIPELINE II=1
+^
+main.cpp:221:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=unroll_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=stateful_softmax_XLX_SEP_ PragmaOptions=_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS UNROLL
+^
+main.cpp:235:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=inline_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=activation_relu_XLX_SEP_ PragmaOptions=off_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS INLINE off
+^
+main.cpp:237:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=pipeline_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=activation_relu_XLX_SEP_ PragmaOptions=II=1_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS PIPELINE II=1
+^
+main.cpp:242:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=unroll_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=activation_relu_XLX_SEP_ PragmaOptions=_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS UNROLL
+^
+main.cpp:255:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=inline_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=alu_add_XLX_SEP_ PragmaOptions=off_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS INLINE off
+^
+main.cpp:257:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=pipeline_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=alu_add_XLX_SEP_ PragmaOptions=II=1_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS PIPELINE II=1
+^
+main.cpp:266:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=unroll_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=alu_add_XLX_SEP_ PragmaOptions=_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS UNROLL
+^
+directive:1:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=top_XLX_SEP_ PragmaContext=directive_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=name=transformer_top_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLSDIRECTIVE TOP name=transformer_top
+^
+main.cpp:280:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=top_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=name=transformer_top_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS TOP name=transformer_top
+^
+main.cpp:281:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=interface_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=mode=ap_ctrl_chain port=return_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS INTERFACE mode=ap_ctrl_chain port=return
+^
+main.cpp:282:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=interface_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=mode=axis port=in_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS INTERFACE mode=axis port=in
+^
+main.cpp:283:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=interface_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=mode=axis port=out_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS INTERFACE mode=axis port=out
+^
+main.cpp:284:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=interface_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=mode=bram port=w1,w2,w3,w4_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS INTERFACE mode=bram port=w1,w2,w3,w4
+^
+main.cpp:285:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=dataflow_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS DATAFLOW
+^
+main.cpp:308:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=stream_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=variable=s_fifo1 depth=80_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS STREAM variable=s_fifo1 depth=80
+^
+main.cpp:309:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=stream_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=variable=s_norm1_in depth=2_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS STREAM variable=s_norm1_in depth=2
+^
+main.cpp:310:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=stream_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=variable=s_norm1_out depth=2_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS STREAM variable=s_norm1_out depth=2
+^
+main.cpp:311:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=stream_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=variable=s_gemm1_out depth=2_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS STREAM variable=s_gemm1_out depth=2
+^
+main.cpp:312:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=stream_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=variable=s_softmax_out depth=2_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS STREAM variable=s_softmax_out depth=2
+^
+main.cpp:313:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=stream_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=variable=s_gemm2_out depth=2_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS STREAM variable=s_gemm2_out depth=2
+^
+main.cpp:314:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=stream_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=variable=s_fifo1_out depth=2_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS STREAM variable=s_fifo1_out depth=2
+^
+main.cpp:315:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=stream_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=variable=s_alu1 depth=2_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS STREAM variable=s_alu1 depth=2
+^
+main.cpp:316:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=stream_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=variable=s_alu1_fifo depth=48_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS STREAM variable=s_alu1_fifo depth=48
+^
+main.cpp:317:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=stream_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=variable=s_fifo2 depth=48_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS STREAM variable=s_fifo2 depth=48
+^
+main.cpp:318:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=stream_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=variable=s_norm2_in depth=2_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS STREAM variable=s_norm2_in depth=2
+^
+main.cpp:319:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=stream_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=variable=s_norm2_out depth=2_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS STREAM variable=s_norm2_out depth=2
+^
+main.cpp:320:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=stream_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=variable=s_gemm3_out depth=2_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS STREAM variable=s_gemm3_out depth=2
+^
+main.cpp:321:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=stream_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=variable=s_relu_out depth=2_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS STREAM variable=s_relu_out depth=2
+^
+main.cpp:322:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=stream_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=variable=s_gemm4_out depth=2_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS STREAM variable=s_gemm4_out depth=2
+^
+main.cpp:323:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=stream_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=variable=s_fifo2_out depth=2_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS STREAM variable=s_fifo2_out depth=2
+^
+main.cpp:324:1: warning: HLS pragma dump _XLX_SEP_ PragmaIsValid=1_XLX_SEP_ PragmaType=stream_XLX_SEP_ PragmaContext=hls_XLX_SEP_ PragmaFunction=transformer_top_XLX_SEP_ PragmaOptions=variable=s_alu2_fifo depth=32_XLX_SEP_ [-Wdump-hls-pragmas]
+#pragma HLS STREAM variable=s_alu2_fifo depth=32
+^
+60 warnings generated.

@@ -1,0 +1,130 @@
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:2254:5: remark: Added loop label VITIS_LOOP_676_1:   [xilinx-label-all-loops]
+    for (unsigned i = low; i != high+1; ++i) {
+    ^
+    VITIS_LOOP_676_1: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:2254:5: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:2268:5: remark: Added loop label VITIS_LOOP_690_1:   [xilinx-label-all-loops]
+    for (unsigned i = low; i != high+1; ++i) {
+    ^
+    VITIS_LOOP_690_1: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:2268:5: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:2282:5: remark: Added loop label VITIS_LOOP_704_1:   [xilinx-label-all-loops]
+    for (unsigned i = low; i != high+1; ++i) {
+    ^
+    VITIS_LOOP_704_1: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:2282:5: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:5833:7: remark: Added loop label VITIS_LOOP_1251_1:   [xilinx-label-all-loops]
+      for (i = 0; i < __N - 1; ++i) {
+      ^
+      VITIS_LOOP_1251_1: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:5833:7: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54753:5: remark: Added loop label VITIS_LOOP_29_1:   [xilinx-label-all-loops]
+    for (int t = 0; t < 2; t++) {
+    ^
+    VITIS_LOOP_29_1: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54753:5: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54762:5: remark: Added loop label VITIS_LOOP_38_1:   [xilinx-label-all-loops]
+    for (int t = 0; t < 2; t++) {
+    ^
+    VITIS_LOOP_38_1: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54762:5: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54777:5: remark: Added loop label VITIS_LOOP_53_1:   [xilinx-label-all-loops]
+    for (int i = 0; i < (16 / 2); i++) {
+    ^
+    VITIS_LOOP_53_1: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54777:5: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54790:5: remark: Added loop label VITIS_LOOP_66_1:   [xilinx-label-all-loops]
+    for (int i = 0; i < (16 / 2); i++) {
+    ^
+    VITIS_LOOP_66_1: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54790:5: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54809:5: remark: Added loop label VITIS_LOOP_85_1:   [xilinx-label-all-loops]
+    for (int i = 0; i < (16 / 2); i++) {
+    ^
+    VITIS_LOOP_85_1: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54809:5: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54814:9: remark: Added loop label VITIS_LOOP_90_2:   [xilinx-label-all-loops]
+        for (int t = 0; t < 2; t++) {
+        ^
+        VITIS_LOOP_90_2: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54814:9: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54833:5: remark: Added loop label VITIS_LOOP_109_3:   [xilinx-label-all-loops]
+    for (int i = 0; i < (16 / 2); i++) {
+    ^
+    VITIS_LOOP_109_3: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54833:5: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54836:9: remark: Added loop label VITIS_LOOP_112_4:   [xilinx-label-all-loops]
+        for (int t = 0; t < 2; t++) {
+        ^
+        VITIS_LOOP_112_4: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54836:9: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54863:5: remark: Added loop label VITIS_LOOP_139_1:   [xilinx-label-all-loops]
+    for (int i = 0; i < (16 / 2); i++) {
+    ^
+    VITIS_LOOP_139_1: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54863:5: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54868:9: remark: Added loop label VITIS_LOOP_144_2:   [xilinx-label-all-loops]
+        for (int t = 0; t < 2; t++) {
+        ^
+        VITIS_LOOP_144_2: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54868:9: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54875:5: remark: Added loop label VITIS_LOOP_151_3:   [xilinx-label-all-loops]
+    for (int j = 0; j < (16 / 2); j++) {
+    ^
+    VITIS_LOOP_151_3: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54875:5: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54878:9: remark: Added loop label VITIS_LOOP_154_4:   [xilinx-label-all-loops]
+        for (int t = 0; t < 2; t++) {
+        ^
+        VITIS_LOOP_154_4: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54878:9: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54882:13: remark: Added loop label VITIS_LOOP_158_5:   [xilinx-label-all-loops]
+            for (int k = 0; k < 16; k++) {
+            ^
+            VITIS_LOOP_158_5: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54882:13: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54912:5: remark: Added loop label VITIS_LOOP_188_1:   [xilinx-label-all-loops]
+    for (int i = 0; i < (16 / 2); i++) {
+    ^
+    VITIS_LOOP_188_1: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54912:5: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54917:9: remark: Added loop label VITIS_LOOP_193_2:   [xilinx-label-all-loops]
+        for (int t = 0; t < 2; t++) {
+        ^
+        VITIS_LOOP_193_2: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54917:9: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54929:5: remark: Added loop label VITIS_LOOP_205_3:   [xilinx-label-all-loops]
+    for (int i = 0; i < 16; i++) {
+    ^
+    VITIS_LOOP_205_3: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54929:5: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54941:5: remark: Added loop label VITIS_LOOP_217_4:   [xilinx-label-all-loops]
+    for (int i = 0; i < (16 / 2); i++) {
+    ^
+    VITIS_LOOP_217_4: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54941:5: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54944:9: remark: Added loop label VITIS_LOOP_220_5:   [xilinx-label-all-loops]
+        for (int t = 0; t < 2; t++) {
+        ^
+        VITIS_LOOP_220_5: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54944:9: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54960:5: remark: Added loop label VITIS_LOOP_236_1:   [xilinx-label-all-loops]
+    for (int i = 0; i < (16 / 2); i++) {
+    ^
+    VITIS_LOOP_236_1: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54960:5: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54965:9: remark: Added loop label VITIS_LOOP_241_2:   [xilinx-label-all-loops]
+        for (int t = 0; t < 2; t++) {
+        ^
+        VITIS_LOOP_241_2: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54965:9: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54980:5: remark: Added loop label VITIS_LOOP_256_1:   [xilinx-label-all-loops]
+    for (int i = 0; i < (16 / 2); i++) {
+    ^
+    VITIS_LOOP_256_1: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54980:5: note: FIX-IT applied suggested code changes
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54989:9: remark: Added loop label VITIS_LOOP_265_2:   [xilinx-label-all-loops]
+        for (int t = 0; t < 2; t++) {
+        ^
+        VITIS_LOOP_265_2: 
+/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/solution1/.autopilot/db/main.pp.0.cpp:54989:9: note: FIX-IT applied suggested code changes

@@ -1,0 +1,156 @@
+<ENTRY>
+{
+ "thisFile": "/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/hls_component.hlsrun_csim_summary",
+ "connectId": "",
+ "serverToken": "",
+ "timestamp": "0"
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_CmdStep",
+ "dateTimestamp": "Fri May  1 14:34:08 2026",
+ "timestampMillis": "1777664048985",
+ "buildStep": {
+  "cmdId": "3cfcbc0b-7332-4436-a43e-2a880e924c65",
+  "name": "vitis-run",
+  "logFile": "/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/logs/hls_component.steps.log",
+  "commandLine": "/home/lutet/data3/amd_fpga_tools/2025.2/Vitis/bin/unwrapped/lnx64.o/vitis-run  --mode hls --csim --work_dir hls_component --config hls_config.cfg ",
+  "args": [
+   "--mode",
+   "hls",
+   "--csim",
+   "--work_dir",
+   "hls_component",
+   "--config",
+   "hls_config.cfg"
+  ],
+  "iniFiles": [],
+  "cwd": "/home/lutet/tiled-ip/hls_impl/hls_component"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Fri May  1 14:34:08 2026",
+ "timestampMillis": "1777664048985",
+ "status": {
+  "cmdId": "3cfcbc0b-7332-4436-a43e-2a880e924c65",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_FlowMetaData",
+ "dateTimestamp": "Fri May  1 14:34:10 2026",
+ "timestampMillis": "1777664050638",
+ "buildSummary": {
+  "hardwarePlatform": "",
+  "hardwareDsa": "",
+  "platformDirectory": "",
+  "runtime": "",
+  "systemConfig": "",
+  "flow": "BF_RUN",
+  "target": "TT_HLS_C_SIM",
+  "kernels": [
+   {
+    "base": {
+     "type": "KERNEL",
+     "name": "transformer_top",
+     "file": "",
+     "reports": [],
+     "uuid": ""
+    },
+    "sources": [
+     "/home/lutet/tiled-ip/hls_impl/hls_component/main.cpp"
+    ],
+    "psSources": [],
+    "cuNames": [],
+    "type": "HLS",
+    "frequency": 0,
+    "freqUnits": ""
+   }
+  ],
+  "toolVersion": "2025.2"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Fri May  1 14:34:10 2026",
+ "timestampMillis": "1777664050638",
+ "buildStep": {
+  "cmdId": "b1ecb1e1-2283-4af6-bd39-2c95f9f20ab1",
+  "name": "",
+  "logFile": "/home/lutet/tiled-ip/hls_impl/hls_component/hls_component/hls/hls.log",
+  "commandLine": "",
+  "args": [],
+  "iniFiles": [],
+  "cwd": "/home/lutet/tiled-ip/hls_impl/hls_component"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Fri May  1 14:34:10 2026",
+ "timestampMillis": "1777664050638",
+ "status": {
+  "cmdId": "b1ecb1e1-2283-4af6-bd39-2c95f9f20ab1",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Fri May  1 14:34:10 2026",
+ "timestampMillis": "1777664050670",
+ "status": {
+  "cmdId": "b1ecb1e1-2283-4af6-bd39-2c95f9f20ab1",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Fri May  1 14:34:10 2026",
+ "timestampMillis": "1777664050721",
+ "status": {
+  "cmdId": "3cfcbc0b-7332-4436-a43e-2a880e924c65",
+  "state": "CS_FAILED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Fri May  1 14:34:10 2026",
+ "timestampMillis": "1777664050721",
+ "report": {
+  "path": "",
+  "name": "",
+  "fileType": "HTML",
+  "reportType": "GLOBAL_RULECHECK_GUIDANCE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Fri May  1 14:34:10 2026",
+ "timestampMillis": "1777664050722",
+ "report": {
+  "path": "",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_RULECHECK_GUIDANCE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
