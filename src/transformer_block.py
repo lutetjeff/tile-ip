@@ -1,7 +1,7 @@
 """Transformer block assembly using the tiled-ip framework.
 
 Assembles a simplified transformer-like block with:
-- Input branching to FIFO (residual) and StatefulNorm
+- Single input FIFO that fans out to residual FIFO and StatefulNorm
 - Attention path: StatefulNorm -> TemporalGEMM -> StatefulSoftmax -> TemporalGEMM -> ALU_Add (residual)
 - FFN path: StatefulNorm -> TemporalGEMM -> Activation -> TemporalGEMM -> ALU_Add (residual)
 - Output
@@ -45,7 +45,8 @@ def build_transformer_block(seq_len: int = 4, emb_dim: int = 4, T: int = 2):
     """
     AXI4StreamLiteBase.reset()
     graph = TiledIPGraph()
-    fifo1 = graph.add_node("fifo1", FIFOCore, T_width=T, depth=8)
+    input_fifo = graph.add_node("input_fifo", FIFOCore, T_width=T, depth=1)
+    fifo1 = graph.add_node("fifo1", FIFOCore, T_width=T, depth=40)
     norm1 = graph.add_node("norm1", StatefulNormCore, T_channel=T, N_channel=seq_len)
     tgemm1 = graph.add_node(
         "tgemm1", TemporalGEMMCore, T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T
@@ -55,11 +56,7 @@ def build_transformer_block(seq_len: int = 4, emb_dim: int = 4, T: int = 2):
         "tgemm2", TemporalGEMMCore, T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T
     )
     alu1 = graph.add_node("alu1", ALUCore, T_width=T, op_mode="add")
-    df1 = graph.add_node("df1", FIFOCore, T_width=T, depth=1)
-    df2 = graph.add_node("df2", FIFOCore, T_width=T, depth=1)
-    df3 = graph.add_node("df3", FIFOCore, T_width=T, depth=1)
-    df4 = graph.add_node("df4", FIFOCore, T_width=T, depth=1)
-    fifo2 = graph.add_node("fifo2", FIFOCore, T_width=T, depth=8)
+    fifo2 = graph.add_node("fifo2", FIFOCore, T_width=T, depth=24)
     norm2 = graph.add_node("norm2", StatefulNormCore, T_channel=T, N_channel=seq_len)
     tgemm3 = graph.add_node(
         "tgemm3", TemporalGEMMCore, T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T
@@ -70,27 +67,25 @@ def build_transformer_block(seq_len: int = 4, emb_dim: int = 4, T: int = 2):
     )
     alu2 = graph.add_node("alu2", ALUCore, T_width=T, op_mode="add")
 
+    graph.add_edge("input_fifo", "fifo1")
+    graph.add_edge("input_fifo", "norm1")
     graph.add_edge("norm1", "tgemm1")
     graph.add_edge("tgemm1", "softmax")
     graph.add_edge("softmax", "tgemm2")
     graph.add_edge("tgemm2", "alu1")
     graph.add_edge("fifo1", "alu1")
+    graph.add_edge("alu1", "fifo2")
     graph.add_edge("alu1", "norm2")
-    graph.add_edge("alu1", "df1")
-    graph.add_edge("df1", "df2")
-    graph.add_edge("df2", "df3")
-    graph.add_edge("df3", "df4")
-    graph.add_edge("df4", "fifo2")
     graph.add_edge("norm2", "tgemm3")
     graph.add_edge("tgemm3", "activation")
     graph.add_edge("activation", "tgemm4")
     graph.add_edge("tgemm4", "alu2")
     graph.add_edge("fifo2", "alu2")
 
-    graph.set_input_shape("fifo1", seq_len, T)
-    graph.set_input_shape("norm1", seq_len, T)
+    graph.set_input_shape("input_fifo", seq_len, T)
     graph.set_input_shape("fifo2", seq_len, T)
 
+    input_fifo.input_shape = StreamShape(seq_len, T)
     fifo1.input_shape = StreamShape(seq_len, T)
     norm1.input_shape = StreamShape(seq_len, T)
     fifo2.input_shape = StreamShape(seq_len, T)

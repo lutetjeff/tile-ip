@@ -342,12 +342,12 @@ class Stitcher:
                     else:
                         src.ready_in <<= dst.ready_out
                 else:
-                    # Fan-out: OR all downstream ready_out signals.
+                    # Fan-out: AND all downstream ready_out signals.
                     ready_signals = [self._ips[d].ready_out for d in dsts]
-                    or_ready = ready_signals[0]
+                    and_ready = ready_signals[0]
                     for sig in ready_signals[1:]:
-                        or_ready = or_ready | sig
-                    src.ready_in <<= or_ready
+                        and_ready = and_ready & sig
+                    src.ready_in <<= and_ready
 
             # ---- Wrapper wires for dangling AXI4-Stream-Lite ports ----
             for name, ip in self._ips.items():
