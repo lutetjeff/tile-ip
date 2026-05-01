@@ -7,7 +7,8 @@ import pyrtl
 from cocotb.runner import get_runner
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
-from scripts.export_verilog import _write_hex_file, _inject_readmemh
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
+from export_verilog import _write_hex_file, _inject_readmemh
 
 
 @pytest.mark.parametrize("bitwidth,addrwidth", [(8, 4)])

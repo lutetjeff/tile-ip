@@ -5,9 +5,10 @@ import pyrtl
 import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
 from ip_cores.fifo import FIFOCore
 from ip_cores.mem_router import MemRouterCore
-from scripts.export_verilog import export_stitched_graph
+from export_verilog import export_stitched_graph
 from stitcher import Stitcher
 
 

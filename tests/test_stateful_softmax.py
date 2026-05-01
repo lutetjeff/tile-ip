@@ -4,7 +4,7 @@ import pytest
 
 from ip_cores.axi_stream_base import AXI4StreamLiteBase
 from ip_cores.stateful_softmax import StatefulSoftmaxCore
-from tests.ref_models.softmax_ref import softmax_ref
+from ref_models.softmax_ref import softmax_ref
 
 
 def _pack_bytes(values: np.ndarray) -> int:
