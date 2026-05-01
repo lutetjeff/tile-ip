@@ -4,7 +4,7 @@ import pytest
 
 from ip_cores.axi_stream_base import AXI4StreamLiteBase
 from ip_cores.fifo import FIFOCore
-from ref_models.fifo_ref import fifo_ref
+from tests.ref_models.fifo_ref import fifo_ref
 
 
 def _pack_bytes(values: np.ndarray) -> int:

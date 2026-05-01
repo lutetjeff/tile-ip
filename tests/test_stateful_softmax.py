@@ -4,7 +4,7 @@ import pytest
 
 from ip_cores.axi_stream_base import AXI4StreamLiteBase
 from ip_cores.stateful_softmax import StatefulSoftmaxCore
-from ref_models.softmax_ref import softmax_ref
+from tests.ref_models.softmax_ref import softmax_ref
 
 
 def _pack_bytes(values: np.ndarray) -> int:
@@ -16,7 +16,7 @@ def _pack_bytes(values: np.ndarray) -> int:
 
 def _unpack_bytes(value: int, T_seq: int) -> np.ndarray:
     return np.array(
-        [np.int8((value >> (i * 8)) & 0xFF) for i in range(T_seq)],
+        [np.int8(np.uint8((value >> (i * 8)) & 0xFF)) for i in range(T_seq)],
         dtype=np.int8,
     )
 

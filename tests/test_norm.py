@@ -7,7 +7,7 @@ import pyrtl
 import pytest
 
 from ip_cores.norm import NormCore
-from ref_models.norm_ref import norm_ref
+from tests.ref_models.norm_ref import norm_ref
 
 
 # ------------------------------------------------------------------

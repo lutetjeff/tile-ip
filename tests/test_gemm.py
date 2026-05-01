@@ -6,7 +6,7 @@ import pytest
 
 from ip_cores.axi_stream_base import AXI4StreamLiteBase
 from ip_cores.gemm import GEMMCore
-from ref_models.gemm_ref import gemm_ref
+from tests.ref_models.gemm_ref import gemm_ref
 
 
 def _pack_bytes(values: np.ndarray) -> int:

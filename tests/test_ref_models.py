@@ -6,12 +6,12 @@ without error. Does not verify numerical accuracy - that is done by testbenches.
 
 import numpy as np
 
-from ref_models.gemm_ref import gemm_ref
-from ref_models.softmax_ref import softmax_ref
-from ref_models.norm_ref import norm_ref
-from ref_models.activation_ref import gelu_ref, relu_ref
-from ref_models.alu_ref import alu_ref, OP_ADD, OP_MULTIPLY, OP_MASK
-from ref_models.mem_router_ref import mem_router_ref
+from tests.ref_models.gemm_ref import gemm_ref
+from tests.ref_models.softmax_ref import softmax_ref
+from tests.ref_models.norm_ref import norm_ref
+from tests.ref_models.activation_ref import gelu_ref, relu_ref
+from tests.ref_models.alu_ref import alu_ref, OP_ADD, OP_MULTIPLY, OP_MASK
+from tests.ref_models.mem_router_ref import mem_router_ref
 
 
 def test_gemm_basic():

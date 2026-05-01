@@ -15,8 +15,8 @@ from ip_cores.norm import NormCore
 from ip_cores.activation import ActivationCore
 from ip_cores.alu import ALUCore
 from ip_cores.axi_stream_base import AXI4StreamLiteBase
-from ref_models.activation_ref import gelu_ref, relu_ref
-from ref_models.alu_ref import alu_ref, OP_ADD
+from tests.ref_models.activation_ref import gelu_ref, relu_ref
+from tests.ref_models.alu_ref import alu_ref, OP_ADD
 from stitcher import Stitcher
 
 

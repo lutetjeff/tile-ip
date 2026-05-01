@@ -73,7 +73,7 @@ def _transformer_ref_hw(input_data, w1, w2, w3, w4):
             norm_val = prod >> 8
             scaled = norm_val * gamma_val
             biased = scaled + beta_val
-            out[i] = np.int8(biased & 0xFF)
+            out[i] = np.int8(np.uint8(biased & 0xFF))
         return out
 
     def _stateful_softmax_hw(x):

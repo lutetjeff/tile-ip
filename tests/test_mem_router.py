@@ -3,7 +3,7 @@ import pyrtl
 import pytest
 
 from ip_cores.mem_router import MemRouterCore
-from ref_models.mem_router_ref import mem_router_ref
+from tests.ref_models.mem_router_ref import mem_router_ref
 
 
 def _create_wrapped_sim(core: MemRouterCore, reg_map=None, mem_map=None):

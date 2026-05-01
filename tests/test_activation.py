@@ -6,7 +6,7 @@ import pytest
 
 from ip_cores.activation import ActivationCore
 from ip_cores.axi_stream_base import AXI4StreamLiteBase
-from ref_models.activation_ref import gelu_ref, relu_ref
+from tests.ref_models.activation_ref import gelu_ref, relu_ref
 
 
 def _pack_bytes(values: np.ndarray) -> int:

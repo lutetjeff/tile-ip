@@ -14,8 +14,8 @@ import pytest
 from ip_cores.axi_stream_base import AXI4StreamLiteBase
 from ip_cores.gemm import GEMMCore
 from ip_cores.softmax import SoftmaxCore
-from ref_models.gemm_ref import gemm_ref
-from ref_models.softmax_ref import softmax_ref
+from tests.ref_models.gemm_ref import gemm_ref
+from tests.ref_models.softmax_ref import softmax_ref
 from stitcher import Stitcher
 
 
