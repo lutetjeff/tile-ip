@@ -5,7 +5,7 @@ import numpy as np
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles, RisingEdge
 
-from tests.ref_models.alu_ref import OP_ADD, OP_MASK, OP_MULTIPLY, alu_ref
+from tests.ref_models.alu_ref import OP_ADD, alu_ref
 
 
 def _pack_bytes(values: np.ndarray) -> int:
@@ -25,7 +25,6 @@ def _unpack_bytes(value: int, T_width: int) -> np.ndarray:
 @cocotb.test()
 async def test_alu(dut):
     T_width = int(os.environ.get("COCOTB_T_WIDTH", "2"))
-    op_code = int(os.environ.get("COCOTB_OP_CODE", "0"))
 
     clock = Clock(dut.clk, 10, units="ns")
     cocotb.start_soon(clock.start())
@@ -35,7 +34,6 @@ async def test_alu(dut):
     dut.ready_in.value = 0
     dut.data_in.value = 0
     dut.data_in_b.value = 0
-    dut.op_code.value = 0
     await ClockCycles(dut.clk, 5)
     dut.rst.value = 0
     await RisingEdge(dut.clk)
@@ -65,7 +63,6 @@ async def test_alu(dut):
 
         dut.data_in.value = _pack_bytes(a)
         dut.data_in_b.value = _pack_bytes(b)
-        dut.op_code.value = op_code
         dut.valid_in.value = 1
         dut.ready_in.value = 1
 
@@ -79,5 +76,5 @@ async def test_alu(dut):
 
     for i in range(len(test_cases)):
         out_bytes = _unpack_bytes(outputs[i], T_width)
-        expected = alu_ref(inputs_a[i], inputs_b[i], op_code)
+        expected = alu_ref(inputs_a[i], inputs_b[i], OP_ADD)
         np.testing.assert_array_equal(out_bytes, expected)

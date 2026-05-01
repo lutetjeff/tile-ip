@@ -332,7 +332,15 @@ class Stitcher:
                 elif len(dsts) == 1:
                     # Single downstream: direct backpressure connection.
                     dst = self._ips[dsts[0]]
-                    src.ready_in <<= dst.ready_out
+                    dst_ups = upstream[dsts[0]]
+                    if len(dst_ups) > 1:
+                        other_valid = pyrtl.Const(1, bitwidth=1)
+                        for u in dst_ups:
+                            if u != src_name:
+                                other_valid = other_valid & self._ips[u].valid_out
+                        src.ready_in <<= dst.ready_out & other_valid
+                    else:
+                        src.ready_in <<= dst.ready_out
                 else:
                     # Fan-out: OR all downstream ready_out signals.
                     ready_signals = [self._ips[d].ready_out for d in dsts]
@@ -355,13 +363,14 @@ class Stitcher:
                         bitwidth=1,
                         name=f"{self._driver_prefix}{name}_valid_in",
                     )
-                    drivers[f"{name}_last_in"] = pyrtl.Input(
-                        bitwidth=1,
-                        name=f"{self._driver_prefix}{name}_last_in",
-                    )
                     ip.data_in <<= drivers[f"{name}_data_in"]
                     ip.valid_in <<= drivers[f"{name}_valid_in"]
-                    ip.last_in <<= drivers[f"{name}_last_in"]
+                    if hasattr(ip, "last_in"):
+                        drivers[f"{name}_last_in"] = pyrtl.Input(
+                            bitwidth=1,
+                            name=f"{self._driver_prefix}{name}_last_in",
+                        )
+                        ip.last_in <<= drivers[f"{name}_last_in"]
 
                     drivers[f"{name}_ready_out"] = pyrtl.Output(
                         bitwidth=1,

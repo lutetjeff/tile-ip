@@ -122,7 +122,7 @@ class TemporalGEMMCore(AXI4StreamLiteBase):
 
             with pyrtl.conditional_assignment:
                 with state == 0:
-                    with handshake & (self.emit_in | self.last_in):
+                    with handshake & (self.emit_in | (tile_counter == num_tiles - 1)):
                         state.next |= 1
                         tile_counter.next |= 0
                     with handshake:
@@ -185,7 +185,6 @@ class TemporalGEMMCore(AXI4StreamLiteBase):
 
             self.data_out <<= data_out_value
             self.valid_out <<= state == 1
-            self.last_out <<= (state == 1) & (emit_counter == num_tiles - 1)
             self.ready_out <<= state == 0
             self.weight_ready_out <<= state == 0
 

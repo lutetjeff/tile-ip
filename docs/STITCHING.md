@@ -4,7 +4,25 @@ This document covers the integration tools: manual wiring, the Stitcher, the Til
 
 ---
 
-## 4.1 Manual Wiring
+## 4.1 TiledIPGraph — Declarative Frontend (Recommended)
+
+For most use cases, use the `TiledIPGraph` class from `frontend.py`:
+
+```python
+from frontend import TiledIPGraph
+from ip_cores.gemm import GEMMCore
+from ip_cores.softmax import SoftmaxCore
+
+graph = TiledIPGraph()
+graph.add_node("gemm", GEMMCore, T_M=2, T_K=2, T_N=2)
+graph.add_node("softmax", SoftmaxCore, T_seq=2)
+graph.add_edge("gemm", "softmax")
+block, drivers = graph.build()
+```
+
+This hides all PyRTL block management, monkey-patching, and wiring complexity.
+
+## 4.2 Manual Wiring (Legacy)
 
 For ad-hoc experiments you can wire two IPs directly in a shared block:
 
@@ -37,7 +55,7 @@ pyrtl.Block = old_Block  # Restore
 
 ---
 
-## 4.2 The Stitcher
+## 4.3 The Stitcher
 
 **File:** `src/stitcher.py`
 
@@ -65,22 +83,22 @@ Supported for IPs that expose a `data_in_b` port (e.g., `ALUCore`):
 - The first upstream drives `data_in`, the second upstream drives `data_in_b`
 - `valid_in` is the AND of all upstream `valid_out` signals
 - Each upstream's `ready_in` is driven by the consumer's `ready_out`
-- Raises `ValueError` if fan-in is attempted on an IP without `data_in_b`
+- **Fan-in backpressure fix:** When a destination has multiple upstreams (e.g., ALU receiving from both a compute path and a residual FIFO), the Stitcher gates each upstream's `ready_in` with `dst.ready_out AND AND(other_upstreams.valid_out)`. This prevents premature draining of short-latency paths.
 
 ### Wrapper I/O
 
 `build()` returns a `drivers` dict with wrapper wires for dangling ports:
-- **Source IPs (no upstream):** `Input` wires for `data_in`, `valid_in`, `last_in`; `Output` wire for `ready_out`
+- **Source IPs (no upstream):** `Input` wires for `data_in`, `valid_in`; `Output` wire for `ready_out`
 - **Sink IPs (no downstream):** `Output` wires for `data_out`, `valid_out`; `Input` wire for `ready_in`
 
 ### Limitations
 
-- IP-specific side ports (e.g., `ALU.op_code`, `GEMM.weight_in`, `TemporalGEMM.accum_in`) are **not** wrapped; the testbench or top-level must drive them separately
-- `last_in`/`last_out` are wired automatically for direct connections, but temporal cores often require manual `last_in` assignment after `stitcher.build()`
+- IP-specific side ports (e.g., `GEMM.weight_in`, `TemporalGEMM.accum_in`, `TemporalGEMM.emit_in`) are **not** wrapped; the testbench or top-level must drive them separately
+- Temporal cores (TemporalGEMMCore, StatefulNormCore, StatefulSoftmaxCore) use internal beat counters and do not require external `last_in` signals
 
 ---
 
-## 4.3 The TilingSolver
+## 4.4 The TilingSolver
 
 **File:** `src/solver.py`
 
@@ -158,7 +176,7 @@ All three standard subgraphs (FFN, Attention, Mem→Compute) solve in **< 1 seco
 
 ---
 
-## 4.4 Code Generation
+## 4.5 Code Generation
 
 **File:** `scripts/generate_subgraph.py`
 
@@ -185,7 +203,7 @@ This lets you go from a high-level JSON graph description to a runnable PyRTL si
   "ips": [
     {"type": "Norm", "name": "norm", "params": ["T_channel"]},
     {"type": "Activation", "name": "act", "params": ["T_width"]},
-    {"type": "ALU", "name": "alu", "params": ["T_width"]}
+    {"type": "ALU", "name": "alu", "params": ["T_width"}
   ],
   "edges": [["norm", "act"], ["act", "alu"]],
   "constraints": {"max_area": 5000}
@@ -207,11 +225,151 @@ def build_ffn():
 
 ---
 
+## 4.6 The Autotuner
+
+**File:** `src/autotuner.py`
+
+The autotuner performs branch-and-bound search over tile-factor assignments using characterization data. It replaces/supplements the `TilingSolver` for FPGA targets with known resource constraints.
+
+### Latency Model
+
+Per-element latency formula:
+
+```
+Latency(ns/element) = (1000 / min_fmax) * (max_beats * max_ii + congestion) / total_elements
+```
+
+Where:
+- `min_fmax` is the minimum fmax across all IPs in the configuration
+- `max_beats` is the maximum number of beats among all IPs
+- `max_ii` is the maximum initiation interval
+- `congestion` is 0/1/2/3 based on utilization (0 for <50%, 1 for <75%, 2 for <87.5%, 3 for >=87.5%)
+- `total_elements` is the number of elements processed
+
+### Pruning Rules
+
+Configurations are pruned if:
+1. **Utilization > 100%:** Total resource usage exceeds FPGA capacity
+2. **Latency > 1.5× best:** Per-element latency exceeds 1.5× the current best
+
+### Top-N Selection
+
+A bounded priority queue keeps the N best designs (default N=5). Results are sorted by latency ascending.
+
+### Tile Factor Search Space
+
+Tile factors are swept from `{1, 2, 4, 8, 16}` for each parameter.
+
+### Example Invocation
+
+```python
+from autotuner import Autotuner, CharacterizationDB
+
+spec = {
+    "name": "ffn",
+    "ips": [
+        {"type": "Norm", "name": "norm", "params": ["T_channel"]},
+        {"type": "Activation", "name": "act", "params": ["T_width"]},
+        {"type": "ALU", "name": "alu", "params": ["T_width"]},
+    ],
+    "edges": [["norm", "act"], ["act", "alu"]],
+    "constraints": {"fpga": {"LUT": 35200, "FF": 17600, "DSP": 80, "BRAM": 90}},
+}
+
+char_db = CharacterizationDB()
+autotuner = Autotuner(spec, char_db=char_db, top_n=3)
+results = autotuner.run(output_dir="build/designs")
+
+# Best design: (latency_ns, config_dict, metrics_dict)
+best_latency, best_config, best_metrics = results[0]
+```
+
+See [AUTOTUNER.md](AUTOTUNER.md) for full documentation.
+
+---
+
+## 4.7 TiledIPGraph Frontend API
+
+**File:** `src/frontend.py`
+
+`TiledIPGraph` provides a declarative Networkx-style API that hides all PyRTL block management and monkey-patching.
+
+### Class Overview
+
+```python
+class TiledIPGraph:
+    def __init__(self) -> None:
+        """Creates a hidden shared pyrtl.Block and Stitcher."""
+
+    def add_node(self, name: str, ip_class: type, **kwargs) -> Any:
+        """Instantiate and register an IP node."""
+
+    def add_edge(self, src: str, dst: str) -> None:
+        """Add a directed connection from src to dst."""
+
+    def set_input_shape(self, name: str, N: int, T: int) -> None:
+        """Assign an input shape to a node for shape propagation."""
+
+    def build(self) -> tuple[pyrtl.Block, dict[str, Any]]:
+        """Build and return the stitched PyRTL block and drivers dict."""
+```
+
+### Example: Building a Simple Chain
+
+```python
+from frontend import TiledIPGraph
+from ip_cores.norm import NormCore
+from ip_cores.activation import ActivationCore
+
+graph = TiledIPGraph()
+graph.add_node("norm", NormCore, T_channel=2)
+graph.add_node("act", ActivationCore, T_width=2)
+graph.add_edge("norm", "act")
+block, drivers = graph.build()
+```
+
+### Example: Building a Transformer Block
+
+```python
+from frontend import TiledIPGraph
+from ip_cores.stateful_norm import StatefulNormCore
+from ip_cores.temporal_gemm import TemporalGEMMCore
+from ip_cores.alu import ALUCore
+
+graph = TiledIPGraph()
+norm1 = graph.add_node("norm1", StatefulNormCore, T_channel=T, N_channel=seq_len)
+tgemm1 = graph.add_node("tgemm1", TemporalGEMMCore, T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T)
+alu1 = graph.add_node("alu1", ALUCore, T_width=T, op_mode="add")
+# ... add more nodes ...
+graph.add_edge("norm1", "tgemm1")
+graph.add_edge("tgemm1", "alu1")
+# ... add more edges ...
+block, drivers = graph.build()
+```
+
+### Comparison with Manual Stitcher
+
+| Aspect | TiledIPGraph | Manual Stitcher |
+|--------|--------------|-----------------|
+| PyRTL Block | Automatic | Manual monkey-patch |
+| add_node | One call | Separate instantiation |
+| add_edge | One call | connect() call |
+| Shape propagation | Automatic | Manual or via Stitcher |
+| Flexibility | Limited to graph structure | Full PyRTL access |
+
+See [FRONTEND_API.md](FRONTEND_API.md) for full documentation.
+
+---
+
 ## Further Reading
 
 - [GETTING_STARTED.md](GETTING_STARTED.md) — Quick-start examples including Stitcher usage
 - [SHAPE_PROPAGATION.md](SHAPE_PROPAGATION.md) — Automatic shape propagation and adapter insertion
 - [TRANSFORMER_BLOCK.md](TRANSFORMER_BLOCK.md) — Full example with 16 IPs
+- [AUTOTUNER.md](AUTOTUNER.md) — Branch-and-bound autotuner documentation
+- [FRONTEND_API.md](FRONTEND_API.md) — Declarative TiledIPGraph API
 - [IP_CATALOG.md](IP_CATALOG.md) — Individual IP documentation
 - `src/stitcher.py` — Stitcher implementation
 - `src/solver.py` — TilingSolver implementation
+- `src/autotuner.py` — Autotuner implementation
+- `src/frontend.py` — TiledIPGraph implementation

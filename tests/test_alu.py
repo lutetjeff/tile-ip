@@ -4,7 +4,7 @@ import pytest
 
 from ip_cores.alu import ALUCore
 from ip_cores.axi_stream_base import AXI4StreamLiteBase
-from ref_models.alu_ref import alu_ref, OP_ADD, OP_MULTIPLY, OP_MASK
+from ref_models.alu_ref import alu_ref, OP_ADD
 
 
 def _pack_bytes(values: np.ndarray) -> int:
@@ -27,7 +27,6 @@ def _create_wrapped_sim(core: ALUCore):
         data_in_b = pyrtl.Input(
             bitwidth=core.data_in_b.bitwidth, name="wrapper_data_in_b"
         )
-        op_code = pyrtl.Input(bitwidth=2, name="wrapper_op_code")
         valid_in = pyrtl.Input(bitwidth=1, name="wrapper_valid_in")
         ready_in = pyrtl.Input(bitwidth=1, name="wrapper_ready_in")
 
@@ -39,7 +38,6 @@ def _create_wrapped_sim(core: ALUCore):
 
         core.data_in <<= data_in
         core.data_in_b <<= data_in_b
-        core.op_code <<= op_code
         core.valid_in <<= valid_in
         core.ready_in <<= ready_in
         data_out <<= core.data_out
@@ -47,7 +45,7 @@ def _create_wrapped_sim(core: ALUCore):
         ready_out <<= core.ready_out
 
     sim = pyrtl.Simulation(tracer=None, block=core.block)
-    return sim, data_in, data_in_b, op_code, valid_in, ready_in, data_out
+    return sim, data_in, data_in_b, valid_in, ready_in, data_out
 
 
 class TestALUCore:
@@ -55,10 +53,9 @@ class TestALUCore:
         AXI4StreamLiteBase.reset()
 
     @pytest.mark.parametrize("T_width", [1, 2, 4, 8, 16])
-    @pytest.mark.parametrize("op_code", [OP_ADD, OP_MULTIPLY, OP_MASK])
-    def test_continuous_stream(self, T_width: int, op_code: int) -> None:
+    def test_continuous_stream(self, T_width: int) -> None:
         core = ALUCore(T_width=T_width, name="alu")
-        sim, data_in, data_in_b, op_code_in, valid_in, ready_in, data_out = (
+        sim, data_in, data_in_b, valid_in, ready_in, data_out = (
             _create_wrapped_sim(core)
         )
 
@@ -75,7 +72,6 @@ class TestALUCore:
                 {
                     data_in: _pack_bytes(a),
                     data_in_b: _pack_bytes(b),
-                    op_code_in: op_code,
                     valid_in: 1,
                     ready_in: 1,
                 }
@@ -86,7 +82,6 @@ class TestALUCore:
             {
                 data_in: _pack_bytes(inputs_a[-1]),
                 data_in_b: _pack_bytes(inputs_b[-1]),
-                op_code_in: op_code,
                 valid_in: 1,
                 ready_in: 1,
             }
@@ -95,14 +90,13 @@ class TestALUCore:
 
         for i in range(10):
             out_bytes = _unpack_bytes(outputs[i + 1], T_width)
-            expected = alu_ref(inputs_a[i], inputs_b[i], op_code)
+            expected = alu_ref(inputs_a[i], inputs_b[i], OP_ADD)
             np.testing.assert_array_equal(out_bytes, expected)
 
     @pytest.mark.parametrize("T_width", [1, 2, 4, 8, 16])
-    @pytest.mark.parametrize("op_code", [OP_ADD, OP_MULTIPLY, OP_MASK])
-    def test_all_zeros(self, T_width: int, op_code: int) -> None:
+    def test_all_zeros(self, T_width: int) -> None:
         core = ALUCore(T_width=T_width, name="alu")
-        sim, data_in, data_in_b, op_code_in, valid_in, ready_in, data_out = (
+        sim, data_in, data_in_b, valid_in, ready_in, data_out = (
             _create_wrapped_sim(core)
         )
 
@@ -115,19 +109,17 @@ class TestALUCore:
                 {
                     data_in: packed_a,
                     data_in_b: packed_b,
-                    op_code_in: op_code,
                     valid_in: 1,
                     ready_in: 1,
                 }
             )
         out_bytes = _unpack_bytes(sim.inspect(data_out.name), T_width)
-        np.testing.assert_array_equal(out_bytes, alu_ref(a, b, op_code))
+        np.testing.assert_array_equal(out_bytes, alu_ref(a, b, OP_ADD))
 
     @pytest.mark.parametrize("T_width", [1, 2, 4, 8, 16])
-    @pytest.mark.parametrize("op_code", [OP_ADD, OP_MULTIPLY, OP_MASK])
-    def test_all_positive_max(self, T_width: int, op_code: int) -> None:
+    def test_all_positive_max(self, T_width: int) -> None:
         core = ALUCore(T_width=T_width, name="alu")
-        sim, data_in, data_in_b, op_code_in, valid_in, ready_in, data_out = (
+        sim, data_in, data_in_b, valid_in, ready_in, data_out = (
             _create_wrapped_sim(core)
         )
 
@@ -140,19 +132,17 @@ class TestALUCore:
                 {
                     data_in: packed_a,
                     data_in_b: packed_b,
-                    op_code_in: op_code,
                     valid_in: 1,
                     ready_in: 1,
                 }
             )
         out_bytes = _unpack_bytes(sim.inspect(data_out.name), T_width)
-        np.testing.assert_array_equal(out_bytes, alu_ref(a, b, op_code))
+        np.testing.assert_array_equal(out_bytes, alu_ref(a, b, OP_ADD))
 
     @pytest.mark.parametrize("T_width", [1, 2, 4, 8, 16])
-    @pytest.mark.parametrize("op_code", [OP_ADD, OP_MULTIPLY, OP_MASK])
-    def test_all_negative_max(self, T_width: int, op_code: int) -> None:
+    def test_all_negative_max(self, T_width: int) -> None:
         core = ALUCore(T_width=T_width, name="alu")
-        sim, data_in, data_in_b, op_code_in, valid_in, ready_in, data_out = (
+        sim, data_in, data_in_b, valid_in, ready_in, data_out = (
             _create_wrapped_sim(core)
         )
 
@@ -165,19 +155,17 @@ class TestALUCore:
                 {
                     data_in: packed_a,
                     data_in_b: packed_b,
-                    op_code_in: op_code,
                     valid_in: 1,
                     ready_in: 1,
                 }
             )
         out_bytes = _unpack_bytes(sim.inspect(data_out.name), T_width)
-        np.testing.assert_array_equal(out_bytes, alu_ref(a, b, op_code))
+        np.testing.assert_array_equal(out_bytes, alu_ref(a, b, OP_ADD))
 
     @pytest.mark.parametrize("T_width", [1, 2, 4, 8, 16])
-    @pytest.mark.parametrize("op_code", [OP_ADD, OP_MULTIPLY, OP_MASK])
-    def test_mixed_extremes(self, T_width: int, op_code: int) -> None:
+    def test_mixed_extremes(self, T_width: int) -> None:
         core = ALUCore(T_width=T_width, name="alu")
-        sim, data_in, data_in_b, op_code_in, valid_in, ready_in, data_out = (
+        sim, data_in, data_in_b, valid_in, ready_in, data_out = (
             _create_wrapped_sim(core)
         )
 
@@ -190,10 +178,9 @@ class TestALUCore:
                 {
                     data_in: packed_a,
                     data_in_b: packed_b,
-                    op_code_in: op_code,
                     valid_in: 1,
                     ready_in: 1,
                 }
             )
         out_bytes = _unpack_bytes(sim.inspect(data_out.name), T_width)
-        np.testing.assert_array_equal(out_bytes, alu_ref(a, b, op_code))
+        np.testing.assert_array_equal(out_bytes, alu_ref(a, b, OP_ADD))

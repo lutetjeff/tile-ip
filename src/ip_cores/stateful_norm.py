@@ -159,7 +159,7 @@ class StatefulNormCore(AXI4StreamLiteBase):
         # ---- 3.  Handshake -----------------------------------------------
         prod_handshake = self.handshake_accepted()
         cons_handshake = self.valid_out & self.ready_in
-        prod_done = prod_handshake & self.last_in
+        prod_done = prod_handshake & (prod_beat_count == num_beats - 1)
         cons_done = cons_handshake & (cons_beat_count == num_beats - 1)
 
         # ---- 4.  Producer beat counter -----------------------------------
@@ -346,7 +346,6 @@ class StatefulNormCore(AXI4StreamLiteBase):
         )
 
         self.valid_out <<= has_token
-        self.last_out <<= has_token & (cons_beat_count == num_beats - 1)
         self.ready_out <<= tokens_in_flight < 2
 
     def _adder_tree(self, wires: list[WireVector]) -> WireVector:

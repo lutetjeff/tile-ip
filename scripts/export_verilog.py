@@ -106,13 +106,11 @@ def export_alu(
     with pyrtl.set_working_block(core.block, no_sanity_check=True):
         dummy_data_in = pyrtl.Input(bitwidth=core.data_in.bitwidth, name="data_in")
         dummy_data_in_b = pyrtl.Input(bitwidth=core.data_in_b.bitwidth, name="data_in_b")
-        dummy_op_code = pyrtl.Input(bitwidth=2, name="op_code")
         dummy_valid_in = pyrtl.Input(bitwidth=1, name="valid_in")
         dummy_ready_in = pyrtl.Input(bitwidth=1, name="ready_in")
 
         core.data_in <<= dummy_data_in
         core.data_in_b <<= dummy_data_in_b
-        core.op_code <<= dummy_op_code
         core.valid_in <<= dummy_valid_in
         core.ready_in <<= dummy_ready_in
 
@@ -391,7 +389,6 @@ def export_temporal_gemm(
         dummy_data_in = pyrtl.Input(bitwidth=core.data_in.bitwidth, name="data_in")
         dummy_valid_in = pyrtl.Input(bitwidth=1, name="valid_in")
         dummy_ready_in = pyrtl.Input(bitwidth=1, name="ready_in")
-        dummy_last_in = pyrtl.Input(bitwidth=1, name="last_in")
         dummy_accum_in = pyrtl.Input(bitwidth=1, name="accum_in")
         dummy_emit_in = pyrtl.Input(bitwidth=1, name="emit_in")
         dummy_weight_in = pyrtl.Input(bitwidth=core.weight_in.bitwidth, name="weight_in")
@@ -400,7 +397,6 @@ def export_temporal_gemm(
         core.data_in <<= dummy_data_in
         core.valid_in <<= dummy_valid_in
         core.ready_in <<= dummy_ready_in
-        core.last_in <<= dummy_last_in
         core.accum_in <<= dummy_accum_in
         core.emit_in <<= dummy_emit_in
         core.weight_in <<= dummy_weight_in
@@ -439,12 +435,10 @@ def export_stateful_norm(
         dummy_data_in = pyrtl.Input(bitwidth=core.data_in.bitwidth, name="data_in")
         dummy_valid_in = pyrtl.Input(bitwidth=1, name="valid_in")
         dummy_ready_in = pyrtl.Input(bitwidth=1, name="ready_in")
-        dummy_last_in = pyrtl.Input(bitwidth=1, name="last_in")
 
         core.data_in <<= dummy_data_in
         core.valid_in <<= dummy_valid_in
         core.ready_in <<= dummy_ready_in
-        core.last_in <<= dummy_last_in
 
     outdir.mkdir(parents=True, exist_ok=True)
     vfile = outdir / "stateful_norm.v"
@@ -472,12 +466,10 @@ def export_stateful_softmax(
         dummy_data_in = pyrtl.Input(bitwidth=core.data_in.bitwidth, name="data_in")
         dummy_valid_in = pyrtl.Input(bitwidth=1, name="valid_in")
         dummy_ready_in = pyrtl.Input(bitwidth=1, name="ready_in")
-        dummy_last_in = pyrtl.Input(bitwidth=1, name="last_in")
 
         core.data_in <<= dummy_data_in
         core.valid_in <<= dummy_valid_in
         core.ready_in <<= dummy_ready_in
-        core.last_in <<= dummy_last_in
 
     outdir.mkdir(parents=True, exist_ok=True)
     vfile = outdir / "stateful_softmax.v"

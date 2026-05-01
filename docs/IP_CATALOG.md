@@ -142,10 +142,10 @@ The design is combinational. Quantization introduces a small fixed-point error; 
 | Parameter | Description |
 |-----------|-------------|
 | `T_width` | Parallel elements per beat |
+| `op_mode` | Operation mode: `"add"` (default), `"multiply"`, or `"mask"` |
 
 **Extra ports**
 - `data_in_b` (`T_width·8` bits) — second operand
-- `op_code` (2 bits) — `0 = ADD`, `1 = MULTIPLY`, `2 = MASK`
 
 **Implementation**
 - **Pipelined:** 1-cycle latency (registered output + registered valid).
@@ -153,6 +153,8 @@ The design is combinational. Quantization introduces a small fixed-point error; 
 - **MULTIPLY:** corrected signed 8×8→16 multiply. The unsigned `prod16` is adjusted with sign-correction terms, then the upper 8 bits (`[15:8]`) are taken as the INT8 result.
 - **MASK:** `a if b != 0 else 0`.
 - Stall logic: `ready_out = ~valid_reg | ready_in`.
+
+**Note:** The operation mode is set at instantiation via the `op_mode` constructor parameter. This is a Python-side configuration, not a hardware signal. There is no `op_code` input wire.
 
 **Shape propagation:** ALU overrides `infer_output_shape()` to return the same shape as `input_shape` when set. Fan-in is supported for ALU (N→1 via `data_in` and `data_in_b`).
 
@@ -222,6 +224,8 @@ The design is combinational. Quantization introduces a small fixed-point error; 
 | `T_M` | Rows of A / rows of C | 1, 2, 4 |
 | `T_K` | Inner dimension (spatial) | 1, 2, 4 |
 | `T_N` | Columns of B / columns of C | 1, 2, 4 |
+| `M` | Total rows (default `T_M`) | multiple of `T_M` |
+| `N` | Total columns (default `T_N`) | multiple of `T_N` |
 
 **Extra ports**
 - `weight_in` (`T_K·T_N·8` bits), `weight_valid_in`, `weight_ready_out`
@@ -233,8 +237,8 @@ The design is combinational. Quantization introduces a small fixed-point error; 
 - Internal 32-bit accumulator registers (`T_M × T_N`).
 - Requantization: arithmetic right-shift by 8, clip to `[-128, 127]`.
 - `ready_out` is high in ACCUMULATE, low in EMIT (backpressure-protected).
-- `valid_out` and `last_out` are asserted only in EMIT.
-- Transition to EMIT is triggered by `emit_in` or `last_in` during a handshake.
+- `valid_out` is asserted only in EMIT.
+- **Internal beat counter:** The core tracks the number of input beats using an internal counter. When the expected number of beats (`M * N // (T_M * T_N)`) have been received, the core transitions to EMIT state automatically. No external `last_in` wire is needed.
 
 **Shape propagation:** TemporalGEMM overrides `infer_output_shape()` based on `M` and `N` parameters and the tiling factor.
 
@@ -251,16 +255,17 @@ The design is combinational. Quantization introduces a small fixed-point error; 
 |-----------|-------------|
 | `T_channel` | Parallel channels per beat (must be a power of two) |
 | `N_channel` | Total channel dimension (must be a power of two, multiple of `T_channel`) |
-| `is_rmsnorm`| Static flag: `False` = LayerNorm, `True` = RMSNorm |
+| `is_rmsnorm`| Static flag: `False` = LayerNorm (mean subtraction), `True` = RMSNorm |
 | `gamma`     | INT8 scale factor (default 1) |
 | `beta`      | INT8 bias factor (default 0) |
 
 **Implementation**
 - 3-state FSM: `STATISTICS` (0) → `COMPUTE` (1) → `NORMALIZE` (2).
-- **Pass 1 (STATISTICS):** Accumulates `sum_x` and `sum_x2` over `N_channel / T_channel` beats. Input beats are written to an internal BRAM buffer. Triggered by `last_in`.
+- **Pass 1 (STATISTICS):** Accumulates `sum_x` and `sum_x2` over `N_channel / T_channel` beats. Input beats are written to an internal BRAM buffer. An internal beat counter tracks when all beats have been received.
 - **Pass 2 (COMPUTE):** Computes mean, variance, and `1/√(variance + ε)` via a 256-entry ROM LUT in Q8.8 format. `ready_out` is forced low to stall upstream.
-- **Pass 3 (NORMALIZE):** Reads the buffered beats from BRAM and applies `(x - mean) * inv_sqrt`, gamma scaling, and beta bias. `valid_out` is asserted per beat; `last_out` on the final beat.
+- **Pass 3 (NORMALIZE):** Reads the buffered beats from BRAM and applies `(x - mean) * inv_sqrt`, gamma scaling, and beta bias. `valid_out` is asserted per beat; the final beat signals completion internally.
 - Piecewise LUT addressing for small-variance resolution (same as NormCore).
+- **Internal beat counter:** No external `last_in` wire. The core uses an internal counter to track when `N_channel / T_channel` beats have been processed, then automatically transitions between pipeline stages.
 
 **Shape propagation:** StatefulNorm overrides `infer_output_shape()` based on `N_channel` and `T_channel`.
 
@@ -280,10 +285,11 @@ The design is combinational. Quantization introduces a small fixed-point error; 
 
 **Implementation**
 - 3-state FSM: `MAX_FINDING` (0) → `SUM_EXP` (1) → `DIVIDE` (2).
-- **Pass 1 (MAX_FINDING):** Streams all beats to find the global maximum. `last_in` triggers transition to SUM_EXP.
-- **Pass 2 (SUM_EXP):** Re-streams data, computes `exp(x - max)` via per-lane ROM LUTs, accumulates the sum. `last_in` triggers transition to DIVIDE.
-- **Pass 3 (DIVIDE):** Re-streams data a third time, multiplies each exponential by the inverse sum (LUT), right-shifts by 16, clips to `[0, 127]`, and emits probabilities. `valid_out` and `last_out` are asserted during this pass.
+- **Pass 1 (MAX_FINDING):** Streams all beats to find the global maximum. An internal beat counter triggers transition to SUM_EXP when all `N_seq / T_seq` beats have been received.
+- **Pass 2 (SUM_EXP):** Re-streams data, computes `exp(x - max)` via per-lane ROM LUTs, accumulates the sum. Internal beat counter triggers transition to DIVIDE.
+- **Pass 3 (DIVIDE):** Re-streams data a third time, multiplies each exponential by the inverse sum (LUT), right-shifts by 16, clips to `[0, 127]`, and emits probabilities. `valid_out` is asserted during this pass.
 - `ready_out` is high during MAX_FINDING and SUM_EXP, tracks `ready_in` during DIVIDE.
+- **Internal beat counters:** No external `last_in` wire. Each pass uses an internal counter to track beats and trigger state transitions automatically.
 
 **Shape propagation:** StatefulSoftmax overrides `infer_output_shape()` based on `N_seq` and `T_seq`.
 
@@ -306,6 +312,8 @@ The design is combinational. Quantization introduces a small fixed-point error; 
 - **Read:** `data_out`, `valid_out`, `ready_in`, `last_out` (AXI4-Stream-Lite output). `read_addr`, `read_bank_sel` (inputs). Burst length encoded in first `data_in` beat.
 - **Write:** `write_data_in`, `write_valid_in`, `write_ready_out`, `write_last_in`, `write_addr`, `write_bank_sel`.
 
+**Note:** MultiBankBRAMCore defines its own local `last_in` and `last_out` signals because it requires explicit packet boundaries for burst transactions. These are not part of the base `AXI4StreamLiteBase` interface.
+
 **Implementation**
 - 3-state FSM per port: `IDLE` (0) → `READ_BURST` (1) / `WRITE_BURST` (2).
 - Bank conflict resolution: when read and write target the same bank simultaneously, write wins and read is stalled for that cycle.
@@ -319,12 +327,16 @@ The design is combinational. Quantization introduces a small fixed-point error; 
 
 1. **GEMM output width differs from input:** GEMM replaces the base-class `data_out` wire because its output width (`T_M·T_N·8`) differs from its input width (`T_M·T_K·8`).
 
-2. **Block isolation:** Each IP creates a fresh `pyrtl.Block()` per instance. To stitch, all IPs must be in the **same** block. Use the monkey-patch trick for IPs that don't accept a `block=` parameter.
+2. **Block isolation:** Each IP creates a fresh `pyrtl.Block()` per instance. To stitch, all IPs must be in the **same** block. Use the `TiledIPGraph` frontend (recommended) or the monkey-patch trick for IPs that don't accept a `block=` parameter.
 
 3. **Memory sync checks:** Some LUT ROMs are accessed combinationally. PyRTL's `sanity_check_memory_sync` can flag this. Testbenches disable the check on shared blocks.
 
 4. **Gated-GELU out of scope:** `ActivationCore` only has one input stream. True gated-GELU (SiLU-style) requires a second stream.
 
-5. **`last_in` for temporal cores:** All temporal cores (`TemporalGEMMCore`, `StatefulNormCore`, `StatefulSoftmaxCore`) use `last_in` as the packet boundary marker.
+5. **Temporal cores use internal beat counters:** `TemporalGEMMCore`, `StatefulNormCore`, and `StatefulSoftmaxCore` no longer use external `last_in` signals. They track packet boundaries internally using beat counters that compute the expected number of beats from `M`, `N`, `N_channel`, or `N_seq` parameters.
 
 6. **StatefulNorm requires power-of-two:** `T_channel` and `N_channel` must be powers of two, and `N_channel` must be a multiple of `T_channel`.
+
+7. **ALU operation mode is constructor-only:** The `op_mode` parameter ("add", "multiply", "mask") is set at instantiation and cannot be changed dynamically. There is no `op_code` input wire.
+
+8. **MultiBankBRAM defines local last_in/last_out:** Unlike other IPs, MultiBankBRAMCore defines its own `last_in` and `last_out` signals locally because it needs explicit burst boundaries. These are not part of `AXI4StreamLiteBase`.

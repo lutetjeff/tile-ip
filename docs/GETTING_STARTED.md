@@ -8,6 +8,8 @@
 src/
   solver.py              # DP-based tiling optimizer
   stitcher.py            # Generic AXI4-Stream-Lite wiring engine
+  frontend.py            # Declarative TiledIPGraph API
+  autotuner.py           # Branch-and-bound autotuner
   ip_cores/
     axi_stream_base.py   # Universal handshake base class
     gemm.py              # INT8 matrix multiplication
@@ -25,6 +27,8 @@ src/
   transformer_block.py   # Full transformer block assembly
 scripts/
   generate_subgraph.py   # JSON spec → stitched PyRTL module
+  visualize_pareto.py    # 3D Pareto frontier visualization
+  generate_ip_pareto_plots.py  # Per-IP-type Pareto plots
 tests/
   test_*.py              # Unit & compound testbenches
   ref_models/            # NumPy golden models
@@ -34,9 +38,12 @@ docs/
   IP_CATALOG.md          # All 11 IP cores with parameters
   SHAPE_PROPAGATION.md   # StreamShape system documentation
   TRANSFORMER_BLOCK.md   # Transformer block architecture
-  STITCHING.md           # Stitcher, solver, code generation
+  STITCHING.md           # Stitcher, solver, autotuner, code generation
   TESTING.md             # Test framework and results
   DESIGN_DECISIONS.md    # Design decisions and known limitations
+  AUTOTUNER.md          # Branch-and-bound autotuner documentation
+  FRONTEND_API.md        # Declarative TiledIPGraph API
+  PARETO_VISUALIZATION.md  # Pareto frontier visualization
 ```
 
 ## Key Concepts
@@ -63,8 +70,8 @@ Every IP inherits from `AXI4StreamLiteBase`. This guarantees that the Stitcher c
 | `data_out` | `T × 8` | Out | Flattened INT8 output tile |
 | `valid_out`| 1       | Out | IP asserts valid output |
 | `ready_in` | 1       | In  | Downstream can accept data |
-| `last_in`  | 1       | In  | TLAST marker from upstream, end of multi-beat packet |
-| `last_out` | 1       | Out | TLAST marker to downstream |
+
+**Note:** `last_in` and `last_out` are no longer part of the base interface. IPs that need packet boundary markers (MultiBankBRAMCore, StreamShapeAdapter) define them locally. Temporal cores (TemporalGEMMCore, StatefulNormCore, StatefulSoftmaxCore) use internal beat counters to track packet boundaries automatically.
 
 ---
 
@@ -96,7 +103,28 @@ sim.step({d_in: 0x01020304, v_in: 1, r_in: 1, w_in: 0x01010101, wv_in: 1})
 print(sim.inspect(core.data_out.name))
 ```
 
-### 7.2 Stitch a 3-IP Chain Manually
+### 7.2 Build an IP Chain with TiledIPGraph (Recommended)
+
+The declarative frontend hides all PyRTL block management and monkey-patching:
+
+```python
+from frontend import TiledIPGraph
+from ip_cores.norm import NormCore
+from ip_cores.activation import ActivationCore
+from ip_cores.alu import ALUCore
+
+graph = TiledIPGraph()
+graph.add_node("norm", NormCore, T_channel=2)
+graph.add_node("act", ActivationCore, T_width=2)
+graph.add_node("alu", ALUCore, T_width=2, op_mode="add")
+graph.add_edge("norm", "act")
+graph.add_edge("act", "alu")
+block, drivers = graph.build()
+```
+
+### 7.3 Stitch a 3-IP Chain Manually (Legacy)
+
+For advanced use cases requiring direct PyRTL access:
 
 ```python
 import pyrtl
@@ -123,11 +151,12 @@ with pyrtl.set_working_block(shared, no_sanity_check=True):
     act.ready_in <<= alu.ready_out
 ```
 
-### 7.3 Use the Stitcher and Solver Together
+### 7.3 Use the Autotuner for Tile Optimization
+
+The autotuner performs branch-and-bound search over tile configurations using characterization data:
 
 ```python
-from solver import TilingSolver
-from stitcher import Stitcher
+from autotuner import Autotuner, CharacterizationDB
 
 spec = {
     "name": "ffn",
@@ -137,11 +166,17 @@ spec = {
         {"type": "ALU", "name": "alu", "params": ["T_width"]},
     ],
     "edges": [["norm", "act"], ["act", "alu"]],
-    "constraints": {"max_area": 5000},
+    "constraints": {"fpga": {"LUT": 35200, "FF": 17600, "DSP": 80, "BRAM": 90}},
 }
 
-config = TilingSolver(max_path_depth=20).solve(spec)
-# config is ready to feed into generate_subgraph.py
+char_db = CharacterizationDB()
+autotuner = Autotuner(spec, char_db=char_db, top_n=3)
+results = autotuner.run()
+
+# Best design: (latency_ns, config_dict, metrics_dict)
+best_latency, best_config, best_metrics = results[0]
+print(f"Best latency: {best_latency:.2f} ns/element")
+print(f"Config: {best_config}")
 ```
 
 ### 7.4 Generate a Module from JSON
@@ -154,7 +189,22 @@ python scripts/generate_subgraph.py \
 
 The emitted file contains `CONFIG` and `build_ffn()`; import it, call the builder, and pass the `drivers` dict to a `pyrtl.Simulation`.
 
-### 7.5 Vivado IP Characterization
+### 7.5 Visualize Pareto Frontiers
+
+After characterization, visualize the trade-off space:
+
+```bash
+# 3D Pareto plot (LUT vs Throughput vs Power)
+python scripts/visualize_pareto.py \
+    --input build/characterization/characterization_results.json \
+    --output build/pareto_plot.png
+
+# Per-IP-type Pareto plots with labeled configurations
+python scripts/generate_ip_pareto_plots.py
+# Output: build/pareto_plots/*.png
+```
+
+### 7.6 Vivado IP Characterization
 
 Export all IPs to Verilog and run Vivado Out-of-Context (OOC) synthesis and implementation to collect resource, timing, and power metrics:
 
@@ -178,7 +228,10 @@ Results are written to `build/characterization/characterization_results.json` wi
 - [IP_CATALOG.md](IP_CATALOG.md) — All 11 IP cores with parameters, implementation details, and gotchas
 - [SHAPE_PROPAGATION.md](SHAPE_PROPAGATION.md) — StreamShape system and automatic shape propagation
 - [TRANSFORMER_BLOCK.md](TRANSFORMER_BLOCK.md) — Full transformer block architecture
-- [STITCHING.md](STITCHING.md) — Stitcher, solver, and code generation details
+- [STITCHING.md](STITCHING.md) — Stitcher, autotuner, and code generation details
+- [AUTOTUNER.md](AUTOTUNER.md) — Branch-and-bound autotuner documentation
+- [FRONTEND_API.md](FRONTEND_API.md) — Declarative TiledIPGraph API
+- [PARETO_VISUALIZATION.md](PARETO_VISUALIZATION.md) — Pareto frontier visualization
 - [TESTING.md](TESTING.md) — Test framework and verification results
 - [DESIGN_DECISIONS.md](DESIGN_DECISIONS.md) — Design decisions and known limitations
 - [IP_LIBRARY.md](IP_LIBRARY.md) — Low-level interface specification

@@ -7,7 +7,6 @@ import pyrtl
 import pytest
 
 from ip_cores.axi_stream_base import AXI4StreamLiteBase
-from ref_models.alu_ref import OP_ADD
 from transformer_block import build_transformer_block
 
 
@@ -71,37 +70,27 @@ class TestTransformerBlock:
         num_beats = seq_len // T
         max_cycles = 800
         for cycle in range(max_cycles):
-            last_in_beat = 1 if (norm1_beat + 1) % num_beats == 0 else 0
-
             norm1_ready = sim.inspect(drivers["norm1_ready_out"])
             fifo1_ready = sim.inspect(drivers["fifo1_ready_out"])
 
             if norm1_ready == 1:
                 norm1_valid = 1
-                norm1_last = last_in_beat
                 norm1_beat += 1
             else:
                 norm1_valid = 0
-                norm1_last = 0
 
             if fifo1_ready == 1:
                 fifo1_valid = 1
-                fifo1_last = 1
                 fifo1_sent += 1
             else:
                 fifo1_valid = 0
-                fifo1_last = 0
 
             inputs = {
                 drivers["fifo1_data_in"]: data_val,
                 drivers["fifo1_valid_in"]: fifo1_valid,
-                drivers["fifo1_last_in"]: fifo1_last,
                 drivers["norm1_data_in"]: data_val,
                 drivers["norm1_valid_in"]: norm1_valid,
-                drivers["norm1_last_in"]: norm1_last,
                 drivers["alu2_ready_in"]: 1,
-                manual_inputs["norm2_last_in"]: last_in_beat if norm1_valid else 0,
-                manual_inputs["tgemm4_last_in"]: 1,
                 manual_inputs["tgemm1_weight_in"]: weight_val,
                 manual_inputs["tgemm1_weight_valid"]: 1,
                 manual_inputs["tgemm2_weight_in"]: weight_val,
@@ -110,8 +99,6 @@ class TestTransformerBlock:
                 manual_inputs["tgemm3_weight_valid"]: 1,
                 manual_inputs["tgemm4_weight_in"]: weight_val,
                 manual_inputs["tgemm4_weight_valid"]: 1,
-                manual_inputs["alu1_op_code"]: OP_ADD,
-                manual_inputs["alu2_op_code"]: OP_ADD,
             }
 
             sim.step(inputs)
@@ -163,19 +150,12 @@ class TestTransformerBlock:
         captured_outputs = []
 
         for cycle in range(max_cycles):
-            beat = cycle % num_beats
-            is_last = 1 if beat == num_beats - 1 else 0
-
             inputs = {
                 drivers["fifo1_data_in"]: data_val,
                 drivers["fifo1_valid_in"]: 1,
-                drivers["fifo1_last_in"]: is_last,
                 drivers["norm1_data_in"]: data_val,
                 drivers["norm1_valid_in"]: 1,
-                drivers["norm1_last_in"]: is_last,
                 drivers["alu2_ready_in"]: 1,
-                manual_inputs["norm2_last_in"]: is_last,
-                manual_inputs["tgemm4_last_in"]: is_last,
                 manual_inputs["tgemm1_weight_in"]: weight_val,
                 manual_inputs["tgemm1_weight_valid"]: 1,
                 manual_inputs["tgemm2_weight_in"]: weight_val,
@@ -184,8 +164,6 @@ class TestTransformerBlock:
                 manual_inputs["tgemm3_weight_valid"]: 1,
                 manual_inputs["tgemm4_weight_in"]: weight_val,
                 manual_inputs["tgemm4_weight_valid"]: 1,
-                manual_inputs["alu1_op_code"]: OP_ADD,
-                manual_inputs["alu2_op_code"]: OP_ADD,
             }
 
             sim.step(inputs)

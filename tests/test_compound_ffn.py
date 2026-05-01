@@ -117,13 +117,11 @@ def _create_ffn_chain(
         valid_in_driver = pyrtl.Input(bitwidth=1, name="valid_in_driver")
         ready_in_driver = pyrtl.Input(bitwidth=1, name="ready_in_driver")
         data_in_b_driver = pyrtl.Input(bitwidth=T * 8, name="data_in_b_driver")
-        op_code_driver = pyrtl.Input(bitwidth=2, name="op_code_driver")
 
         norm.data_in <<= data_in_driver
         norm.valid_in <<= valid_in_driver
         alu.ready_in <<= ready_in_driver
         alu.data_in_b <<= data_in_b_driver
-        alu.op_code <<= op_code_driver
 
         alu_data_out_probe = pyrtl.Output(bitwidth=T * 8, name="alu_data_out_probe")
         alu_data_out_probe <<= alu.data_out
@@ -134,7 +132,6 @@ def _create_ffn_chain(
         valid_in_driver,
         ready_in_driver,
         data_in_b_driver,
-        op_code_driver,
         alu_data_out_probe,
     )
 
@@ -164,7 +161,6 @@ class TestCompoundFFN:
             valid_in_driver,
             ready_in_driver,
             data_in_b_driver,
-            op_code_driver,
             alu_data_out_probe,
         ) = _create_ffn_chain(T, is_rmsnorm, activation_type)
 
@@ -176,7 +172,6 @@ class TestCompoundFFN:
             valid_in_driver: 1,
             ready_in_driver: 1,
             data_in_b_driver: _pack_bytes(data_in_b),
-            op_code_driver: OP_ADD,
         }
 
         sim.step(inputs)
@@ -201,7 +196,6 @@ class TestCompoundFFN:
             valid_in_driver,
             ready_in_driver,
             data_in_b_driver,
-            op_code_driver,
             alu_data_out_probe,
         ) = _create_ffn_chain(T, is_rmsnorm, activation_type)
 
@@ -213,7 +207,6 @@ class TestCompoundFFN:
             valid_in_driver: 1,
             ready_in_driver: 1,
             data_in_b_driver: _pack_bytes(data_in_b),
-            op_code_driver: OP_ADD,
         }
 
         sim.step(inputs)
@@ -240,7 +233,6 @@ class TestCompoundFFN:
             valid_in_driver,
             ready_in_driver,
             data_in_b_driver,
-            op_code_driver,
             alu_data_out_probe,
         ) = _create_ffn_chain(T, is_rmsnorm, activation_type)
 
@@ -255,7 +247,6 @@ class TestCompoundFFN:
                     valid_in_driver: 1,
                     ready_in_driver: 1,
                     data_in_b_driver: _pack_bytes(b),
-                    op_code_driver: OP_ADD,
                 }
             )
             outputs.append(_unpack_bytes(sim.inspect(alu_data_out_probe.name), T))
@@ -266,7 +257,6 @@ class TestCompoundFFN:
                 valid_in_driver: 1,
                 ready_in_driver: 1,
                 data_in_b_driver: _pack_bytes(beats_b[-1]),
-                op_code_driver: OP_ADD,
             }
         )
         outputs.append(_unpack_bytes(sim.inspect(alu_data_out_probe.name), T))
@@ -311,11 +301,9 @@ def _create_ffn_chain_stitcher(
 
     with pyrtl.set_working_block(built_block, no_sanity_check=True):
         drv_alu_data_in_b = pyrtl.Input(bitwidth=T * 8, name="drv_alu_data_in_b")
-        drv_alu_op_code = pyrtl.Input(bitwidth=2, name="drv_alu_op_code")
         alu.data_in_b <<= drv_alu_data_in_b
-        alu.op_code <<= drv_alu_op_code
 
-    return built_block, drivers, drv_alu_data_in_b, drv_alu_op_code
+    return built_block, drivers, drv_alu_data_in_b
 
 
 class TestCompoundFFNStitcher:
@@ -333,8 +321,8 @@ class TestCompoundFFNStitcher:
         x = rng.integers(-50, 50, size=T, dtype=np.int8)
         data_in_b = rng.integers(-50, 50, size=T, dtype=np.int8)
 
-        built_block, drivers, drv_alu_data_in_b, drv_alu_op_code = (
-            _create_ffn_chain_stitcher(T, is_rmsnorm, activation_type)
+        built_block, drivers, drv_alu_data_in_b = _create_ffn_chain_stitcher(
+            T, is_rmsnorm, activation_type
         )
 
         _disable_memory_sync_check(built_block)
@@ -345,7 +333,6 @@ class TestCompoundFFNStitcher:
             drivers["norm_valid_in"]: 1,
             drivers["alu_ready_in"]: 1,
             drv_alu_data_in_b: _pack_bytes(data_in_b),
-            drv_alu_op_code: OP_ADD,
         }
 
         sim.step(inputs)
@@ -364,8 +351,8 @@ class TestCompoundFFNStitcher:
         x = np.zeros(T, dtype=np.int8)
         data_in_b = np.zeros(T, dtype=np.int8)
 
-        built_block, drivers, drv_alu_data_in_b, drv_alu_op_code = (
-            _create_ffn_chain_stitcher(T, is_rmsnorm, activation_type)
+        built_block, drivers, drv_alu_data_in_b = _create_ffn_chain_stitcher(
+            T, is_rmsnorm, activation_type
         )
 
         _disable_memory_sync_check(built_block)
@@ -376,7 +363,6 @@ class TestCompoundFFNStitcher:
             drivers["norm_valid_in"]: 1,
             drivers["alu_ready_in"]: 1,
             drv_alu_data_in_b: _pack_bytes(data_in_b),
-            drv_alu_op_code: OP_ADD,
         }
 
         sim.step(inputs)
@@ -397,8 +383,8 @@ class TestCompoundFFNStitcher:
         beats_x = [rng.integers(-50, 50, size=T, dtype=np.int8) for _ in range(10)]
         beats_b = [rng.integers(-50, 50, size=T, dtype=np.int8) for _ in range(10)]
 
-        built_block, drivers, drv_alu_data_in_b, drv_alu_op_code = (
-            _create_ffn_chain_stitcher(T, is_rmsnorm, activation_type)
+        built_block, drivers, drv_alu_data_in_b = _create_ffn_chain_stitcher(
+            T, is_rmsnorm, activation_type
         )
 
         _disable_memory_sync_check(built_block)
@@ -412,7 +398,6 @@ class TestCompoundFFNStitcher:
                     drivers["norm_valid_in"]: 1,
                     drivers["alu_ready_in"]: 1,
                     drv_alu_data_in_b: _pack_bytes(b),
-                    drv_alu_op_code: OP_ADD,
                 }
             )
             outputs.append(_unpack_bytes(sim.inspect(drivers["alu_data_out"].name), T))
@@ -423,7 +408,6 @@ class TestCompoundFFNStitcher:
                 drivers["norm_valid_in"]: 1,
                 drivers["alu_ready_in"]: 1,
                 drv_alu_data_in_b: _pack_bytes(beats_b[-1]),
-                drv_alu_op_code: OP_ADD,
             }
         )
         outputs.append(_unpack_bytes(sim.inspect(drivers["alu_data_out"].name), T))

@@ -75,6 +75,8 @@ class StreamShapeAdapter(AXI4StreamLiteBase):
                 bitwidth=out_width, name=f"{name}_data_out"
             )
 
+            self.last_out = WireVector(bitwidth=1, name=f"{name}_last_out")
+
             self._build_core()
 
     def _build_core(self) -> None:

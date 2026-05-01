@@ -57,10 +57,6 @@ class AXI4StreamLiteBase:
         1-bit control signal to downstream consumer.
     ready_in : WireVector
         1-bit control signal from downstream consumer.
-    last_in : WireVector
-        1-bit end-of-burst marker from upstream producer.
-    last_out : WireVector
-        1-bit end-of-burst marker to downstream consumer.
     """
 
     def __init__(self, tiling_param: int, name: str, block: pyrtl.Block = None,
@@ -86,34 +82,6 @@ class AXI4StreamLiteBase:
             )
             self.valid_out = WireVector(bitwidth=1, name=f"{name}_valid_out")
             self.ready_in = WireVector(bitwidth=1, name=f"{name}_ready_in")
-
-    @property
-    def last_in(self) -> WireVector:
-        """1-bit end-of-burst marker from upstream (lazy-created)."""
-        if not hasattr(self, "_last_in"):
-            with pyrtl.set_working_block(self.block, no_sanity_check=True):
-                self._last_in = WireVector(
-                    bitwidth=1, name=f"{self._name}_last_in"
-                )
-        return self._last_in
-
-    @last_in.setter
-    def last_in(self, value: WireVector) -> None:
-        self._last_in = value
-
-    @property
-    def last_out(self) -> WireVector:
-        """1-bit end-of-burst marker to downstream (lazy-created)."""
-        if not hasattr(self, "_last_out"):
-            with pyrtl.set_working_block(self.block, no_sanity_check=True):
-                self._last_out = WireVector(
-                    bitwidth=1, name=f"{self._name}_last_out"
-                )
-        return self._last_out
-
-    @last_out.setter
-    def last_out(self, value: WireVector) -> None:
-        self._last_out = value
 
     @property
     def input_shape(self) -> StreamShape | None:

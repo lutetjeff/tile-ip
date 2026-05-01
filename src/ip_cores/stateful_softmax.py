@@ -161,7 +161,7 @@ class StatefulSoftmaxCore(AXI4StreamLiteBase):
 
         # ---- 3.  Handshake signals ----------------------------------------
         prod_handshake = self.handshake_accepted()
-        prod_done = prod_handshake & self.last_in
+        prod_done = prod_handshake & (prod_beat_count == num_beats - 1)
 
         sum_active = sum_ptr != write_ptr
         sum_done = sum_active & (sum_beat_count == num_beats - 1)
@@ -388,7 +388,6 @@ class StatefulSoftmaxCore(AXI4StreamLiteBase):
         # ---- 19. Output mux -----------------------------------------------
         self.data_out <<= pyrtl.concat_list(div_results)
         self.valid_out <<= div_active
-        self.last_out <<= div_active & (div_beat_count == num_beats - 1)
         self.ready_out <<= tokens_in_flight < 3
 
     def _find_max(self, lanes: list[WireVector]) -> WireVector:

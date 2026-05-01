@@ -25,27 +25,23 @@ def _create_wrapped_sim(core: StatefulSoftmaxCore):
     with pyrtl.set_working_block(core.block, no_sanity_check=True):
         data_in = pyrtl.Input(bitwidth=core.data_in.bitwidth, name="wrapper_data_in")
         valid_in = pyrtl.Input(bitwidth=1, name="wrapper_valid_in")
-        last_in = pyrtl.Input(bitwidth=1, name="wrapper_last_in")
         ready_in = pyrtl.Input(bitwidth=1, name="wrapper_ready_in")
 
         data_out = pyrtl.Output(
             bitwidth=core.data_out.bitwidth, name="wrapper_data_out"
         )
         valid_out = pyrtl.Output(bitwidth=1, name="wrapper_valid_out")
-        last_out = pyrtl.Output(bitwidth=1, name="wrapper_last_out")
         ready_out = pyrtl.Output(bitwidth=1, name="wrapper_ready_out")
 
         core.data_in <<= data_in
         core.valid_in <<= valid_in
-        core.last_in <<= last_in
         core.ready_in <<= ready_in
         data_out <<= core.data_out
         valid_out <<= core.valid_out
-        last_out <<= core.last_out
         ready_out <<= core.ready_out
 
     sim = pyrtl.Simulation(tracer=None, block=core.block)
-    return sim, data_in, valid_in, last_in, ready_in, data_out, valid_out, last_out, ready_out
+    return sim, data_in, valid_in, ready_in, data_out, valid_out, ready_out
 
 
 class TestStatefulSoftmaxCore:
@@ -57,7 +53,7 @@ class TestStatefulSoftmaxCore:
         num_beats = 4
         N_seq = num_beats * T_seq
         core = StatefulSoftmaxCore(N_seq=N_seq, T_seq=T_seq, name="ssm")
-        sim, data_in, valid_in, last_in, ready_in, data_out, valid_out, last_out, ready_out = _create_wrapped_sim(core)
+        sim, data_in, valid_in, ready_in, data_out, valid_out, ready_out = _create_wrapped_sim(core)
 
         np.random.seed(42)
         beats = [
@@ -71,11 +67,9 @@ class TestStatefulSoftmaxCore:
         beat_idx = 0
         max_cycles = num_beats * 10
         for _ in range(max_cycles):
-            is_last = 1 if beat_idx == num_beats - 1 else 0
             sim.step({
                 data_in: _pack_bytes(beats[beat_idx]),
                 valid_in: 1,
-                last_in: is_last,
                 ready_in: 1,
             })
             if sim.inspect(valid_out.name):
@@ -90,7 +84,6 @@ class TestStatefulSoftmaxCore:
             sim.step({
                 data_in: 0,
                 valid_in: 0,
-                last_in: 0,
                 ready_in: 1,
             })
             if sim.inspect(valid_out.name):
@@ -109,7 +102,7 @@ class TestStatefulSoftmaxCore:
         num_beats = 4
         N_seq = num_beats * T_seq
         core = StatefulSoftmaxCore(N_seq=N_seq, T_seq=T_seq, name="ssm")
-        sim, data_in, valid_in, last_in, ready_in, data_out, valid_out, last_out, ready_out = _create_wrapped_sim(core)
+        sim, data_in, valid_in, ready_in, data_out, valid_out, ready_out = _create_wrapped_sim(core)
 
         beats = [np.zeros(T_seq, dtype=np.int8) for _ in range(num_beats)]
         flat = np.concatenate(beats)
@@ -119,11 +112,9 @@ class TestStatefulSoftmaxCore:
         beat_idx = 0
         max_cycles = num_beats * 10
         for _ in range(max_cycles):
-            is_last = 1 if beat_idx == num_beats - 1 else 0
             sim.step({
                 data_in: _pack_bytes(beats[beat_idx]),
                 valid_in: 1,
-                last_in: is_last,
                 ready_in: 1,
             })
             if sim.inspect(valid_out.name):
@@ -138,7 +129,6 @@ class TestStatefulSoftmaxCore:
             sim.step({
                 data_in: 0,
                 valid_in: 0,
-                last_in: 0,
                 ready_in: 1,
             })
             if sim.inspect(valid_out.name):
@@ -157,7 +147,7 @@ class TestStatefulSoftmaxCore:
         num_beats = 4
         N_seq = num_beats * T_seq
         core = StatefulSoftmaxCore(N_seq=N_seq, T_seq=T_seq, name="ssm")
-        sim, data_in, valid_in, last_in, ready_in, data_out, valid_out, last_out, ready_out = _create_wrapped_sim(core)
+        sim, data_in, valid_in, ready_in, data_out, valid_out, ready_out = _create_wrapped_sim(core)
 
         np.random.seed(123)
         num_tokens = 5
@@ -178,14 +168,12 @@ class TestStatefulSoftmaxCore:
         for cycle in range(max_cycles):
             if current_token < num_tokens and sim.inspect(ready_out.name):
                 beat = tokens[current_token][token_beats_sent]
-                is_last = 1 if token_beats_sent == num_beats - 1 else 0
                 sim.step({
                     data_in: _pack_bytes(beat),
                     valid_in: 1,
-                    last_in: is_last,
                     ready_in: 1,
                 })
-                if is_last:
+                if token_beats_sent == num_beats - 1:
                     current_token += 1
                     token_beats_sent = 0
                 else:
@@ -194,7 +182,6 @@ class TestStatefulSoftmaxCore:
                 sim.step({
                     data_in: 0,
                     valid_in: 0,
-                    last_in: 0,
                     ready_in: 1,
                 })
 
@@ -224,7 +211,7 @@ class TestStatefulSoftmaxCore:
         num_beats = 4
         N_seq = num_beats * T_seq
         core = StatefulSoftmaxCore(N_seq=N_seq, T_seq=T_seq, name="ssm")
-        sim, data_in, valid_in, last_in, ready_in, data_out, valid_out, last_out, ready_out = _create_wrapped_sim(core)
+        sim, data_in, valid_in, ready_in, data_out, valid_out, ready_out = _create_wrapped_sim(core)
 
         np.random.seed(7)
         beats = [
@@ -241,8 +228,6 @@ class TestStatefulSoftmaxCore:
         max_cycles = num_beats * 10
 
         for _ in range(max_cycles):
-            is_last = 1 if beat_idx == num_beats - 1 else 0
-
             if sim.inspect(valid_out.name) and not stall_active:
                 if len(outputs) == 1:
                     stall_active = True
@@ -258,7 +243,6 @@ class TestStatefulSoftmaxCore:
             sim.step({
                 data_in: _pack_bytes(beats[beat_idx]),
                 valid_in: 1,
-                last_in: is_last,
                 ready_in: ready,
             })
 
@@ -275,7 +259,6 @@ class TestStatefulSoftmaxCore:
             sim.step({
                 data_in: 0,
                 valid_in: 0,
-                last_in: 0,
                 ready_in: 1,
             })
             if sim.inspect(valid_out.name):

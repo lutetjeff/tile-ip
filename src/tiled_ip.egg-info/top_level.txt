@@ -1,1 +1,6 @@
+autotuner
+frontend
 ip_cores
+solver
+stitcher
+transformer_block

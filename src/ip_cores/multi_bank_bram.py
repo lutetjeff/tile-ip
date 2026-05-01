@@ -111,6 +111,9 @@ class MultiBankBRAMCore(AXI4StreamLiteBase):
                 bitwidth=bank_sel_width, name=f"{name}_write_bank_sel"
             )
 
+            self.last_in = WireVector(bitwidth=1, name=f"{name}_last_in")
+            self.last_out = WireVector(bitwidth=1, name=f"{name}_last_out")
+
             self.read_state = pyrtl.Register(
                 bitwidth=2, name=f"{name}_read_state"
             )

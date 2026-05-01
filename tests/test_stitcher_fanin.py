@@ -72,10 +72,6 @@ class TestStitcherFanIn:
         stitcher.connect("mr2", "alu")
         built_block, drivers = stitcher.build()
 
-        with pyrtl.set_working_block(built_block, no_sanity_check=True):
-            drv_alu_op_code = pyrtl.Input(bitwidth=2, name="drv_alu_op_code")
-            alu.op_code <<= drv_alu_op_code
-
         rows = T_width
         cols = 5
         data1 = np.random.randint(-128, 127, size=rows * cols, dtype=np.int8)
@@ -119,18 +115,14 @@ class TestStitcherFanIn:
         outputs = []
         for cycle in range(100):
             valid_in_val = 1 if cycle == 0 else 0
-            last_in_val = 1 if cycle == 0 else 0
 
             sim.step(
                 {
                     drivers["mr1_valid_in"]: valid_in_val,
-                    drivers["mr1_last_in"]: last_in_val,
                     drivers["mr1_data_in"]: 0,
                     drivers["mr2_valid_in"]: valid_in_val,
-                    drivers["mr2_last_in"]: last_in_val,
                     drivers["mr2_data_in"]: 0,
                     drivers["alu_ready_in"]: 1,
-                    drv_alu_op_code: OP_ADD,
                 }
             )
 
@@ -173,10 +165,6 @@ class TestStitcherFanIn:
         stitcher.connect("mr1", "alu")
         stitcher.connect("mr2", "alu")
         built_block, drivers = stitcher.build()
-
-        with pyrtl.set_working_block(built_block, no_sanity_check=True):
-            drv_alu_op_code = pyrtl.Input(bitwidth=2, name="drv_alu_op_code")
-            alu.op_code <<= drv_alu_op_code
 
         rows = T_width
         cols = 3
@@ -221,18 +209,14 @@ class TestStitcherFanIn:
         outputs = []
         for cycle in range(100):
             valid_in_val = 1 if cycle == 0 else 0
-            last_in_val = 1 if cycle == 0 else 0
 
             sim.step(
                 {
                     drivers["mr1_valid_in"]: valid_in_val,
-                    drivers["mr1_last_in"]: last_in_val,
                     drivers["mr1_data_in"]: 0,
                     drivers["mr2_valid_in"]: valid_in_val,
-                    drivers["mr2_last_in"]: last_in_val,
                     drivers["mr2_data_in"]: 0,
                     drivers["alu_ready_in"]: 1,
-                    drv_alu_op_code: OP_ADD,
                 }
             )
 

@@ -9,6 +9,7 @@ description = "Dynamic programming driven hardware compiler for tile-based IPs"
 requires-python = ">=3.10"
 dependencies = [
     "pyrtl>=0.12",
+    "matplotlib>=3.7.0",
     "numpy>=1.26",
 ]
 

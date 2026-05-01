@@ -63,14 +63,17 @@ block.sanity_check_memory_sync = lambda wire_src_dict=None: None
 
 ## 6. `last_in` / `last_out` Protocol
 
-**Decision:** Added to `AXI4StreamLiteBase` as lazy properties (created on first access).
+**Decision:** `last_in` and `last_out` were removed from `AXI4StreamLiteBase`. IPs that need packet boundary markers define them locally.
 
-**Rationale:** This preserves backward compatibility with existing IPs that do not use burst markers.
+**Rationale:** Most IPs do not need `last_in`/`last_out`. Making them universal added complexity and forced manual wiring for temporal cores. Now:
+- Temporal cores (TemporalGEMMCore, StatefulNormCore, StatefulSoftmaxCore) use internal beat counters to track packet boundaries
+- Only IPs that genuinely need explicit burst boundaries (MultiBankBRAMCore, StreamShapeAdapter) define `last_in`/`last_out` locally
+- This eliminates manual `last_in` wiring after `stitcher.build()`
 
 **Behavior:**
-- `last_in` / `last_out` are created on first access, not during `__init__`
-- Temporal cores deassert `ready_out` during `COMPUTE` / `EMIT` phases to prevent upstream data from overwriting internal state
-- Block isolation: `last_in` and `last_out` are created inside the IP's own block, so stitching does not leak wires across blocks
+- `AXI4StreamLiteBase` no longer has `last_in` or `last_out` attributes
+- Temporal cores compute expected beat count from `M`, `N`, `N_channel`, or `N_seq` parameters
+- Internal state machines transition automatically when expected beats are received
 
 ---
 
@@ -90,11 +93,15 @@ block.sanity_check_memory_sync = lambda wire_src_dict=None: None
 
 ---
 
-## 8. Temporal GEMM Uses `last_in` for Accumulation Control
+## 8. Temporal GEMM Uses Internal Beat Counters
 
-**Decision:** All temporal GEMMs have `accum_in` tied high and `emit_in` tied low; accumulation is controlled entirely by `last_in`.
+**Decision:** TemporalGEMMCore no longer uses external `last_in`. Accumulation control uses internal beat counters that track when `M * N // (T_M * T_N)` beats have been received.
 
-**Rationale:** This simplifies the external control interface. When `last_in` is asserted on the final beat of a multi-beat packet, the core transitions from accumulation to emission.
+**Rationale:** This eliminates the need for manual `last_in` wiring between temporal cores. The core computes the expected number of beats from its `M`, `N`, `T_M`, and `T_N` parameters and transitions from ACCUMULATE to EMIT state automatically.
+
+**Control signals remaining:**
+- `accum_in` (1 bit): high = add to accumulator, low = overwrite (typically tied high)
+- `emit_in` (1 bit): triggers early transition to EMIT (typically tied low, let internal counter control)
 
 ---
 
@@ -108,13 +115,48 @@ block.sanity_check_memory_sync = lambda wire_src_dict=None: None
 
 ---
 
+## 10. Declarative Frontend API
+
+**Decision:** Created `TiledIPGraph` class to wrap `Stitcher` and hide `pyrtl.Block` monkey-patching.
+
+**Rationale:** The original API required users to manually manage `pyrtl.Block` instances and monkey-patch `pyrtl.Block = lambda: shared` for IPs that didn't accept a `block=` parameter. This was error-prone and cluttered user code.
+
+**Design:**
+- `TiledIPGraph` creates a hidden shared block and Stitcher internally
+- `add_node(name, ip_class, **kwargs)` handles all block management
+- `add_edge(src, dst)` delegates to Stitcher
+- `build()` returns `(block, drivers)` tuple
+
+**Trade-off:** Users lose direct access to the PyRTL block during construction, but gain simplicity. For advanced use cases requiring direct PyRTL access, the manual Stitcher API remains available.
+
+---
+
+## 11. Autotuner Branch-and-Bound
+
+**Decision:** Implemented branch-and-bound search over tile configurations using FPGA characterization data.
+
+**Rationale:** The original `TilingSolver` used simple area + latency cost models with LUT estimates. The autotuner uses actual Vivado characterization results (when available) and falls back to estimates. The branch-and-bound approach with pruning (utilization > 100%, latency > 1.5× best) efficiently searches the `{1, 2, 4, 8, 16}^k` space.
+
+**Latency model:**
+```
+Latency(ns/element) = (1000 / min_fmax) * (max_beats * max_ii + congestion) / total_elements
+```
+
+**Pruning:**
+- Utilization > 100% of any FPGA resource kills the branch immediately
+- Per-element latency > 1.5× current best kills the branch
+
+**Output:** Top-N designs sorted by latency, with optional Verilog export via `TiledIPGraph`.
+
+---
+
 ## Known Limitations
 
 1. **Gated-GELU not supported** — requires second input stream
 2. **Single-block stitching only** — all IPs must share the same PyRTL block
-3. **Manual `last_in` wiring** — some temporal core `last_in` signals require manual connection after `stitcher.build()`
-4. **Side ports not wrapped** — `ALU.op_code`, `GEMM.weight_in`, `TemporalGEMM.accum_in` etc. must be driven externally
-5. **Fixed-point only** — no floating-point support in hardware
+3. **Side ports not wrapped** — `GEMM.weight_in`, `TemporalGEMM.accum_in`, `TemporalGEMM.emit_in` must be driven externally
+4. **Fixed-point only** — no floating-point support in hardware
+5. **Per-element latency is an estimate** — the autotuner's latency model uses heuristics for congestion and assumes ideal pipelining. Actual performance depends on place-and-route.
 
 ---
 
@@ -123,4 +165,6 @@ block.sanity_check_memory_sync = lambda wire_src_dict=None: None
 - [GETTING_STARTED.md](GETTING_STARTED.md) — Quick-start examples
 - [IP_CATALOG.md](IP_CATALOG.md) — Individual IP documentation
 - [SHAPE_PROPAGATION.md](SHAPE_PROPAGATION.md) — StreamShape system
+- [FRONTEND_API.md](FRONTEND_API.md) — TiledIPGraph declarative API
+- [AUTOTUNER.md](AUTOTUNER.md) — Branch-and-bound autotuner
 - [TESTING.md](TESTING.md) — Quantization tolerance details

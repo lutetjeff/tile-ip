@@ -112,14 +112,10 @@ class TestGenerateSubgraphFFN:
 
         with pyrtl.set_working_block(block, no_sanity_check=True):
             drv_alu_data_in_b = pyrtl.Input(bitwidth=T * 8, name="drv_alu_data_in_b")
-            drv_alu_op_code = pyrtl.Input(bitwidth=2, name="drv_alu_op_code")
             for ip in block.wirevector_set:
                 if ip.name == "alu_data_in_b":
                     alu_data_in_b = ip
-                if ip.name == "alu_op_code":
-                    alu_op_code = ip
             alu_data_in_b <<= drv_alu_data_in_b
-            alu_op_code <<= drv_alu_op_code
 
         _disable_memory_sync_check(block)
         sim = pyrtl.Simulation(tracer=None, block=block)
@@ -129,7 +125,6 @@ class TestGenerateSubgraphFFN:
             drivers["norm_valid_in"]: 1,
             drivers["alu_ready_in"]: 1,
             drv_alu_data_in_b: _pack_bytes(data_in_b),
-            drv_alu_op_code: OP_ADD,
         }
         sim.step(inputs)
         sim.step(inputs)

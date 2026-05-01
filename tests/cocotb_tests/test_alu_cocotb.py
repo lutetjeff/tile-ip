@@ -10,17 +10,15 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
 from export_verilog import export_alu
 
 
-@pytest.mark.parametrize("op_code", [0, 1, 2])
 @pytest.mark.parametrize("T_width", [2, 4])
-def test_alu_cocotb(op_code: int, T_width: int) -> None:
-    os.environ["COCOTB_OP_CODE"] = str(op_code)
+def test_alu_cocotb(T_width: int) -> None:
     os.environ["COCOTB_T_WIDTH"] = str(T_width)
 
     outdir = Path("build/rtl")
     vfile = export_alu(outdir, T_width=T_width)
 
     runner = get_runner("verilator")
-    build_dir = Path("sim_build") / f"alu_cocotb_op{op_code}_t{T_width}"
+    build_dir = Path("sim_build") / f"alu_cocotb_t{T_width}"
     build_dir.mkdir(parents=True, exist_ok=True)
 
     runner.build(

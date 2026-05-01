@@ -19,14 +19,15 @@ class ALUCore(AXI4StreamLiteBase):
         Unique instance name for wire prefixing.
     """
 
-    def __init__(self, T_width: int, name: str) -> None:
+    def __init__(self, T_width: int, name: str, op_mode: str = "add") -> None:
+        if op_mode not in ("add", "multiply", "mask"):
+            raise ValueError("op_mode must be 'add', 'multiply', or 'mask'")
         super().__init__(tiling_param=T_width, name=name)
 
         with pyrtl.set_working_block(self.block, no_sanity_check=True):
             self.data_in_b = WireVector(
                 bitwidth=self._bus_width, name=f"{name}_data_in_b"
             )
-            self.op_code = WireVector(bitwidth=2, name=f"{name}_op_code")
 
             out_reg = pyrtl.Register(bitwidth=self._bus_width, name=f"{name}_out_reg")
             valid_reg = pyrtl.Register(bitwidth=1, name=f"{name}_valid_reg")
@@ -77,15 +78,12 @@ class ALUCore(AXI4StreamLiteBase):
                     pyrtl.Const(0, bitwidth=8),
                 )
 
-                elem_res = pyrtl.select(
-                    self.op_code == 0,
-                    add_res,
-                    pyrtl.select(
-                        self.op_code == 1,
-                        mul_res,
-                        mask_res,
-                    ),
-                )
+                if op_mode == "add":
+                    elem_res = add_res
+                elif op_mode == "multiply":
+                    elem_res = mul_res
+                else:
+                    elem_res = mask_res
                 lane_results.append(elem_res)
 
             result_bus = pyrtl.concat_list(lane_results)

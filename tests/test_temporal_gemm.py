@@ -28,7 +28,6 @@ def _create_wrapped_sim(core: TemporalGEMMCore):
     with pyrtl.set_working_block(core.block, no_sanity_check=True):
         data_in = pyrtl.Input(bitwidth=core.data_in.bitwidth, name="wrapper_data_in")
         valid_in = pyrtl.Input(bitwidth=1, name="wrapper_valid_in")
-        last_in = pyrtl.Input(bitwidth=1, name="wrapper_last_in")
         ready_in = pyrtl.Input(bitwidth=1, name="wrapper_ready_in")
         accum_in = pyrtl.Input(bitwidth=1, name="wrapper_accum_in")
         emit_in = pyrtl.Input(bitwidth=1, name="wrapper_emit_in")
@@ -41,13 +40,11 @@ def _create_wrapped_sim(core: TemporalGEMMCore):
             bitwidth=core.data_out.bitwidth, name="wrapper_data_out"
         )
         valid_out = pyrtl.Output(bitwidth=1, name="wrapper_valid_out")
-        last_out = pyrtl.Output(bitwidth=1, name="wrapper_last_out")
         ready_out = pyrtl.Output(bitwidth=1, name="wrapper_ready_out")
         weight_ready_out = pyrtl.Output(bitwidth=1, name="wrapper_weight_ready_out")
 
         core.data_in <<= data_in
         core.valid_in <<= valid_in
-        core.last_in <<= last_in
         core.ready_in <<= ready_in
         core.accum_in <<= accum_in
         core.emit_in <<= emit_in
@@ -55,7 +52,6 @@ def _create_wrapped_sim(core: TemporalGEMMCore):
         core.weight_valid_in <<= weight_valid_in
         data_out <<= core.data_out
         valid_out <<= core.valid_out
-        last_out <<= core.last_out
         ready_out <<= core.ready_out
         weight_ready_out <<= core.weight_ready_out
 
@@ -64,7 +60,6 @@ def _create_wrapped_sim(core: TemporalGEMMCore):
         sim,
         data_in,
         valid_in,
-        last_in,
         ready_in,
         accum_in,
         emit_in,
@@ -72,7 +67,6 @@ def _create_wrapped_sim(core: TemporalGEMMCore):
         weight_valid_in,
         data_out,
         valid_out,
-        last_out,
         ready_out,
         weight_ready_out,
     )
@@ -94,14 +88,13 @@ class TestTemporalGEMMCore:
     def setup_method(self) -> None:
         AXI4StreamLiteBase.reset()
 
-    def test_four_beats_accumulate_into_one_output(self) -> None:
+    def test_single_beat_emits_immediately(self) -> None:
         T_M, T_K, T_N = 1, 4, 4
         core = TemporalGEMMCore(T_M=T_M, T_K=T_K, T_N=T_N, name="tgemm")
         (
             sim,
             data_in,
             valid_in,
-            last_in,
             ready_in,
             accum_in,
             emit_in,
@@ -109,71 +102,6 @@ class TestTemporalGEMMCore:
             weight_valid_in,
             data_out,
             valid_out,
-            last_out,
-            ready_out,
-            weight_ready_out,
-        ) = _create_wrapped_sim(core)
-
-        activations = []
-        weights = []
-        for _ in range(4):
-            A = np.random.randint(-50, 50, size=(T_M, T_K), dtype=np.int8)
-            B = np.random.randint(-50, 50, size=(T_K, T_N), dtype=np.int8)
-            activations.append(A)
-            weights.append(B)
-
-        for beat, (A, B) in enumerate(zip(activations, weights)):
-            is_last = 1 if beat == 3 else 0
-            sim.step(
-                {
-                    data_in: _pack_bytes(A),
-                    valid_in: 1,
-                    last_in: is_last,
-                    ready_in: 1,
-                    accum_in: 1,
-                    emit_in: 0,
-                    weight_in: _pack_bytes(B),
-                    weight_valid_in: 1,
-                }
-            )
-
-        sim.step(
-            {
-                data_in: 0,
-                valid_in: 0,
-                last_in: 0,
-                ready_in: 1,
-                accum_in: 0,
-                emit_in: 0,
-                weight_in: 0,
-                weight_valid_in: 0,
-            }
-        )
-
-        assert sim.inspect(ready_out) == 0
-        assert sim.inspect(valid_out) == 1
-        assert sim.inspect(last_out) == 1
-
-        C_hw = _unpack_bytes(sim.inspect(data_out), (T_M, T_N))
-        C_ref = _temporal_gemm_ref(activations, weights)
-        np.testing.assert_array_equal(C_hw, C_ref)
-
-    def test_ready_out_low_during_emit(self) -> None:
-        T_M, T_K, T_N = 1, 2, 2
-        core = TemporalGEMMCore(T_M=T_M, T_K=T_K, T_N=T_N, name="tgemm")
-        (
-            sim,
-            data_in,
-            valid_in,
-            last_in,
-            ready_in,
-            accum_in,
-            emit_in,
-            weight_in,
-            weight_valid_in,
-            data_out,
-            valid_out,
-            last_out,
             ready_out,
             weight_ready_out,
         ) = _create_wrapped_sim(core)
@@ -185,7 +113,6 @@ class TestTemporalGEMMCore:
             {
                 data_in: _pack_bytes(A),
                 valid_in: 1,
-                last_in: 1,
                 ready_in: 1,
                 accum_in: 1,
                 emit_in: 0,
@@ -198,7 +125,58 @@ class TestTemporalGEMMCore:
             {
                 data_in: 0,
                 valid_in: 0,
-                last_in: 0,
+                ready_in: 1,
+                accum_in: 0,
+                emit_in: 0,
+                weight_in: 0,
+                weight_valid_in: 0,
+            }
+        )
+
+        assert sim.inspect(valid_out) == 1
+        assert sim.inspect(ready_out) == 0
+
+        C_hw = _unpack_bytes(sim.inspect(data_out), (T_M, T_N))
+        C_ref = gemm_ref(A, B)
+        np.testing.assert_array_equal(C_hw, C_ref)
+
+    def test_ready_out_low_during_emit(self) -> None:
+        T_M, T_K, T_N = 1, 2, 2
+        core = TemporalGEMMCore(T_M=T_M, T_K=T_K, T_N=T_N, name="tgemm")
+        (
+            sim,
+            data_in,
+            valid_in,
+            ready_in,
+            accum_in,
+            emit_in,
+            weight_in,
+            weight_valid_in,
+            data_out,
+            valid_out,
+            ready_out,
+            weight_ready_out,
+        ) = _create_wrapped_sim(core)
+
+        A = np.random.randint(-50, 50, size=(T_M, T_K), dtype=np.int8)
+        B = np.random.randint(-50, 50, size=(T_K, T_N), dtype=np.int8)
+
+        sim.step(
+            {
+                data_in: _pack_bytes(A),
+                valid_in: 1,
+                ready_in: 1,
+                accum_in: 1,
+                emit_in: 0,
+                weight_in: _pack_bytes(B),
+                weight_valid_in: 1,
+            }
+        )
+
+        sim.step(
+            {
+                data_in: 0,
+                valid_in: 0,
                 ready_in: 1,
                 accum_in: 0,
                 emit_in: 0,
@@ -218,7 +196,6 @@ class TestTemporalGEMMCore:
             sim,
             data_in,
             valid_in,
-            last_in,
             ready_in,
             accum_in,
             emit_in,
@@ -226,7 +203,6 @@ class TestTemporalGEMMCore:
             weight_valid_in,
             data_out,
             valid_out,
-            last_out,
             ready_out,
             weight_ready_out,
         ) = _create_wrapped_sim(core)
@@ -238,7 +214,6 @@ class TestTemporalGEMMCore:
             {
                 data_in: _pack_bytes(A),
                 valid_in: 1,
-                last_in: 0,
                 ready_in: 1,
                 accum_in: 1,
                 emit_in: 1,
@@ -251,7 +226,6 @@ class TestTemporalGEMMCore:
             {
                 data_in: 0,
                 valid_in: 0,
-                last_in: 0,
                 ready_in: 1,
                 accum_in: 0,
                 emit_in: 0,
@@ -274,7 +248,6 @@ class TestTemporalGEMMCore:
             sim,
             data_in,
             valid_in,
-            last_in,
             ready_in,
             accum_in,
             emit_in,
@@ -282,7 +255,6 @@ class TestTemporalGEMMCore:
             weight_valid_in,
             data_out,
             valid_out,
-            last_out,
             ready_out,
             weight_ready_out,
         ) = _create_wrapped_sim(core)
@@ -297,7 +269,6 @@ class TestTemporalGEMMCore:
             {
                 data_in: _pack_bytes(A0),
                 valid_in: 1,
-                last_in: 0,
                 ready_in: 1,
                 accum_in: 0,
                 emit_in: 0,
@@ -308,9 +279,20 @@ class TestTemporalGEMMCore:
 
         sim.step(
             {
+                data_in: 0,
+                valid_in: 0,
+                ready_in: 1,
+                accum_in: 0,
+                emit_in: 0,
+                weight_in: 0,
+                weight_valid_in: 0,
+            }
+        )
+
+        sim.step(
+            {
                 data_in: _pack_bytes(A1),
                 valid_in: 1,
-                last_in: 1,
                 ready_in: 1,
                 accum_in: 0,
                 emit_in: 0,
@@ -323,7 +305,6 @@ class TestTemporalGEMMCore:
             {
                 data_in: 0,
                 valid_in: 0,
-                last_in: 0,
                 ready_in: 1,
                 accum_in: 0,
                 emit_in: 0,
@@ -343,7 +324,6 @@ class TestTemporalGEMMCore:
             sim,
             data_in,
             valid_in,
-            last_in,
             ready_in,
             accum_in,
             emit_in,
@@ -351,7 +331,6 @@ class TestTemporalGEMMCore:
             weight_valid_in,
             data_out,
             valid_out,
-            last_out,
             ready_out,
             weight_ready_out,
         ) = _create_wrapped_sim(core)
@@ -363,7 +342,6 @@ class TestTemporalGEMMCore:
             {
                 data_in: _pack_bytes(A),
                 valid_in: 1,
-                last_in: 1,
                 ready_in: 0,
                 accum_in: 1,
                 emit_in: 0,
@@ -376,7 +354,6 @@ class TestTemporalGEMMCore:
             {
                 data_in: 0,
                 valid_in: 0,
-                last_in: 0,
                 ready_in: 0,
                 accum_in: 0,
                 emit_in: 0,
@@ -392,7 +369,6 @@ class TestTemporalGEMMCore:
             {
                 data_in: 0,
                 valid_in: 0,
-                last_in: 0,
                 ready_in: 1,
                 accum_in: 0,
                 emit_in: 0,
@@ -408,7 +384,6 @@ class TestTemporalGEMMCore:
             {
                 data_in: 0,
                 valid_in: 0,
-                last_in: 0,
                 ready_in: 1,
                 accum_in: 0,
                 emit_in: 0,
@@ -454,7 +429,6 @@ class TestTemporalGEMMCore:
             sim,
             data_in,
             valid_in,
-            last_in,
             ready_in,
             accum_in,
             emit_in,
@@ -462,7 +436,6 @@ class TestTemporalGEMMCore:
             weight_valid_in,
             data_out,
             valid_out,
-            last_out,
             ready_out,
             weight_ready_out,
         ) = _create_wrapped_sim(core)
@@ -473,13 +446,11 @@ class TestTemporalGEMMCore:
             B = np.random.randint(-50, 50, size=(T_K, T_N), dtype=np.int8)
             B_tiles.append(B)
 
-        for beat, B in enumerate(B_tiles):
-            is_last = 1 if beat == len(B_tiles) - 1 else 0
+        for B in B_tiles:
             sim.step(
                 {
                     data_in: _pack_bytes(A),
                     valid_in: 1,
-                    last_in: is_last,
                     ready_in: 1,
                     accum_in: 0,
                     emit_in: 0,
@@ -495,7 +466,6 @@ class TestTemporalGEMMCore:
                 {
                     data_in: 0,
                     valid_in: 0,
-                    last_in: 0,
                     ready_in: 1,
                     accum_in: 0,
                     emit_in: 0,
@@ -506,15 +476,12 @@ class TestTemporalGEMMCore:
             assert sim.inspect(valid_out) == 1
             assert sim.inspect(ready_out) == 0
             assert sim.inspect(weight_ready_out) == 0
-            expected_last = 1 if beat == num_emit_beats - 1 else 0
-            assert sim.inspect(last_out) == expected_last
             emit_outputs.append(_unpack_bytes(sim.inspect(data_out), (T_M, T_N)))
 
         sim.step(
             {
                 data_in: 0,
                 valid_in: 0,
-                last_in: 0,
                 ready_in: 1,
                 accum_in: 0,
                 emit_in: 0,

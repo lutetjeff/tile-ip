@@ -14,7 +14,7 @@ from ip_cores.alu import ALUCore
 from ip_cores.activation import ActivationCore
 from ip_cores.axi_stream_base import AXI4StreamLiteBase
 from ip_cores.fifo import FIFOCore
-from ref_models.alu_ref import alu_ref, OP_ADD, OP_MULTIPLY
+from ref_models.alu_ref import alu_ref, OP_ADD
 from ref_models.activation_ref import relu_ref
 from stitcher import Stitcher
 
@@ -141,14 +141,13 @@ class TestStitcher2IPChain:
         AXI4StreamLiteBase.reset()
 
     @pytest.mark.parametrize("T_width", [1, 2, 4])
-    @pytest.mark.parametrize("op_code", [OP_ADD, OP_MULTIPLY])
-    def test_continuous_stream(self, T_width: int, op_code: int) -> None:
+    def test_continuous_stream(self, T_width: int) -> None:
         block = _make_shared_block()
 
         def _factory():
             return (
-                ALUCore(T_width=T_width, name="alu1"),
-                ALUCore(T_width=T_width, name="alu2"),
+                ALUCore(T_width=T_width, name="alu1", op_mode="add"),
+                ALUCore(T_width=T_width, name="alu2", op_mode="add"),
             )
 
         alu1, alu2 = _instantiate_ips_with_block(block, _factory)
@@ -164,15 +163,11 @@ class TestStitcher2IPChain:
             drv_alu1_data_in_b = pyrtl.Input(
                 bitwidth=T_width * 8, name="drv_alu1_data_in_b"
             )
-            drv_alu1_op_code = pyrtl.Input(bitwidth=2, name="drv_alu1_op_code")
             drv_alu2_data_in_b = pyrtl.Input(
                 bitwidth=T_width * 8, name="drv_alu2_data_in_b"
             )
-            drv_alu2_op_code = pyrtl.Input(bitwidth=2, name="drv_alu2_op_code")
             alu1.data_in_b <<= drv_alu1_data_in_b
-            alu1.op_code <<= drv_alu1_op_code
             alu2.data_in_b <<= drv_alu2_data_in_b
-            alu2.op_code <<= drv_alu2_op_code
 
         sim = pyrtl.Simulation(tracer=None, block=built_block)
 
@@ -191,9 +186,7 @@ class TestStitcher2IPChain:
                     drivers["alu1_valid_in"]: 1,
                     drivers["alu2_ready_in"]: 1,
                     drv_alu1_data_in_b: _pack_bytes(b1),
-                    drv_alu1_op_code: op_code,
                     drv_alu2_data_in_b: _pack_bytes(b2),
-                    drv_alu2_op_code: op_code,
                 }
             )
             outputs.append(
@@ -208,9 +201,7 @@ class TestStitcher2IPChain:
                     drivers["alu1_valid_in"]: 1,
                     drivers["alu2_ready_in"]: 1,
                     drv_alu1_data_in_b: _pack_bytes(b1),
-                    drv_alu1_op_code: op_code,
                     drv_alu2_data_in_b: _pack_bytes(b2),
-                    drv_alu2_op_code: op_code,
                 }
             )
             outputs.append(
@@ -219,9 +210,9 @@ class TestStitcher2IPChain:
 
         for i in range(10):
             ref = alu_ref(
-                alu_ref(beats_a[i], b1, op_code),
+                alu_ref(beats_a[i], b1, OP_ADD),
                 b2,
-                op_code,
+                OP_ADD,
             )
             np.testing.assert_array_equal(outputs[i + 2], ref)
 
@@ -231,8 +222,8 @@ class TestStitcher2IPChain:
 
         def _factory():
             return (
-                ALUCore(T_width=T_width, name="alu1"),
-                ALUCore(T_width=T_width, name="alu2"),
+                ALUCore(T_width=T_width, name="alu1", op_mode="add"),
+                ALUCore(T_width=T_width, name="alu2", op_mode="add"),
             )
 
         alu1, alu2 = _instantiate_ips_with_block(block, _factory)
@@ -246,15 +237,11 @@ class TestStitcher2IPChain:
             drv_alu1_data_in_b = pyrtl.Input(
                 bitwidth=T_width * 8, name="drv_alu1_data_in_b"
             )
-            drv_alu1_op_code = pyrtl.Input(bitwidth=2, name="drv_alu1_op_code")
             drv_alu2_data_in_b = pyrtl.Input(
                 bitwidth=T_width * 8, name="drv_alu2_data_in_b"
             )
-            drv_alu2_op_code = pyrtl.Input(bitwidth=2, name="drv_alu2_op_code")
             alu1.data_in_b <<= drv_alu1_data_in_b
-            alu1.op_code <<= drv_alu1_op_code
             alu2.data_in_b <<= drv_alu2_data_in_b
-            alu2.op_code <<= drv_alu2_op_code
 
         sim = pyrtl.Simulation(tracer=None, block=built_block)
 
@@ -269,9 +256,7 @@ class TestStitcher2IPChain:
                     drivers["alu1_valid_in"]: 1,
                     drivers["alu2_ready_in"]: 1,
                     drv_alu1_data_in_b: _pack_bytes(b1),
-                    drv_alu1_op_code: OP_ADD,
                     drv_alu2_data_in_b: _pack_bytes(b2),
-                    drv_alu2_op_code: OP_ADD,
                 }
             )
 
@@ -293,8 +278,8 @@ class TestStitcher3IPChain:
         def _factory():
             return (
                 ActivationCore(T_width=T_width, name="act", activation_type="relu"),
-                ALUCore(T_width=T_width, name="alu1"),
-                ALUCore(T_width=T_width, name="alu2"),
+                ALUCore(T_width=T_width, name="alu1", op_mode="add"),
+                ALUCore(T_width=T_width, name="alu2", op_mode="add"),
             )
 
         act, alu1, alu2 = _instantiate_ips_with_block(block, _factory)
@@ -310,15 +295,11 @@ class TestStitcher3IPChain:
             drv_alu1_data_in_b = pyrtl.Input(
                 bitwidth=T_width * 8, name="drv_alu1_data_in_b"
             )
-            drv_alu1_op_code = pyrtl.Input(bitwidth=2, name="drv_alu1_op_code")
             drv_alu2_data_in_b = pyrtl.Input(
                 bitwidth=T_width * 8, name="drv_alu2_data_in_b"
             )
-            drv_alu2_op_code = pyrtl.Input(bitwidth=2, name="drv_alu2_op_code")
             alu1.data_in_b <<= drv_alu1_data_in_b
-            alu1.op_code <<= drv_alu1_op_code
             alu2.data_in_b <<= drv_alu2_data_in_b
-            alu2.op_code <<= drv_alu2_op_code
 
         sim = pyrtl.Simulation(tracer=None, block=built_block)
 
@@ -337,9 +318,7 @@ class TestStitcher3IPChain:
                     drivers["act_valid_in"]: 1,
                     drivers["alu2_ready_in"]: 1,
                     drv_alu1_data_in_b: _pack_bytes(b1),
-                    drv_alu1_op_code: OP_ADD,
                     drv_alu2_data_in_b: _pack_bytes(b2),
-                    drv_alu2_op_code: OP_ADD,
                 }
             )
             outputs.append(
@@ -354,9 +333,7 @@ class TestStitcher3IPChain:
                     drivers["act_valid_in"]: 1,
                     drivers["alu2_ready_in"]: 1,
                     drv_alu1_data_in_b: _pack_bytes(b1),
-                    drv_alu1_op_code: OP_ADD,
                     drv_alu2_data_in_b: _pack_bytes(b2),
-                    drv_alu2_op_code: OP_ADD,
                 }
             )
             outputs.append(
@@ -384,9 +361,9 @@ class TestStitcherFanOut:
 
         def _factory():
             return (
-                ALUCore(T_width=T_width, name="alu1"),
-                ALUCore(T_width=T_width, name="alu2"),
-                ALUCore(T_width=T_width, name="alu3"),
+                ALUCore(T_width=T_width, name="alu1", op_mode="add"),
+                ALUCore(T_width=T_width, name="alu2", op_mode="add"),
+                ALUCore(T_width=T_width, name="alu3", op_mode="add"),
             )
 
         alu1, alu2, alu3 = _instantiate_ips_with_block(block, _factory)
@@ -402,21 +379,15 @@ class TestStitcherFanOut:
             drv_alu1_data_in_b = pyrtl.Input(
                 bitwidth=T_width * 8, name="drv_alu1_data_in_b"
             )
-            drv_alu1_op_code = pyrtl.Input(bitwidth=2, name="drv_alu1_op_code")
             drv_alu2_data_in_b = pyrtl.Input(
                 bitwidth=T_width * 8, name="drv_alu2_data_in_b"
             )
-            drv_alu2_op_code = pyrtl.Input(bitwidth=2, name="drv_alu2_op_code")
             drv_alu3_data_in_b = pyrtl.Input(
                 bitwidth=T_width * 8, name="drv_alu3_data_in_b"
             )
-            drv_alu3_op_code = pyrtl.Input(bitwidth=2, name="drv_alu3_op_code")
             alu1.data_in_b <<= drv_alu1_data_in_b
-            alu1.op_code <<= drv_alu1_op_code
             alu2.data_in_b <<= drv_alu2_data_in_b
-            alu2.op_code <<= drv_alu2_op_code
             alu3.data_in_b <<= drv_alu3_data_in_b
-            alu3.op_code <<= drv_alu3_op_code
 
         sim = pyrtl.Simulation(tracer=None, block=built_block)
 
@@ -438,11 +409,8 @@ class TestStitcherFanOut:
                     drivers["alu2_ready_in"]: 1,
                     drivers["alu3_ready_in"]: 1,
                     drv_alu1_data_in_b: _pack_bytes(b1),
-                    drv_alu1_op_code: OP_ADD,
                     drv_alu2_data_in_b: _pack_bytes(b2),
-                    drv_alu2_op_code: OP_ADD,
                     drv_alu3_data_in_b: _pack_bytes(b3),
-                    drv_alu3_op_code: OP_ADD,
                 }
             )
             outputs2.append(
@@ -461,11 +429,8 @@ class TestStitcherFanOut:
                     drivers["alu2_ready_in"]: 1,
                     drivers["alu3_ready_in"]: 1,
                     drv_alu1_data_in_b: _pack_bytes(b1),
-                    drv_alu1_op_code: OP_ADD,
                     drv_alu2_data_in_b: _pack_bytes(b2),
-                    drv_alu2_op_code: OP_ADD,
                     drv_alu3_data_in_b: _pack_bytes(b3),
-                    drv_alu3_op_code: OP_ADD,
                 }
             )
             outputs2.append(

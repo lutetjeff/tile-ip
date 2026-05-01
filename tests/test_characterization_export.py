@@ -116,7 +116,6 @@ def test_temporal_gemm_export(tmp_path: Path, T_M: int, T_K: int, T_N: int) -> N
     text = vfile.read_text()
     assert "module toplevel" in text
     assert "temporal_gemm_data_out" in text
-    assert "temporal_gemm_last_out" in text
 
 
 @pytest.mark.parametrize("T_width", TILE_SIZES)

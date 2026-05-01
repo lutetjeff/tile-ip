@@ -19,7 +19,7 @@ from ip_cores.stateful_softmax import StatefulSoftmaxCore
 from ip_cores.alu import ALUCore
 from ip_cores.fifo import FIFOCore
 from ip_cores.activation import ActivationCore
-from stitcher import Stitcher
+from frontend import TiledIPGraph
 
 
 def build_transformer_block(seq_len: int = 4, emb_dim: int = 4, T: int = 2):
@@ -44,98 +44,60 @@ def build_transformer_block(seq_len: int = 4, emb_dim: int = 4, T: int = 2):
         for ports that were wired manually after ``stitcher.build()``.
     """
     AXI4StreamLiteBase.reset()
-    shared_block = pyrtl.Block()
-    original_Block = pyrtl.Block
+    graph = TiledIPGraph()
+    fifo1 = graph.add_node("fifo1", FIFOCore, T_width=T, depth=8)
+    norm1 = graph.add_node("norm1", StatefulNormCore, T_channel=T, N_channel=seq_len)
+    tgemm1 = graph.add_node(
+        "tgemm1", TemporalGEMMCore, T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T
+    )
+    softmax = graph.add_node("softmax", StatefulSoftmaxCore, N_seq=seq_len, T_seq=T)
+    tgemm2 = graph.add_node(
+        "tgemm2", TemporalGEMMCore, T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T
+    )
+    alu1 = graph.add_node("alu1", ALUCore, T_width=T, op_mode="add")
+    df1 = graph.add_node("df1", FIFOCore, T_width=T, depth=1)
+    df2 = graph.add_node("df2", FIFOCore, T_width=T, depth=1)
+    df3 = graph.add_node("df3", FIFOCore, T_width=T, depth=1)
+    df4 = graph.add_node("df4", FIFOCore, T_width=T, depth=1)
+    fifo2 = graph.add_node("fifo2", FIFOCore, T_width=T, depth=8)
+    norm2 = graph.add_node("norm2", StatefulNormCore, T_channel=T, N_channel=seq_len)
+    tgemm3 = graph.add_node(
+        "tgemm3", TemporalGEMMCore, T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T
+    )
+    activation = graph.add_node("activation", ActivationCore, T_width=T, activation_type="relu")
+    tgemm4 = graph.add_node(
+        "tgemm4", TemporalGEMMCore, T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T
+    )
+    alu2 = graph.add_node("alu2", ALUCore, T_width=T, op_mode="add")
 
-    def _block_factory():
-        return shared_block
+    graph.add_edge("norm1", "tgemm1")
+    graph.add_edge("tgemm1", "softmax")
+    graph.add_edge("softmax", "tgemm2")
+    graph.add_edge("tgemm2", "alu1")
+    graph.add_edge("fifo1", "alu1")
+    graph.add_edge("alu1", "norm2")
+    graph.add_edge("alu1", "df1")
+    graph.add_edge("df1", "df2")
+    graph.add_edge("df2", "df3")
+    graph.add_edge("df3", "df4")
+    graph.add_edge("df4", "fifo2")
+    graph.add_edge("norm2", "tgemm3")
+    graph.add_edge("tgemm3", "activation")
+    graph.add_edge("activation", "tgemm4")
+    graph.add_edge("tgemm4", "alu2")
+    graph.add_edge("fifo2", "alu2")
 
-    pyrtl.Block = _block_factory
-    try:
-        fifo1 = FIFOCore(T_width=T, depth=8, name="fifo1")
-        norm1 = StatefulNormCore(T_channel=T, N_channel=seq_len, name="norm1")
-        tgemm1 = TemporalGEMMCore(
-            T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T, name="tgemm1"
-        )
-        softmax = StatefulSoftmaxCore(N_seq=seq_len, T_seq=T, name="softmax")
-        tgemm2 = TemporalGEMMCore(
-            T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T, name="tgemm2"
-        )
-        alu1 = ALUCore(T_width=T, name="alu1")
-        df1 = FIFOCore(T_width=T, depth=1, name="df1")
-        df2 = FIFOCore(T_width=T, depth=1, name="df2")
-        df3 = FIFOCore(T_width=T, depth=1, name="df3")
-        df4 = FIFOCore(T_width=T, depth=1, name="df4")
-        fifo2 = FIFOCore(T_width=T, depth=8, name="fifo2")
-        norm2 = StatefulNormCore(T_channel=T, N_channel=seq_len, name="norm2")
-        tgemm3 = TemporalGEMMCore(
-            T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T, name="tgemm3"
-        )
-        activation = ActivationCore(
-            T_width=T, name="activation", activation_type="relu"
-        )
-        tgemm4 = TemporalGEMMCore(
-            T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T, name="tgemm4"
-        )
-        alu2 = ALUCore(T_width=T, name="alu2")
-    finally:
-        pyrtl.Block = original_Block
-
-    stitcher = Stitcher(block=shared_block)
-    for ip in [
-        fifo1,
-        norm1,
-        tgemm1,
-        softmax,
-        tgemm2,
-        alu1,
-        df1,
-        df2,
-        df3,
-        df4,
-        fifo2,
-        norm2,
-        tgemm3,
-        activation,
-        tgemm4,
-        alu2,
-    ]:
-        stitcher.add_ip(ip)
-
-    stitcher.connect("norm1", "tgemm1")
-    stitcher.connect("tgemm1", "softmax")
-    stitcher.connect("softmax", "tgemm2")
-    stitcher.connect("tgemm2", "alu1")
-    stitcher.connect("fifo1", "alu1")
-    stitcher.connect("alu1", "norm2")
-    stitcher.connect("alu1", "df1")
-    stitcher.connect("df1", "df2")
-    stitcher.connect("df2", "df3")
-    stitcher.connect("df3", "df4")
-    stitcher.connect("df4", "fifo2")
-    stitcher.connect("norm2", "tgemm3")
-    stitcher.connect("tgemm3", "activation")
-    stitcher.connect("activation", "tgemm4")
-    stitcher.connect("tgemm4", "alu2")
-    stitcher.connect("fifo2", "alu2")
+    graph.set_input_shape("fifo1", seq_len, T)
+    graph.set_input_shape("norm1", seq_len, T)
+    graph.set_input_shape("fifo2", seq_len, T)
 
     fifo1.input_shape = StreamShape(seq_len, T)
     norm1.input_shape = StreamShape(seq_len, T)
     fifo2.input_shape = StreamShape(seq_len, T)
 
-    built_block, drivers = stitcher.build()
+    built_block, drivers = graph.build()
 
     with pyrtl.set_working_block(built_block, no_sanity_check=True):
-        tgemm1.last_in <<= norm1.last_out
-        softmax.last_in <<= tgemm1.last_out
-        tgemm2.last_in <<= softmax.last_out
-        tgemm3.last_in <<= norm2.last_out
-
-        drv_norm2_last_in = pyrtl.Input(bitwidth=1, name="drv_norm2_last_in")
-        drv_tgemm4_last_in = pyrtl.Input(bitwidth=1, name="drv_tgemm4_last_in")
-        norm2.last_in <<= drv_norm2_last_in
-        tgemm4.last_in <<= drv_tgemm4_last_in
-
         drv_tgemm1_weight_in = pyrtl.Input(
             bitwidth=tgemm1.weight_in.bitwidth, name="drv_tgemm1_weight_in"
         )
@@ -173,14 +135,7 @@ def build_transformer_block(seq_len: int = 4, emb_dim: int = 4, T: int = 2):
         tgemm4.accum_in <<= pyrtl.Const(1, bitwidth=1)
         tgemm4.emit_in <<= pyrtl.Const(0, bitwidth=1)
 
-        drv_alu1_op_code = pyrtl.Input(bitwidth=2, name="drv_alu1_op_code")
-        drv_alu2_op_code = pyrtl.Input(bitwidth=2, name="drv_alu2_op_code")
-        alu1.op_code <<= drv_alu1_op_code
-        alu2.op_code <<= drv_alu2_op_code
-
     manual_inputs = {
-        "norm2_last_in": drv_norm2_last_in,
-        "tgemm4_last_in": drv_tgemm4_last_in,
         "tgemm1_weight_in": drv_tgemm1_weight_in,
         "tgemm1_weight_valid": drv_tgemm1_weight_valid,
         "tgemm2_weight_in": drv_tgemm2_weight_in,
@@ -189,8 +144,6 @@ def build_transformer_block(seq_len: int = 4, emb_dim: int = 4, T: int = 2):
         "tgemm3_weight_valid": drv_tgemm3_weight_valid,
         "tgemm4_weight_in": drv_tgemm4_weight_in,
         "tgemm4_weight_valid": drv_tgemm4_weight_valid,
-        "alu1_op_code": drv_alu1_op_code,
-        "alu2_op_code": drv_alu2_op_code,
     }
 
     return built_block, drivers, manual_inputs

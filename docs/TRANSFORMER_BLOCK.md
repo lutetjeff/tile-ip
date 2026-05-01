@@ -79,15 +79,15 @@ All four `TemporalGEMMCore` instances use:
 - `T_M = 1` (one row per beat)
 - `T_K = T` (matches tiling parameter)
 - `T_N = T` (matches tiling parameter)
-- `M = seq_len // T` for attention GEMMs, `M = emb_dim // T` for FFN GEMMs
+- `M = seq_len // T` (number of tile rows for Q/K and V projections)
 - `N = T` (output dimension per beat)
 
 | Instance | M | N | Purpose |
 |----------|---|---|---------|
 | `tgemm1` | `seq_len // T` | `T` | Q/K projection |
 | `tgemm2` | `seq_len // T` | `T` | V projection |
-| `tgemm3` | `emb_dim // T` | `T` | FFN expand |
-| `tgemm4` | `emb_dim // T` | `T` | FFN project |
+| `tgemm3` | `seq_len // T` | `T` | FFN expand |
+| `tgemm4` | `seq_len // T` | `T` | FFN project |
 
 ---
 
@@ -153,74 +153,48 @@ The four single-depth FIFOs (`df1`–`df4`) ensure the FFN path timing matches t
 
 ---
 
-## Manual Wiring After `stitcher.build()`
+## How TiledIPGraph Builds the Transformer
 
-The Stitcher automates most connections, but some signals must be wired manually:
-
-### `last_in` Signals
+The transformer block uses `TiledIPGraph` to declaratively specify the IP graph:
 
 ```python
-tgemm1.last_in <<= norm1.last_out
-softmax.last_in <<= tgemm1.last_out
-tgemm2.last_in <<= softmax.last_out
-tgemm3.last_in <<= norm2.last_out
+from frontend import TiledIPGraph
+from ip_cores.stateful_norm import StatefulNormCore
+from ip_cores.temporal_gemm import TemporalGEMMCore
+from ip_cores.stateful_softmax import StatefulSoftmaxCore
+from ip_cores.alu import ALUCore
+from ip_cores.fifo import FIFOCore
+from ip_cores.activation import ActivationCore
+
+graph = TiledIPGraph()
+fifo1 = graph.add_node("fifo1", FIFOCore, T_width=T, depth=8)
+norm1 = graph.add_node("norm1", StatefulNormCore, T_channel=T, N_channel=seq_len)
+tgemm1 = graph.add_node("tgemm1", TemporalGEMMCore, T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T)
+softmax = graph.add_node("softmax", StatefulSoftmaxCore, N_seq=seq_len, T_seq=T)
+tgemm2 = graph.add_node("tgemm2", TemporalGEMMCore, T_M=1, T_K=T, T_N=T, M=seq_len // T, N=T)
+alu1 = graph.add_node("alu1", ALUCore, T_width=T, op_mode="add")
+# ... remaining nodes ...
+
+graph.add_edge("norm1", "tgemm1")
+graph.add_edge("tgemm1", "softmax")
+# ... remaining edges ...
 ```
 
-These packet boundary markers must be manually propagated because they form cycles in the dataflow graph.
+**Key improvements over manual stitching:**
+- No monkey-patching `pyrtl.Block`
+- No manual `last_in` wiring (temporal cores use internal beat counters)
+- No `op_code` drivers (ALU mode set via constructor `op_mode` parameter)
+- Automatic shape propagation and adapter insertion
 
 ### Manual Inputs Requiring External Drivers
 
+After `graph.build()`, only weight-related signals require external drivers:
+
 | Signal | Purpose |
 |--------|---------|
-| `drv_norm2_last_in` | Packet boundary for `norm2` |
-| `drv_tgemm4_last_in` | Packet boundary for `tgemm4` |
-| `drv_tgemm*_weight_in` | Weight data for all 4 GEMMs |
-| `drv_tgemm*_weight_valid` | Weight validity signals |
-| `drv_alu*_op_code` | ALU operation codes (ADD/MULTIPLY/MASK) |
-
-### TemporalGEMM Control Signals
-
-All temporal GEMMs have their `accum_in` and `emit_in` tied:
-
-```python
-tgemm1.accum_in <<= pyrtl.Const(1, bitwidth=1)  # Always accumulate
-tgemm1.emit_in <<= pyrtl.Const(0, bitwidth=1)   # Controlled by last_in
-```
-
----
-
-## How the Stitcher Connects All 16 IPs
-
-The Stitcher is initialized with all 16 IPs and 16 edges:
-
-```python
-stitcher = Stitcher(block=shared_block)
-for ip in [fifo1, norm1, tgemm1, softmax, tgemm2, alu1, df1, df2, df3, df4,
-           fifo2, norm2, tgemm3, activation, tgemm4, alu2]:
-    stitcher.add_ip(ip)
-
-stitcher.connect("norm1", "tgemm1")
-stitcher.connect("tgemm1", "softmax")
-stitcher.connect("softmax", "tgemm2")
-stitcher.connect("tgemm2", "alu1")
-stitcher.connect("fifo1", "alu1")
-stitcher.connect("alu1", "norm2")
-stitcher.connect("alu1", "df1")
-stitcher.connect("df1", "df2")
-stitcher.connect("df2", "df3")
-stitcher.connect("df3", "df4")
-stitcher.connect("df4", "fifo2")
-stitcher.connect("norm2", "tgemm3")
-stitcher.connect("tgemm3", "activation")
-stitcher.connect("activation", "tgemm4")
-stitcher.connect("tgemm4", "alu2")
-stitcher.connect("fifo2", "alu2")
-```
-
-The Stitcher automatically handles:
-- Forward datapath wiring (`data_out → data_in`, `valid_out → valid_in`)
-- Backpressure propagation (`ready_out → ready_in`)
-- Fan-out (1→N) for `alu1` output going to both `norm2` and `df1`
+| `tgemm*_weight_in` | Weight data for all 4 GEMMs |
+| `tgemm*_weight_valid` | Weight validity signals |
+| `accum_in` / `emit_in` | TemporalGEMM control (typically tied to constants) |
 
 ---
 
@@ -253,7 +227,8 @@ block, drivers, manual_inputs = build_transformer_block(seq_len=8, emb_dim=16, T
 sim = pyrtl.Simulation(tracer=None, block=block)
 
 # Drive inputs through the drivers dict
-# ... (setup input data)
+# Note: weight inputs (tgemm*_weight_in) and accum_in/emit_in
+# must be driven externally via manual_inputs
 
 # Run simulation
 sim.step({...})
@@ -264,8 +239,10 @@ sim.step({...})
 ## Further Reading
 
 - [GETTING_STARTED.md](GETTING_STARTED.md) — Quick-start examples
+- [FRONTEND_API.md](FRONTEND_API.md) — TiledIPGraph declarative API
 - [SHAPE_PROPAGATION.md](SHAPE_PROPAGATION.md) — StreamShape system
 - [STITCHING.md](STITCHING.md) — Detailed Stitcher API
+- [AUTOTUNER.md](AUTOTUNER.md) — Branch-and-bound autotuner
 - [IP_CATALOG.md](IP_CATALOG.md) — Individual IP documentation
 - `src/transformer_block.py` — Full implementation
 - `tests/test_transformer_block.py` — Verification tests

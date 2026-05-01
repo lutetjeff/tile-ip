@@ -4,6 +4,7 @@ Version: 0.1.0
 Summary: Dynamic programming driven hardware compiler for tile-based IPs
 Requires-Python: >=3.10
 Requires-Dist: pyrtl>=0.12
+Requires-Dist: matplotlib>=3.7.0
 Requires-Dist: numpy>=1.26
 Provides-Extra: dev
 Requires-Dist: pytest>=8.0; extra == "dev"
