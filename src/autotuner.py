@@ -66,15 +66,16 @@ class CharacterizationDB:
         key = (core_name, tuple(sorted(params.items())))
         if key in self._results:
             r = self._results[key]
-            return {
-                "LUT": r["resources"]["LUT"],
-                "FF": r["resources"]["FF"],
-                "DSP": r["resources"]["DSP"],
-                "BRAM": r["resources"]["BRAM"],
-                "power_w": r["power"]["total_w"],
-                "wns_ns": r["timing"]["wns_ns"],
-                "clock_period_ns": 10.0,
-            }
+            if r.get("status") == "success" and "resources" in r and "timing" in r and "power" in r:
+                return {
+                    "LUT": r["resources"]["LUT"],
+                    "FF": r["resources"]["FF"],
+                    "DSP": r["resources"]["DSP"],
+                    "BRAM": r["resources"]["BRAM"],
+                    "power_w": r["power"]["total_w"],
+                    "wns_ns": r["timing"]["wns_ns"],
+                    "clock_period_ns": 10.0,
+                }
         return self._estimate(core_name, params)
 
     def _estimate(self, core_name: str, params: dict[str, int]) -> dict[str, float | int]:

@@ -34,17 +34,12 @@ def compute_latency(metrics: dict, ip_type: str, params: dict) -> float:
     else:
         fmax = 1000.0 / cp_ns
 
-    # Compute II
+    # Compute II (initiation interval = cycles per beat)
     if ip_type in ("GEMM", "TemporalGEMM"):
         t_m = params.get("T_M", 1)
+        t_k = params.get("T_K", 1)
         t_n = params.get("T_N", 1)
-        # Default M, N based on tile params if not specified
-        m = params.get("M", t_m) if t_m > 0 else 1
-        n = params.get("N", t_n) if t_n > 0 else 1
-        if t_m <= 0 or t_n <= 0:
-            ii = 1
-        else:
-            ii = (m * n) // (t_m * t_n)
+        ii = max(1, t_m * t_k * t_n)
     else:
         ii = 1
 
@@ -108,8 +103,8 @@ def get_ip_sweep_params(ip_type: str) -> list[tuple[str, list[int]]]:
     if ip_type == "ALUCore":
         return [("T_width", sweep_values)]
     elif ip_type == "TemporalGEMMCore":
-        # Vary T_K, T_N with T_M=1 fixed
-        return [("T_K", sweep_values), ("T_N", sweep_values)]
+        # Vary T_M, T_K, T_N
+        return [("T_M", sweep_values), ("T_K", sweep_values), ("T_N", sweep_values)]
     elif ip_type == "StatefulNormCore":
         # Vary T_channel with N_channel=16 fixed
         return [("T_channel", sweep_values)]
@@ -122,8 +117,8 @@ def get_ip_sweep_params(ip_type: str) -> list[tuple[str, list[int]]]:
         # Vary T_width and depth
         return [("T_width", sweep_values), ("depth", sweep_values)]
     elif ip_type == "GEMMCore":
-        # Vary T_K, T_N with T_M=1 fixed
-        return [("T_K", sweep_values), ("T_N", sweep_values)]
+        # Vary T_M, T_K, T_N
+        return [("T_M", sweep_values), ("T_K", sweep_values), ("T_N", sweep_values)]
     elif ip_type == "SoftmaxCore":
         return [("T_seq", sweep_values)]
     elif ip_type == "NormCore":
@@ -185,7 +180,8 @@ def sweep_ip_params(char_db: CharacterizationDB, ip_type: str) -> tuple[list[int
         elif ip_type == "StatefulSoftmaxCore":
             params["N_seq"] = 16
         elif ip_type in ("GEMMCore", "TemporalGEMMCore"):
-            params["T_M"] = 1
+            params["M"] = params.get("T_M", 1)
+            params["N"] = params.get("T_N", 1)
 
     luts = []
     latencies = []
@@ -272,14 +268,31 @@ def plot_pareto_frontier(
 
 
 def main() -> None:
-    """Main entry point."""
-    # Create output directory
-    output_dir = os.path.join(os.path.dirname(__file__), "..", "build", "pareto_plots")
+    import argparse
+    parser = argparse.ArgumentParser(description="Generate Pareto frontier plots for IP types")
+    parser.add_argument("--char-db", type=str, default=None, help="Path to characterization_results.json")
+    parser.add_argument("--output-dir", type=str, default=None, help="Output directory for plots")
+    args = parser.parse_args()
+
+    if args.output_dir:
+        output_dir = args.output_dir
+    else:
+        output_dir = os.path.join(os.path.dirname(__file__), "..", "build", "pareto_plots")
     os.makedirs(output_dir, exist_ok=True)
     print(f"Output directory: {output_dir}")
 
-    # Initialize characterization database
-    char_db = CharacterizationDB()
+    if args.char_db:
+        char_db = CharacterizationDB(args.char_db)
+        print(f"Using characterization DB: {args.char_db}")
+    else:
+        # Default to full char DB if available, otherwise fallback
+        default_full = os.path.join(os.path.dirname(__file__), "..", "build", "char_full", "characterization_results.json")
+        if os.path.exists(default_full):
+            char_db = CharacterizationDB(default_full)
+            print(f"Using full characterization DB: {default_full}")
+        else:
+            char_db = CharacterizationDB()
+            print("Using default characterization DB")
 
     # List of IP types to process
     ip_types = [
