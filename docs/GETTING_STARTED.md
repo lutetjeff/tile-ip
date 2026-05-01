@@ -151,7 +151,19 @@ with pyrtl.set_working_block(shared, no_sanity_check=True):
     act.ready_in <<= alu.ready_out
 ```
 
-### 7.3 Use the Autotuner for Tile Optimization
+### 7.4 Example Scripts
+
+The `examples/` directory contains runnable scripts that demonstrate the recommended declarative workflow:
+
+```text
+examples/temporal_gemm.py      # Standalone TemporalGEMM simulation
+examples/ffn_block.py          # Norm -> Activation -> ALU FFN block
+examples/transformer_block.py  # Full transformer block assembly
+```
+
+Run them directly with Python after installing the package in editable mode.
+
+### 7.5 Use the Autotuner for Tile Optimization
 
 The autotuner performs branch-and-bound search over tile configurations using characterization data:
 
@@ -179,17 +191,7 @@ print(f"Best latency: {best_latency:.2f} ns/element")
 print(f"Config: {best_config}")
 ```
 
-### 7.4 Generate a Module from JSON
-
-```bash
-python scripts/generate_subgraph.py \
-    --spec examples/ffn.json \
-    --out build/ffn.py
-```
-
-The emitted file contains `CONFIG` and `build_ffn()`; import it, call the builder, and pass the `drivers` dict to a `pyrtl.Simulation`.
-
-### 7.5 Visualize Pareto Frontiers
+### 7.6 Visualize Pareto Frontiers
 
 After characterization, visualize the trade-off space:
 
@@ -204,7 +206,7 @@ python scripts/generate_ip_pareto_plots.py
 # Output: build/pareto_plots/*.png
 ```
 
-### 7.6 Vivado IP Characterization
+### 7.7 Vivado IP Characterization
 
 Export all IPs to Verilog and run Vivado Out-of-Context (OOC) synthesis and implementation to collect resource, timing, and power metrics:
 

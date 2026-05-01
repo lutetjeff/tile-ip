@@ -234,6 +234,16 @@ sim = pyrtl.Simulation(tracer=None, block=block)
 sim.step({...})
 ```
 
+### Example Script
+
+See `examples/transformer_block.py` for a runnable example that builds the block with `TiledIPGraph` and prints the resulting drivers dictionary.
+
+Build and run it with:
+
+```bash
+python examples/transformer_block.py
+```
+
 ---
 
 ## Further Reading

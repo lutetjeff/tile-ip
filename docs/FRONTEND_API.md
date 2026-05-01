@@ -208,6 +208,15 @@ graph.set_input_shape("fifo2", seq_len, T)
 block, drivers = graph.build()
 ```
 
+### Example Scripts
+
+The repository includes runnable examples built on `TiledIPGraph`:
+
+- `examples/ffn_block.py` — minimal FFN block
+- `examples/transformer_block.py` — full transformer block with attention and FFN paths
+
+Use them as starting points for custom graph assembly and simulation scaffolding.
+
 ---
 
 ## Shape Propagation
